@@ -1,0 +1,24 @@
+{
+  "id": "1",
+  "mobile": {
+    "title": "Map 1 : aucune intéraction possible"
+  },
+  "panel": {
+    "components": [
+      {
+        "type": "title",
+        "label": "Map 1: aucune intéraction possible"
+      }
+    ]
+  },
+  "video_overlay": {
+    "bottom": {
+      "components": [
+        {
+          "type": "title",
+          "label": "Map 1 : aucune intéraction possible"
+        }
+      ]
+    }
+  }
+}
