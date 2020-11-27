@@ -4,7 +4,7 @@ import tileMaps from '../assets/tilemaps/kenny_platformer_64x64-extruded.png';
 import TileMap from '../objects/TileMap';
 import Player from '../objects/Player';
 
-import { Characters } from '../constants';
+import { Characters, SceneKeys } from '../constants';
 import { PhaserGame, SceneFactoryParams, WebSocketMessageContextEmit } from '../types';
 import restartSceneWithDelay from './helpers/restartSceneWithDelay';
 
@@ -45,6 +45,20 @@ export default class SceneFactory extends Phaser.Scene {
       tilemap,
       this.params.position.player.x,
       this.params.position.player.y
+    );
+
+    // Create settings button
+    const button = this.add
+      .image(this.registry.get('innerWidth') - 16, 16, 'gear', 0)
+      .setOrigin(1, 0)
+      .setScrollFactor(0)
+      .setInteractive();
+    button.on(
+      'pointerup',
+      function() {
+        this.scene.start(SceneKeys.Menu);
+      },
+      this
     );
 
     // On press to key '1', we restart the scene

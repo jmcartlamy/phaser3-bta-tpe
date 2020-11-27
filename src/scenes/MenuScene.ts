@@ -1,6 +1,4 @@
-import buttonBG from '../assets/sprites/button-bg.png';
-
-import { GAME_CONFIG, SceneKeys } from '../constants';
+import { SceneKeys } from '../constants';
 import { PhaserGame } from '../types';
 import Interactive from '../api/interactive';
 
@@ -19,14 +17,7 @@ export default class MenuScene extends Phaser.Scene {
     this.handleInteractiveSetup = this.handleInteractiveSetup.bind(this);
   }
 
-  public preload() {
-    this.load.image('buttonBG', buttonBG);
-  }
-
   public create() {
-    // Set registry
-    this.registry.set(GAME_CONFIG, {});
-
     // Create an instance of interactive if not exist
     if (!this.game.interactive) {
       this.game.interactive = new Interactive();
@@ -39,59 +30,63 @@ export default class MenuScene extends Phaser.Scene {
      * HUD
      */
     this.label = this.add.text(10, 10, '', {
-      font: '24px Arial',
-      fill: '#00ff00'
+      fontSize: '16px',
+      fontFamily: 'KenneyFutureNarrow',
+      fill: '#FFFFFF'
     });
 
     // Play Button
-    const playBG = this.add.image(0, 0, 'buttonBG');
+    const playBG = this.add.image(0, 0, 'buttonBlue1');
     const playText = this.add
       .text(0, 0, 'Jouer', {
-        font: '40px Arial',
-        fill: '#aace27'
+        fontSize: '20px',
+        fontFamily: 'KenneyFutureNarrow',
+        fill: '#FFFFFF'
       })
       .setOrigin(0.5, 0.5);
     const playButton = this.add.container(
       this.registry.get('innerWidth') / 2,
-      this.registry.get('innerHeight') / 2 - 80,
+      this.registry.get('innerHeight') / 2 - 40,
       [playBG, playText]
     );
     playButton.setInteractive(
-      new Phaser.Geom.Rectangle(-150, -55, 300, 110),
+      new Phaser.Geom.Rectangle(-95, -25, 190, 45),
       Phaser.Geom.Rectangle.Contains
     );
     playButton.on('pointerover', function() {
-      playBG.setTint(0x44ff44);
+      playBG.setTexture('buttonYellow1');
     });
     playButton.on('pointerout', function() {
-      playBG.clearTint();
+      playBG.setTexture('buttonBlue1');
     });
     playButton.once('pointerup', this.launchGame);
 
     // Connect Button
-    const connectBG = this.add.image(0, 0, 'buttonBG');
+    const connectBG = this.add.image(0, 0, 'buttonBlue1');
     this.connectText = this.add
       .text(0, 0, this.game.interactive.status === 1 ? 'Ready ✅' : 'Se connecter', {
-        font: '34px Arial',
-        fill: '#aace27'
+        fontSize: '20px',
+        fontFamily: 'KenneyFutureNarrow',
+        fill: '#FFFFFF'
       })
       .setOrigin(0.5, 0.5);
     const connectButton = this.add.container(
       this.registry.get('innerWidth') / 2,
-      this.registry.get('innerHeight') / 2 + 80,
+      this.registry.get('innerHeight') / 2 + 40,
       [connectBG, this.connectText]
     );
     connectButton.setInteractive(
-      new Phaser.Geom.Rectangle(-150, -55, 300, 110),
+      new Phaser.Geom.Rectangle(-95, -25, 190, 45),
       Phaser.Geom.Rectangle.Contains
     );
     connectButton.on('pointerover', function() {
-      connectBG.setTint(0x44ff44);
+        connectBG.setTexture('buttonYellow1');
     });
     connectButton.on('pointerout', function() {
-      connectBG.clearTint();
+        connectBG.setTexture('buttonBlue1');
     });
     connectButton.on('pointerup', this.toggleConnectTwitch);
+    
 
     /**
      * If user has sent his authorization

@@ -1,5 +1,6 @@
 import 'phaser';
 
+import LoadScene from './scenes/LoadScene';
 import MenuScene from './scenes/MenuScene';
 import Map1Scene from './scenes/Map1Scene';
 
@@ -19,7 +20,7 @@ const config = {
       debug: false
     }
   },
-  scene: [MenuScene, Map1Scene]
+  scene: [LoadScene, MenuScene, Map1Scene]
 };
 
 window.addEventListener('load', async () => {
