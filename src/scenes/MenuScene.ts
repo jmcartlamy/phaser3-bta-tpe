@@ -16,6 +16,7 @@ export default class MenuScene extends Phaser.Scene {
     this.launchGame = this.launchGame.bind(this);
     this.toggleConnectTwitch = this.toggleConnectTwitch.bind(this);
     this.messageConnectionListener = this.messageConnectionListener.bind(this);
+    this.handleInteractiveSetup = this.handleInteractiveSetup.bind(this);
   }
 
   public preload() {
@@ -103,13 +104,21 @@ export default class MenuScene extends Phaser.Scene {
       const accessToken = match && match[1];
 
       if (accessToken) {
-        this.game.interactive.setup(accessToken);
-
-        this.game.interactive.socket.addEventListener('message', this.messageConnectionListener);
+        this.game.interactive.setup(accessToken, this.handleInteractiveSetup);
       } else {
-        this.label.text = 'Websocket failed...';
+        this.label.text = 'Websocket failed: token missing...';
       }
     }
+  }
+
+  private handleInteractiveSetup(status: number) {
+    if (status === 1) {
+      this.game.interactive.socket.addEventListener('message', this.messageConnectionListener);
+    } else {
+      this.label.text = 'Websocket error:  server not responding...';
+      this.connectText.text = 'Se connecter';
+    }
+    window.location.hash = '';
   }
 
   private launchGame() {
@@ -124,7 +133,6 @@ export default class MenuScene extends Phaser.Scene {
         this.label.text = body.message + ' "' + body.data.displayName + '"';
         this.connectText.text = 'Ready ✅';
         this.game.interactive.onMenu();
-        window.location.hash = '';
       } else if (body?.status === 'error') {
         this.game.interactive.status = 3; // Error body.message
         this.label.text = 'Failed...\n\n' + body.message;

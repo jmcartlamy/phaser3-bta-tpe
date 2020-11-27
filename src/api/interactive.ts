@@ -10,7 +10,7 @@ class Interactive {
     this.data = {};
   }
 
-  public setup(token: string, callback?: () => void): void {
+  public setup(token: string, callback?: (status: number) => void): void {
     const url =
       process.env.NODE_ENV === 'production'
         ? 'wss://interactive-sync-ebs.azurewebsites.net/'
@@ -18,13 +18,18 @@ class Interactive {
 
     try {
       this.socket = new WebSocket(url, [process.env.EXT_CLIENT_ID, token]);
-      this.status = 1; // Connected
     } catch (err) {
-      this.status = 3; // Error
       throw Error(err);
     }
 
-    if (callback) callback();
+    this.socket.onopen = () => {
+      this.status = 1; // Connected
+      if (callback) callback(1);
+    };
+    this.socket.onerror = () => {
+      this.status = 3; // Error
+      if (callback) callback(3);
+    };
   }
 
   public onMenu(): void {
