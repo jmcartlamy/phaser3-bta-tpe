@@ -1,8 +1,9 @@
-import { GAME_CONFIG, SceneKeys } from '../constants';
+import { Characters, GAME_CONFIG, SceneKeys } from '../constants';
 import { PhaserGame } from '../types';
 import buttonBlue1 from '../assets/sprites/blue_button01.png';
 import buttonYellow1 from '../assets/sprites/yellow_button01.png';
 import gear from '../assets/sprites/gear.png';
+import player from '../assets/sprites/player_tilesheet.png';
 
 export default class LoadScene extends Phaser.Scene {
   public game: PhaserGame;
@@ -29,6 +30,11 @@ export default class LoadScene extends Phaser.Scene {
     this.load.image('buttonBlue1', buttonBlue1);
     this.load.image('buttonYellow1', buttonYellow1);
     this.load.image('gear', gear);
+
+    this.load.spritesheet(Characters.Player, player, {
+      frameWidth: 80,
+      frameHeight: 110
+    });
   }
 
   public create() {

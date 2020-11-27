@@ -33,7 +33,7 @@ export default class Player {
 
     // Position Camera
     this.camera.setBounds(0, 0, this.currentMap.widthInPixels, this.currentMap.heightInPixels);
-    smoothMoveCameraTowards(this.collection.sprite, this.camera);
+    this.camera.startFollow(this.collection.sprite, false, 1, 1);
 
     // Set collision
     this.currentScene.physics.add.collider(this.collection.sprite, tilemap.layer);
@@ -46,46 +46,33 @@ export default class Player {
 
     // Horizontal movement
     this.processHorizontalMovement(delta);
-
-    // Follow body with camera
-    smoothMoveCameraTowards(this.collection.sprite, this.camera, 0.9);
   }
 
   private animateCompoundBody() {
     this.currentScene.anims.create({
       key: 'left',
       frames: this.currentScene.anims.generateFrameNumbers(Characters.Player, {
-        start: 0,
-        end: 3
+        start: 9,
+        end: 10
       }),
-      frameRate: 10,
-      repeat: -1
+      frameRate: 8
     });
     this.currentScene.anims.create({
       key: 'right',
       frames: this.currentScene.anims.generateFrameNumbers(Characters.Player, {
-        start: 5,
-        end: 8
+        start: 9,
+        end: 10
       }),
-      frameRate: 10,
+      frameRate: 8,
       repeat: -1
     });
     this.currentScene.anims.create({
-      key: 'leftIdle',
+      key: 'idle',
       frames: this.currentScene.anims.generateFrameNumbers(Characters.Player, {
-        start: 2,
-        end: 2
+        start: 23,
+        end: 23
       }),
-      frameRate: 10,
-      repeat: -1
-    });
-    this.currentScene.anims.create({
-      key: 'rightIdle',
-      frames: this.currentScene.anims.generateFrameNumbers(Characters.Player, {
-        start: 7,
-        end: 7
-      }),
-      frameRate: 10,
+      frameRate: 1,
       repeat: -1
     });
   }
@@ -96,10 +83,12 @@ export default class Player {
         this.collection.sprite.setVelocityX(-200);
         this.collection.sprite.anims.play('left', true);
         this.collection.lastDirection = 'left';
+        this.collection.sprite.setFlipX(true);
       } else if (this.cursors.right.isDown) {
         this.collection.sprite.setVelocityX(200);
         this.collection.sprite.anims.play('right', true);
         this.collection.lastDirection = 'right';
+        this.collection.sprite.setFlipX(false);
       }
     } else {
       this.collection.sprite.setVelocityX(0);
@@ -126,11 +115,7 @@ export default class Player {
       this.cursors.left.isUp &&
       this.cursors.right.isUp
     ) {
-      if (this.collection.lastDirection === 'left') {
-        this.collection.sprite.anims.play('leftIdle', true);
-      } else {
-        this.collection.sprite.anims.play('rightIdle', true);
-      }
+      this.collection.sprite.anims.play('idle', true);
     }
   }
 }

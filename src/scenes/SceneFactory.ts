@@ -1,4 +1,3 @@
-import player from '../assets/sprites/player.png';
 import tileMaps from '../assets/tilemaps/kenny_platformer_64x64-extruded.png';
 
 import TileMap from '../objects/TileMap';
@@ -22,10 +21,6 @@ export default class SceneFactory extends Phaser.Scene {
   }
 
   public preload() {
-    this.load.spritesheet(Characters.Player, player, {
-      frameWidth: 32,
-      frameHeight: 42
-    });
     // @ts-ignore
     this.load.tilemapTiledJSON(this.params.map.key, this.params.map.tilemap);
     this.load.image('tileMaps', tileMaps);

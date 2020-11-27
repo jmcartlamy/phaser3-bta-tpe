@@ -64,7 +64,7 @@ export default class MenuScene extends Phaser.Scene {
     // Connect Button
     const connectBG = this.add.image(0, 0, 'buttonBlue1');
     this.connectText = this.add
-      .text(0, 0, this.game.interactive.status === 1 ? 'Ready ✅' : 'Se connecter', {
+      .text(0, 0, this.game.interactive.status === 1 ? 'Prêt ✔' : 'Se connecter', {
         fontSize: '20px',
         fontFamily: 'KenneyFutureNarrow',
         fill: '#FFFFFF'
@@ -126,7 +126,7 @@ export default class MenuScene extends Phaser.Scene {
       if (body?.status === 'ok') {
         this.data = body?.data;
         this.label.text = body.message + ' "' + body.data.displayName + '"';
-        this.connectText.text = 'Ready ✅';
+        this.connectText.text = 'Prêt ✔';
         this.game.interactive.onMenu();
       } else if (body?.status === 'error') {
         this.game.interactive.status = 3; // Error body.message
