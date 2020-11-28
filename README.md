@@ -23,9 +23,17 @@ EXT_CLIENT_ID=YOUR_CLIENT_ID
 EXT_CLIENT_SECRET=YOUR_CLIENT_SECRET
 ```
 
+### Launch the game
+
+On the repository, run `yarn start:prod` to launch the game in ready-to-use mode. 
+
+Open your browser (100% compatibility with Mozilla Firefox) and go on [localhost:8080](http://localhost:8080)`. You can connect the game with your twitch channel.
+
 ## Available Commands
 
 | Command | Description |
 |---------|-------------|
 | `yarn install` | Install project dependencies |
-| `yarn start` | Build project and open web server running project |
+| `yarn start` | For development only |
+| `yarn start:prod` | Build project in ready-to-use mode with your twitch channel |
+
