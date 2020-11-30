@@ -39,6 +39,12 @@ export interface IGameConfig {
 
 export interface IPlayer {
   sprite: Phaser.Physics.Arcade.Sprite;
+  compoundBody: {
+    head?: Phaser.Physics.Arcade.Image;
+    buste?: Phaser.Physics.Arcade.Image;
+    arms?: Phaser.Physics.Arcade.Image;
+    legs?: Phaser.Physics.Arcade.Image;
+  };
   speed: {
     run: number;
   };

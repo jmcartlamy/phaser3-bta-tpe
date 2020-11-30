@@ -21,6 +21,7 @@ export enum Characters {
 
 export const PLAYER_COLLECTION: IPlayer = {
   sprite: null,
+  compoundBody: {},
   speed: {
     run: 1
   },

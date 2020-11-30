@@ -33,6 +33,7 @@ export default class Map1Scene extends Phaser.Scene {
 
     this.map.bg2 = this.add.tileSprite(0, -75, 4096, 1025, 'walkTreesBG').setOrigin(0);
     this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor('#b8d1a7');
+    this.cameras.main.setBounds(0, 0, 4000, 1000);
     this.map.fg = this.add
       .tileSprite(0, 225, 4096, 1025, 'bushFG')
       .setOrigin(0)

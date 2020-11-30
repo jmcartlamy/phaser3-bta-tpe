@@ -24,15 +24,18 @@ export default class Player {
     // Create cursor keys for camera
     this.cursors = this.currentScene.input.keyboard.createCursorKeys();
 
-    // Create a collection's bodies to be a compound body.
-    this.animateCompoundBody();
+    // Create compound body
+    this.createCompoundBody();
+
+    // Animate body
+    this.animateBody();
 
     // Position Camera
     this.camera.setBounds(0, 0, 4000, 1000);
     this.camera.startFollow(this.collection.sprite, false, 1, 0);
 
     // Set collision
-    //this.currentScene.physics.add.collider(this.collection.sprite, tilemap.layer);
+    //this.currentScene.physics.add.collider([this.collection.compoundBody.head, this.collection.compoundBody.buste], enemies);
   }
 
   public update(time: number, delta: number) {
@@ -42,9 +45,33 @@ export default class Player {
 
     // Horizontal movement
     this.processHorizontalMovement(delta);
+
+    this.centerBodyOnXY(
+      this.collection.compoundBody.head.body,
+      this.collection.sprite.body.x + 40,
+      this.collection.sprite.body.y + 48
+    );
+
+    this.centerBodyOnXY(
+      this.collection.compoundBody.buste.body,
+      this.collection.sprite.body.x + 40,
+      this.collection.sprite.body.y + 90
+    );
   }
 
-  private animateCompoundBody() {
+  private createCompoundBody() {
+    // @ts-ignore HEAD
+    this.collection.compoundBody.head = this.currentScene.physics.add.image();
+    this.collection.compoundBody.head.body.setCircle(22);
+    this.collection.compoundBody.head.setDebugBodyColor(0xffff00);
+
+    // @ts-ignore BUSTE
+    this.collection.compoundBody.buste = this.currentScene.physics.add.image();
+    this.collection.compoundBody.buste.body.setSize(50, 40);
+    this.collection.compoundBody.buste.setDebugBodyColor(0xffff00);
+  }
+
+  private animateBody() {
     this.currentScene.anims.create({
       key: 'left',
       frames: this.currentScene.anims.generateFrameNumbers(Characters.Player, {
@@ -113,5 +140,13 @@ export default class Player {
     ) {
       this.collection.sprite.anims.play('idle', true);
     }
+  }
+
+  private centerBodyOnBody(a, b) {
+    a.position.set(b.x + b.halfWidth - a.halfWidth, b.y + b.halfHeight - a.halfHeight);
+  }
+
+  private centerBodyOnXY(a, x, y) {
+    a.position.set(x - a.halfWidth, y - a.halfHeight);
   }
 }
