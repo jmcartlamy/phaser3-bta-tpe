@@ -11,8 +11,6 @@ export interface SceneFactoryParams {
   key: string;
   map: {
     key: string;
-    tilemap: object;
-    bestTime: number;
     direction: 'right' | 'top';
     nextMap: SceneKeys;
   };

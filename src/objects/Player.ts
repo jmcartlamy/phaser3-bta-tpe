@@ -1,20 +1,16 @@
 import { IPlayer } from '../types';
-import smoothMoveCameraTowards from './helpers/smoothMoveCameraTowards';
 import { Characters, PLAYER_COLLECTION } from '../constants';
-import SceneFactory from '../scenes/SceneFactory';
-import TileMap from './TileMap';
+import Map1Scene from '../scenes/Map1Scene';
 
 export default class Player {
-  private readonly currentScene: SceneFactory;
-  private currentMap: Phaser.Tilemaps.Tilemap;
+  private readonly currentScene: Map1Scene;
 
   public collection: IPlayer;
+  public camera: Phaser.Cameras.Scene2D.Camera;
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
-  private readonly camera: Phaser.Cameras.Scene2D.Camera;
 
-  constructor(scene: SceneFactory, tilemap: TileMap, positionX: number, positionY: number) {
+  constructor(scene: Map1Scene, positionX: number, positionY: number) {
     this.currentScene = scene;
-    this.currentMap = tilemap.map;
     this.camera = this.currentScene.cameras.main;
 
     // Create player
@@ -32,11 +28,11 @@ export default class Player {
     this.animateCompoundBody();
 
     // Position Camera
-    this.camera.setBounds(0, 0, this.currentMap.widthInPixels, this.currentMap.heightInPixels);
-    this.camera.startFollow(this.collection.sprite, false, 1, 1);
+    this.camera.setBounds(0, 0, 4000, 1000);
+    this.camera.startFollow(this.collection.sprite, false, 1, 0);
 
     // Set collision
-    this.currentScene.physics.add.collider(this.collection.sprite, tilemap.layer);
+    //this.currentScene.physics.add.collider(this.collection.sprite, tilemap.layer);
   }
 
   public update(time: number, delta: number) {
@@ -80,12 +76,12 @@ export default class Player {
   private processHorizontalMovement(delta: number) {
     if (this.cursors.left.isDown || this.cursors.right.isDown) {
       if (this.cursors.left.isDown) {
-        this.collection.sprite.setVelocityX(-200);
+        this.collection.sprite.setVelocityX(-250);
         this.collection.sprite.anims.play('left', true);
         this.collection.lastDirection = 'left';
         this.collection.sprite.setFlipX(true);
       } else if (this.cursors.right.isDown) {
-        this.collection.sprite.setVelocityX(200);
+        this.collection.sprite.setVelocityX(250);
         this.collection.sprite.anims.play('right', true);
         this.collection.lastDirection = 'right';
         this.collection.sprite.setFlipX(false);
@@ -96,9 +92,9 @@ export default class Player {
 
     if (this.cursors.up.isDown || this.cursors.down.isDown) {
       if (this.cursors.up.isDown) {
-        this.collection.sprite.setVelocityY(-125);
+        this.collection.sprite.setVelocityY(-150);
       } else if (this.cursors.down.isDown) {
-        this.collection.sprite.setVelocityY(125);
+        this.collection.sprite.setVelocityY(150);
       }
       if (this.collection.lastDirection === 'left') {
         this.collection.sprite.anims.play('left', true);

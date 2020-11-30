@@ -1,6 +1,6 @@
-import SceneFactory from '../SceneFactory';
+import Map1Scene from '../Map1Scene';
 
-export default function(currentScene: SceneFactory, delay: number = 500) {
+export default function(currentScene: Map1Scene, delay: number = 500) {
   currentScene.time.addEvent({
     delay: delay,
     callback: () => {
