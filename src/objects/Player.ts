@@ -44,7 +44,10 @@ export default class Player {
     }
 
     // Horizontal movement
-    this.processHorizontalMovement(delta);
+    this.processHorizontalMovement(time);
+
+    // Jump movement
+    this.processJumpMovement(time);
 
     this.centerBodyOnXY(
       this.collection.compoundBody.head.body,
@@ -98,18 +101,34 @@ export default class Player {
       frameRate: 1,
       repeat: -1
     });
+    this.currentScene.anims.create({
+      key: 'jump',
+      frames: this.currentScene.anims.generateFrameNumbers(Characters.Player, {
+        start: 1,
+        end: 2
+      }),
+      frameRate: 2,
+      repeat: -1
+    });
   }
 
-  private processHorizontalMovement(delta: number) {
+  private processHorizontalMovement(time: number) {
+    const canJump = time - this.collection.lastJumpedAt > 1000;
+
+    // LEFT <-> RIGHT
     if (this.cursors.left.isDown || this.cursors.right.isDown) {
       if (this.cursors.left.isDown) {
         this.collection.sprite.setVelocityX(-250);
-        this.collection.sprite.anims.play('left', true);
+        if (canJump) {
+          this.collection.sprite.anims.play('left', true);
+        }
         this.collection.lastDirection = 'left';
         this.collection.sprite.setFlipX(true);
       } else if (this.cursors.right.isDown) {
         this.collection.sprite.setVelocityX(250);
-        this.collection.sprite.anims.play('right', true);
+        if (canJump) {
+          this.collection.sprite.anims.play('right', true);
+        }
         this.collection.lastDirection = 'right';
         this.collection.sprite.setFlipX(false);
       }
@@ -117,7 +136,8 @@ export default class Player {
       this.collection.sprite.setVelocityX(0);
     }
 
-    if (this.cursors.up.isDown || this.cursors.down.isDown) {
+    // UP <-> DOWN
+    if ((this.cursors.up.isDown || this.cursors.down.isDown) && canJump) {
       if (this.cursors.up.isDown) {
         this.collection.sprite.setVelocityY(-150);
       } else if (this.cursors.down.isDown) {
@@ -132,13 +152,32 @@ export default class Player {
       this.collection.sprite.setVelocityY(0);
     }
 
+    // IDLE
     if (
       this.cursors.up.isUp &&
       this.cursors.down.isUp &&
       this.cursors.left.isUp &&
-      this.cursors.right.isUp
+      this.cursors.right.isUp &&
+      canJump
     ) {
       this.collection.sprite.anims.play('idle', true);
+    }
+  }
+
+  private processJumpMovement(time: number) {
+    const canJump = time - this.collection.lastJumpedAt > 1000;
+    if (!canJump) {
+      this.collection.sprite.anims.play('jump', true, 0);
+    }
+    if (this.cursors.space.isDown && canJump) {
+      this.collection.lastJumpedAt = time;
+      this.currentScene.tweens.add({
+        targets: this.collection.sprite,
+        y: this.collection.sprite.body.y - 50,
+        ease: 'Power1',
+        yoyo: true,
+        duration: 500
+      });
     }
   }
 

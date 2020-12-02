@@ -25,5 +25,6 @@ export const PLAYER_COLLECTION: IPlayer = {
   speed: {
     run: 1
   },
+  lastJumpedAt: 0,
   lastDirection: 'right'
 };
