@@ -28,13 +28,14 @@ export default class Player {
     this.createCompoundBody();
 
     // Animate body
-    this.animateBody();
+    this.createAnimation();
 
     // Position Camera
     this.camera.setBounds(0, 0, 4000, 1000);
     this.camera.startFollow(this.collection.sprite, false, 1, 0);
 
     // Set collision
+
     //this.currentScene.physics.add.collider([this.collection.compoundBody.head, this.collection.compoundBody.buste], enemies);
   }
 
@@ -52,17 +53,8 @@ export default class Player {
     // Fight movement
     this.processFightMovement(time);
 
-    this.centerBodyOnXY(
-      this.collection.compoundBody.head.body,
-      this.collection.sprite.body.x + 40,
-      this.collection.sprite.body.y + 48
-    );
-
-    this.centerBodyOnXY(
-      this.collection.compoundBody.buste.body,
-      this.collection.sprite.body.x + 40,
-      this.collection.sprite.body.y + 90
-    );
+    // Handle hitboxes
+    this.handleHitboxes();
   }
 
   private createCompoundBody() {
@@ -75,9 +67,19 @@ export default class Player {
     this.collection.compoundBody.buste = this.currentScene.physics.add.image();
     this.collection.compoundBody.buste.body.setSize(50, 40);
     this.collection.compoundBody.buste.setDebugBodyColor(0xffff00);
+
+    // @ts-ignore ARMS
+    this.collection.compoundBody.arms = this.currentScene.physics.add.image();
+    this.collection.compoundBody.arms.body.setSize(24, 70);
+    this.collection.compoundBody.arms.setDebugBodyColor(0xff0000);
+
+    // @ts-ignore LEGS
+    this.collection.compoundBody.legs = this.currentScene.physics.add.image();
+    this.collection.compoundBody.legs.body.setSize(16, 52);
+    this.collection.compoundBody.legs.setDebugBodyColor(0xff0000);
   }
 
-  private animateBody() {
+  private createAnimation() {
     this.currentScene.anims.create({
       key: 'left',
       frames: this.currentScene.anims.generateFrameNumbers(Characters.Player, {
@@ -144,6 +146,109 @@ export default class Player {
       frameRate: 1,
       repeat: -1
     });
+  }
+
+  private handleHitboxes() {
+    switch (this.collection.sprite.anims.currentAnim.key) {
+      case 'idle':
+      case 'left':
+      case 'right':
+        this.centerBodyOnXY(
+          this.collection.compoundBody.head.body,
+          this.collection.sprite.body.x + 40,
+          this.collection.sprite.body.y + 48
+        );
+        this.centerBodyOnXY(
+          this.collection.compoundBody.buste.body,
+          this.collection.sprite.body.x + 40,
+          this.collection.sprite.body.y + 90
+        );
+        this.centerBodyOnXY(this.collection.compoundBody.arms.body, -50, -50);
+        this.centerBodyOnXY(this.collection.compoundBody.legs.body, -100, -100);
+
+        break;
+      case 'jump':
+        this.centerBodyOnXY(
+          this.collection.compoundBody.head.body,
+          this.collection.sprite.body.x + (this.collection.sprite.flipX ? 37 : 43),
+          this.collection.sprite.body.y + 42
+        );
+        this.centerBodyOnXY(
+          this.collection.compoundBody.buste.body,
+          this.collection.sprite.body.x + (this.collection.sprite.flipX ? 37 : 43),
+          this.collection.sprite.body.y + 80
+        );
+        this.centerBodyOnXY(this.collection.compoundBody.arms.body, -50, -50);
+        this.centerBodyOnXY(this.collection.compoundBody.arms.body, -50, -50);
+        break;
+      case 'jumpFight':
+        this.centerBodyOnXY(
+          this.collection.compoundBody.head.body,
+          this.collection.sprite.body.x + (this.collection.sprite.flipX ? 54 : 26),
+          this.collection.sprite.body.y + 55
+        );
+        this.centerBodyOnXY(
+          this.collection.compoundBody.buste.body,
+          this.collection.sprite.body.x + (this.collection.sprite.flipX ? 42 : 38),
+          this.collection.sprite.body.y + 85
+        );
+        this.centerBodyOnXY(
+          this.collection.compoundBody.legs.body,
+          this.collection.sprite.body.x + (this.collection.sprite.flipX ? 8 : 72),
+          this.collection.sprite.body.y + 77
+        );
+        break;
+      case 'fight1':
+        this.centerBodyOnXY(
+          this.collection.compoundBody.head.body,
+          this.collection.sprite.body.x + (this.collection.sprite.flipX ? 48 : 32),
+          this.collection.sprite.body.y + 50
+        );
+        this.centerBodyOnXY(
+          this.collection.compoundBody.buste.body,
+          this.collection.sprite.body.x + (this.collection.sprite.flipX ? 50 : 30),
+          this.collection.sprite.body.y + 90
+        );
+        this.centerBodyOnXY(
+          this.collection.compoundBody.arms.body,
+          this.collection.sprite.body.x + (this.collection.sprite.flipX ? 12 : 68),
+          this.collection.sprite.body.y + 75
+        );
+      case 'fight2':
+        this.centerBodyOnXY(
+          this.collection.compoundBody.head.body,
+          this.collection.sprite.body.x + (this.collection.sprite.flipX ? 48 : 32),
+          this.collection.sprite.body.y + 50
+        );
+        this.centerBodyOnXY(
+          this.collection.compoundBody.buste.body,
+          this.collection.sprite.body.x + (this.collection.sprite.flipX ? 50 : 30),
+          this.collection.sprite.body.y + 90
+        );
+        this.centerBodyOnXY(
+          this.collection.compoundBody.arms.body,
+          this.collection.sprite.body.x + (this.collection.sprite.flipX ? 12 : 68),
+          this.collection.sprite.body.y + 85
+        );
+      case 'fight3':
+        this.centerBodyOnXY(
+          this.collection.compoundBody.head.body,
+          this.collection.sprite.body.x + (this.collection.sprite.flipX ? 52 : 28),
+          this.collection.sprite.body.y + 50
+        );
+        this.centerBodyOnXY(
+          this.collection.compoundBody.buste.body,
+          this.collection.sprite.body.x + (this.collection.sprite.flipX ? 50 : 30),
+          this.collection.sprite.body.y + 90
+        );
+        this.centerBodyOnXY(
+          this.collection.compoundBody.arms.body,
+          this.collection.sprite.body.x + (this.collection.sprite.flipX ? 12 : 68),
+          this.collection.sprite.body.y + 70
+        );
+      default:
+        break;
+    }
   }
 
   private processHorizontalMovement(time: number) {
