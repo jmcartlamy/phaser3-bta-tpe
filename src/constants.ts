@@ -25,6 +25,10 @@ export const PLAYER_COLLECTION: IPlayer = {
   speed: {
     run: 1
   },
+  combo: 0,
+  lastFightAt: 0,
+  lastPressDownShiftAt: 0,
+  lastComboAt: 0,
   lastJumpedAt: 0,
   lastDirection: 'right'
 };

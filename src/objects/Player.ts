@@ -49,6 +49,9 @@ export default class Player {
     // Jump movement
     this.processJumpMovement(time);
 
+    // Fight movement
+    this.processFightMovement(time);
+
     this.centerBodyOnXY(
       this.collection.compoundBody.head.body,
       this.collection.sprite.body.x + 40,
@@ -95,8 +98,7 @@ export default class Player {
     this.currentScene.anims.create({
       key: 'idle',
       frames: this.currentScene.anims.generateFrameNumbers(Characters.Player, {
-        start: 23,
-        end: 23
+        frames: [23]
       }),
       frameRate: 1,
       repeat: -1
@@ -110,13 +112,46 @@ export default class Player {
       frameRate: 2,
       repeat: -1
     });
+    this.currentScene.anims.create({
+      key: 'fight1',
+      frames: this.currentScene.anims.generateFrameNumbers(Characters.Player, {
+        frames: [14]
+      }),
+      frameRate: 1,
+      repeat: -1
+    });
+    this.currentScene.anims.create({
+      key: 'fight2',
+      frames: this.currentScene.anims.generateFrameNumbers(Characters.Player, {
+        frames: [15]
+      }),
+      frameRate: 1,
+      repeat: -1
+    });
+    this.currentScene.anims.create({
+      key: 'fight3',
+      frames: this.currentScene.anims.generateFrameNumbers(Characters.Player, {
+        frames: [13]
+      }),
+      frameRate: 1,
+      repeat: -1
+    });
+    this.currentScene.anims.create({
+      key: 'jumpFight',
+      frames: this.currentScene.anims.generateFrameNumbers(Characters.Player, {
+        frames: [19]
+      }),
+      frameRate: 1,
+      repeat: -1
+    });
   }
 
   private processHorizontalMovement(time: number) {
     const canJump = time - this.collection.lastJumpedAt > 1000;
+    const canFight = time - this.collection.lastFightAt > 250;
 
     // LEFT <-> RIGHT
-    if (this.cursors.left.isDown || this.cursors.right.isDown) {
+    if ((this.cursors.left.isDown || this.cursors.right.isDown) && canFight) {
       if (this.cursors.left.isDown) {
         this.collection.sprite.setVelocityX(-250);
         if (canJump) {
@@ -137,7 +172,7 @@ export default class Player {
     }
 
     // UP <-> DOWN
-    if ((this.cursors.up.isDown || this.cursors.down.isDown) && canJump) {
+    if ((this.cursors.up.isDown || this.cursors.down.isDown) && canJump && canFight) {
       if (this.collection.sprite.body.y > 525 && this.cursors.up.isDown) {
         this.collection.sprite.setVelocityY(-150);
         this.collection.sprite.setDepth(Math.trunc(this.collection.sprite.body.y / 10));
@@ -162,7 +197,8 @@ export default class Player {
       this.cursors.down.isUp &&
       this.cursors.left.isUp &&
       this.cursors.right.isUp &&
-      canJump
+      canJump &&
+      canFight
     ) {
       this.collection.sprite.anims.play('idle', true);
     }
@@ -175,6 +211,9 @@ export default class Player {
     }
     if (this.cursors.space.isDown && canJump) {
       this.collection.lastJumpedAt = time;
+      this.collection.lastPressDownShiftAt = time;
+      this.collection.lastFightAt = 0;
+      this.collection.lastComboAt = 0;
       this.currentScene.tweens.add({
         targets: this.collection.sprite,
         y: this.collection.sprite.body.y - 50,
@@ -182,6 +221,49 @@ export default class Player {
         yoyo: true,
         duration: 500
       });
+    }
+  }
+
+  private processFightMovement(time: number) {
+    const canJump = time - this.collection.lastJumpedAt > 1000;
+    const canFight = time - this.collection.lastFightAt > 250;
+    const inCombo = time - this.collection.lastComboAt < 1000;
+    const canRehit = this.cursors.shift.timeUp - this.collection.lastPressDownShiftAt >= 0;
+    if (canJump) {
+      if (!canFight) {
+        if (this.collection.combo === 1 || this.collection.combo === 2) {
+          this.collection.sprite.anims.play('fight1');
+        }
+        if (this.collection.combo === 3) {
+          this.collection.sprite.anims.play('fight2');
+        }
+        if (this.collection.combo === 4) {
+          this.collection.sprite.anims.play('fight3');
+        }
+      }
+      if (canFight) {
+        if (this.collection.combo === 4) {
+          this.collection.combo = 0;
+        }
+        if (this.cursors.shift.isDown && canRehit) {
+          this.collection.lastPressDownShiftAt = time;
+          this.collection.lastFightAt = time;
+          this.collection.lastComboAt = time;
+
+          this.collection.combo += 1;
+        } else if (!inCombo) {
+          this.collection.combo = 0;
+        }
+      }
+    } else {
+      if (!canJump) {
+        if (this.cursors.shift.isDown && canFight) {
+          this.collection.lastComboAt = time;
+        }
+        if (inCombo) {
+          this.collection.sprite.anims.play('jumpFight');
+        }
+      }
     }
   }
 

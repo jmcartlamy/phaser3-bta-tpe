@@ -48,7 +48,11 @@ export interface IPlayer {
   speed: {
     run: number;
   };
+  combo: number;
+  lastFightAt: number;
+  lastComboAt: number;
   lastJumpedAt: number;
+  lastPressDownShiftAt: number;
   lastDirection: 'left' | 'right';
 }
 
