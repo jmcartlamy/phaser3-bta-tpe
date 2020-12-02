@@ -39,7 +39,7 @@ export default class Map1Scene extends Phaser.Scene {
       .setOrigin(0)
       .setDepth(225)
       .setScrollFactor(0);
-    this.physics.world.setBounds(0, 525, 4096, 500);
+    this.physics.world.setBounds(0, 0, 4096, 2048);
 
     // Create player and init his position
     this.player = new Player(this, 160, 700);

@@ -138,10 +138,14 @@ export default class Player {
 
     // UP <-> DOWN
     if ((this.cursors.up.isDown || this.cursors.down.isDown) && canJump) {
-      if (this.cursors.up.isDown) {
+      if (this.collection.sprite.body.y > 525 && this.cursors.up.isDown) {
         this.collection.sprite.setVelocityY(-150);
-      } else if (this.cursors.down.isDown) {
+        this.collection.sprite.setDepth(Math.trunc(this.collection.sprite.body.y / 10));
+      } else if (this.collection.sprite.body.y < 950 && this.cursors.down.isDown) {
         this.collection.sprite.setVelocityY(150);
+        this.collection.sprite.setDepth(Math.trunc(this.collection.sprite.body.y / 10));
+      } else {
+        this.collection.sprite.setVelocityY(0);
       }
       if (this.collection.lastDirection === 'left') {
         this.collection.sprite.anims.play('left', true);
