@@ -1,12 +1,14 @@
 import Player from '../objects/Player';
 
-import { SceneKeys } from '../constants';
+import { Characters, SceneKeys } from '../constants';
 import userInterface from './userInterface/MapScene1.json';
 import { PhaserGame, WebSocketMessageContextEmit } from '../types';
 import restartSceneWithDelay from './helpers/restartSceneWithDelay';
+import Enemy1 from '../objects/Enemy1';
 
 export default class Map1Scene extends Phaser.Scene {
   public player: Player;
+  public blob: Enemy1[];
   public game: PhaserGame;
   private map: any; // TODO
 
@@ -14,6 +16,7 @@ export default class Map1Scene extends Phaser.Scene {
     super({ key: SceneKeys.Map1 });
 
     this.map = {};
+    this.blob = [];
     this.handleWebSocketMessage = this.handleWebSocketMessage.bind(this);
   }
 
@@ -43,6 +46,13 @@ export default class Map1Scene extends Phaser.Scene {
 
     // Create player and init his position
     this.player = new Player(this, 160, 700);
+
+    this.blob.push(
+      new Enemy1(this, {
+        position: { x: 500, y: 700, direction: 'left' },
+        sprite: Characters.Player
+      })
+    );
 
     // Create settings button
     const button = this.add
@@ -83,6 +93,10 @@ export default class Map1Scene extends Phaser.Scene {
 
   public update(time: number, delta: number) {
     this.player.update(time, delta);
+    this.blob.forEach(function(b) {
+      b.update(time, delta);
+    });
+
     this.map.sky.tilePositionX = this.player.camera.scrollX / 4;
     this.map.bg1.tilePositionX = this.player.camera.scrollX / 2;
     this.map.fg.tilePositionX = this.player.camera.scrollX * 1.5;

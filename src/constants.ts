@@ -1,4 +1,4 @@
-import { IGameConfig, IPlayer } from './types';
+import { IEnemy, IGameConfig, IPlayer } from './types';
 
 export const GAME_SCREEN_WIDTH = 1280;
 export const GAME_SCREEN_HEIGHT = 720;
@@ -28,6 +28,20 @@ export const PLAYER_COLLECTION: IPlayer = {
   combo: 0,
   lastFightAt: 0,
   lastPressDownShiftAt: 0,
+  lastComboAt: 0,
+  lastJumpedAt: 0,
+  lastDirection: 'right'
+};
+
+export const ENEMY_COLLECTION: IEnemy = {
+  sprite: null,
+  compoundBody: {},
+  speed: {
+    run: 1,
+    jump: 1
+  },
+  combo: 0,
+  lastFightAt: 0,
   lastComboAt: 0,
   lastJumpedAt: 0,
   lastDirection: 'right'

@@ -1,25 +1,13 @@
-import { SceneKeys } from './constants';
 import Interactive from './api/interactive';
 
 export interface PhaserGame extends Phaser.Game {
   // score: Score;
   interactive: Interactive;
-  // TODO interactive
 }
 
-export interface SceneFactoryParams {
-  key: string;
-  map: {
-    key: string;
-    direction: 'right' | 'top';
-    nextMap: SceneKeys;
-  };
-  position: {
-    player: IPlayerPosition;
-  };
-  user: {
-    interface: object;
-  };
+export interface IEnemyParams {
+  position: IEnemyPosition;
+  sprite: string;
 }
 
 export interface Score {
@@ -29,8 +17,6 @@ export interface Score {
   bonus: number;
   total: number;
 }
-
-type KeysDirection = 'left' | 'right' | 'bottom';
 
 export interface IGameConfig {
   innerWidth: number;
@@ -56,14 +42,28 @@ export interface IPlayer {
   lastDirection: 'left' | 'right';
 }
 
+export interface IEnemy {
+  sprite: Phaser.Physics.Arcade.Sprite;
+  compoundBody: {
+    head?: Phaser.Physics.Arcade.Image;
+    buste?: Phaser.Physics.Arcade.Image;
+    arms?: Phaser.Physics.Arcade.Image;
+    legs?: Phaser.Physics.Arcade.Image;
+  };
+  speed: {
+    run: number;
+    jump: number;
+  };
+  combo: number;
+  lastFightAt: number;
+  lastComboAt: number;
+  lastJumpedAt: number;
+  lastDirection: 'left' | 'right';
+}
+
 export interface IPlayerPosition {
   x: number;
   y: number;
-}
-
-export interface IEnemy {
-  sprite: Phaser.GameObjects.Sprite | null;
-  body: any;
 }
 
 export interface IEnemyPosition {

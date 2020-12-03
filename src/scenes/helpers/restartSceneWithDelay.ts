@@ -9,6 +9,14 @@ export default function(currentScene: Map1Scene, delay: number = 500) {
     callbackScope: this
   });
 
+  // Reinitialize enemies
+  if (currentScene.blob) {
+    currentScene.blob.forEach(function(b) {
+      b.collection.sprite.destroy();
+    });
+    currentScene.blob = [];
+  }
+
   if (currentScene.game.interactive.status === 1) {
     currentScene.game.interactive.socket.removeEventListener(
       'message',
