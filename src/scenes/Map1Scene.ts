@@ -4,11 +4,11 @@ import { Characters, SceneKeys } from '../constants';
 import userInterface from './userInterface/MapScene1.json';
 import { IMap, PhaserGame, WebSocketMessageContextEmit } from '../types';
 import restartSceneWithDelay from './helpers/restartSceneWithDelay';
-import Enemy1 from '../objects/Enemy1';
+import Zombie from '../objects/Zombie';
 
 export default class Map1Scene extends Phaser.Scene {
   public player: Player;
-  public blob: Enemy1[];
+  public blob: Zombie[];
   public game: PhaserGame;
   public map: IMap; // TODO
 
@@ -49,12 +49,12 @@ export default class Map1Scene extends Phaser.Scene {
     this.player = new Player(this, 160, 700);
 
     this.blob.push(
-      new Enemy1(this, {
-        position: { x: 0, y: 700, direction: 'left' },
-        sprite: Characters.Player
+      new Zombie(this, {
+        position: { x: 100, y: 700, direction: 'left' },
+        sprite: Characters.Zombie
       })
     );
-   
+
     // Create settings button
     const button = this.add
       .image(this.registry.get('innerWidth') - 32, 16, 'gear', 0)

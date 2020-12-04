@@ -4,6 +4,7 @@ import buttonBlue1 from '../assets/sprites/blue_button01.png';
 import buttonYellow1 from '../assets/sprites/yellow_button01.png';
 import gear from '../assets/sprites/gear.png';
 import player from '../assets/sprites/player_tilesheet_extruded.png';
+import zombie from '../assets/sprites/zombie_tilesheet_extruded.png';
 import tallTreesBG from '../assets/sprites/tall_trees_bg.png';
 import walkTreesBG from '../assets/sprites/walk_trees_bg.png';
 import bushFG from '../assets/sprites/bush_fg.png';
@@ -55,6 +56,12 @@ export default class LoadScene extends Phaser.Scene {
     this.load.image('bushFG', bushFG);
 
     this.load.spritesheet(Characters.Player, player, {
+      frameWidth: 80,
+      frameHeight: 110,
+      margin: 1,
+      spacing: 2
+    });
+    this.load.spritesheet(Characters.Zombie, zombie, {
       frameWidth: 80,
       frameHeight: 110,
       margin: 1,

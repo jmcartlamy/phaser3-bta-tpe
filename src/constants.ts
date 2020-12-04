@@ -16,7 +16,8 @@ export enum SceneKeys {
 }
 
 export enum Characters {
-  Player = 'player'
+  Player = 'player',
+  Zombie = 'zombie'
 }
 
 export const PLAYER_COLLECTION: IPlayer = {
