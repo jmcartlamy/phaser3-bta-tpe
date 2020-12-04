@@ -1,15 +1,16 @@
 import centerBodyOnXY from './helpers/centerBodyOnXY';
 import { IPlayer } from '../types';
 import { Characters, PLAYER_COLLECTION } from '../constants';
+import Map1Scene from '../scenes/Map1Scene';
 
 export default class Player {
-  private readonly currentScene: Phaser.Scene;
+  private readonly currentScene: Map1Scene;
 
   public collection: IPlayer;
   public camera: Phaser.Cameras.Scene2D.Camera;
   private cursors: Phaser.Types.Input.Keyboard.CursorKeys;
 
-  constructor(scene: Phaser.Scene, positionX: number, positionY: number) {
+  constructor(scene: Map1Scene, positionX: number, positionY: number) {
     this.currentScene = scene;
     this.camera = this.currentScene.cameras.main;
 
@@ -279,10 +280,16 @@ export default class Player {
 
     // UP <-> DOWN
     if ((this.cursors.up.isDown || this.cursors.down.isDown) && canJump && canFight) {
-      if (this.collection.sprite.body.y > 525 && this.cursors.up.isDown) {
+      if (
+        this.collection.sprite.body.y > this.currentScene.map.bounds.top &&
+        this.cursors.up.isDown
+      ) {
         this.collection.sprite.setVelocityY(-150);
         this.collection.sprite.setDepth(Math.trunc(this.collection.sprite.body.y / 10));
-      } else if (this.collection.sprite.body.y < 950 && this.cursors.down.isDown) {
+      } else if (
+        this.collection.sprite.body.y < this.currentScene.map.bounds.bottom &&
+        this.cursors.down.isDown
+      ) {
         this.collection.sprite.setVelocityY(150);
         this.collection.sprite.setDepth(Math.trunc(this.collection.sprite.body.y / 10));
       } else {

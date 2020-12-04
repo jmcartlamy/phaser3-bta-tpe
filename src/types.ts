@@ -23,6 +23,17 @@ export interface IGameConfig {
   innerHeight: number;
 }
 
+export interface IMap {
+  bounds?: {
+    top: number;
+    bottom: number;
+  };
+  sky?: Phaser.GameObjects.TileSprite;
+  bg1?: Phaser.GameObjects.TileSprite;
+  bg2?: Phaser.GameObjects.TileSprite;
+  fg?: Phaser.GameObjects.TileSprite;
+}
+
 export interface IPlayer {
   sprite: Phaser.Physics.Arcade.Sprite;
   compoundBody: {
@@ -70,6 +81,12 @@ export interface IEnemyPosition {
   x: number;
   y: number;
   direction: 'left' | 'right';
+}
+
+export interface IEnemyBasePatternParams {
+  distanceToHit: number;
+  deltaLastFight: number;
+  deltaLastCombo: number;
 }
 
 export interface WebSocketMessageContextConnection {

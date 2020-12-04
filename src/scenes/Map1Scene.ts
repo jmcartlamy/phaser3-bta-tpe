@@ -2,7 +2,7 @@ import Player from '../objects/Player';
 
 import { Characters, SceneKeys } from '../constants';
 import userInterface from './userInterface/MapScene1.json';
-import { PhaserGame, WebSocketMessageContextEmit } from '../types';
+import { IMap, PhaserGame, WebSocketMessageContextEmit } from '../types';
 import restartSceneWithDelay from './helpers/restartSceneWithDelay';
 import Enemy1 from '../objects/Enemy1';
 
@@ -10,7 +10,7 @@ export default class Map1Scene extends Phaser.Scene {
   public player: Player;
   public blob: Enemy1[];
   public game: PhaserGame;
-  private map: any; // TODO
+  public map: IMap; // TODO
 
   constructor() {
     super({ key: SceneKeys.Map1 });
@@ -25,6 +25,7 @@ export default class Map1Scene extends Phaser.Scene {
     this.game.interactive?.onGame(userInterface);
 
     // Create map
+    this.map.bounds = { top: 525, bottom: 950 };
     this.map.sky = this.add
       .tileSprite(0, -100, 4096, 1025, 'coloredSky')
       .setOrigin(0)
@@ -49,11 +50,11 @@ export default class Map1Scene extends Phaser.Scene {
 
     this.blob.push(
       new Enemy1(this, {
-        position: { x: 500, y: 700, direction: 'left' },
+        position: { x: 0, y: 700, direction: 'left' },
         sprite: Characters.Player
       })
     );
-
+   
     // Create settings button
     const button = this.add
       .image(this.registry.get('innerWidth') - 32, 16, 'gear', 0)

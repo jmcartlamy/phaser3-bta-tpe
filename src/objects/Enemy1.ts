@@ -1,9 +1,12 @@
+import Map1Scene from '../scenes/Map1Scene';
 import { IEnemyParams } from '../types';
 import Enemy from './Enemy';
 import centerBodyOnXY from './helpers/centerBodyOnXY';
+import processBehindPattern from './patterns/processBehindPattern';
+import processSimplePattern from './patterns/processSimplePattern';
 
 export default class Enemy1 extends Enemy {
-  constructor(scene: Phaser.Scene, params: IEnemyParams) {
+  constructor(scene: Map1Scene, params: IEnemyParams) {
     super(scene, params);
 
     // Create compound body
@@ -20,6 +23,28 @@ export default class Enemy1 extends Enemy {
 
     // Handle hitboxes
     this.handleHitboxes();
+
+    // Pattern
+    this.processBaseMovement(time, {
+      distanceToHit: 60,
+      deltaLastCombo: 1000,
+      deltaLastFight: 200
+    });
+
+    /*processSimplePattern(this.currentScene.player.collection.sprite, this.collection.sprite, {
+      velocityX: 200,
+      velocityY: 100,
+      distanceToHit: 60
+    });*/
+
+    processBehindPattern(this.currentScene.player.collection, this.collection, {
+      velocityX: 100,
+      velocityY: 50,
+      gapX: 300,
+      gapY: 15,
+      distanceToHit: 60,
+      bounds: this.currentScene.map.bounds
+    });
   }
 
   private createCompoundBody() {
