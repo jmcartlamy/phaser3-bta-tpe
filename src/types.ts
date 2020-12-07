@@ -7,6 +7,7 @@ export interface PhaserGame extends Phaser.Game {
 
 export interface IEnemyParams {
   position: IEnemyPosition;
+  pattern: Pattern;
   sprite: string;
 }
 
@@ -42,8 +43,14 @@ export interface IPlayer {
     arms?: Phaser.Physics.Arcade.Image;
     legs?: Phaser.Physics.Arcade.Image;
   };
-  speed: {
-    run: number;
+  stats: {
+    damage: number;
+    speed: number;
+    jump: number;
+  };
+  status: {
+    health: number;
+    lastHitAt: number;
   };
   combo: number;
   lastFightAt: number;
@@ -61,9 +68,14 @@ export interface IEnemy {
     arms?: Phaser.Physics.Arcade.Image;
     legs?: Phaser.Physics.Arcade.Image;
   };
-  speed: {
-    run: number;
+  stats: {
+    damage: number;
+    speed: number;
     jump: number;
+  };
+  status: {
+    health: number;
+    lastHitAt: number;
   };
   combo: number;
   lastFightAt: number;
@@ -81,6 +93,11 @@ export interface IEnemyPosition {
   x: number;
   y: number;
   direction: 'left' | 'right';
+}
+
+export enum Pattern {
+  simple = 'simple',
+  behind = 'behind'
 }
 
 export interface IEnemyBasePatternParams {

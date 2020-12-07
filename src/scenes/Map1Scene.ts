@@ -2,7 +2,7 @@ import Player from '../objects/Player';
 
 import { Characters, SceneKeys } from '../constants';
 import userInterface from './userInterface/MapScene1.json';
-import { IMap, PhaserGame, WebSocketMessageContextEmit } from '../types';
+import { IMap, Pattern, PhaserGame, WebSocketMessageContextEmit } from '../types';
 import restartSceneWithDelay from './helpers/restartSceneWithDelay';
 import Zombie from '../objects/Zombie';
 
@@ -51,7 +51,16 @@ export default class Map1Scene extends Phaser.Scene {
     this.blob.push(
       new Zombie(this, {
         position: { x: 100, y: 700, direction: 'left' },
-        sprite: Characters.Zombie
+        sprite: Characters.Zombie,
+        pattern: Pattern.simple
+      })
+    );
+
+    this.blob.push(
+      new Zombie(this, {
+        position: { x: 800, y: 700, direction: 'left' },
+        sprite: Characters.Zombie,
+        pattern: Pattern.behind
       })
     );
 

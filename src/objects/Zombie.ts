@@ -1,7 +1,8 @@
-import { ENEMY_COLLECTION } from '../constants';
+import { ZOMBIE_COLLECTION } from '../constants';
 import Map1Scene from '../scenes/Map1Scene';
-import { IEnemy, IEnemyBasePatternParams, IEnemyParams } from '../types';
+import { IEnemy, IEnemyBasePatternParams, IEnemyParams, Pattern } from '../types';
 import centerBodyOnXY from './helpers/centerBodyOnXY';
+import hitBodiesCallback from './helpers/hitBodiesCallback';
 import processBehindPattern from './patterns/processBehindPattern';
 import processSimplePattern from './patterns/processSimplePattern';
 
@@ -15,8 +16,9 @@ export default class Zombie {
     this.params = params;
 
     // Create player
+    const zombieCollection = JSON.parse(JSON.stringify(ZOMBIE_COLLECTION));
     this.collection = {
-      ...ENEMY_COLLECTION,
+      ...zombieCollection,
       sprite: scene.physics.add
         .sprite(params.position.x, params.position.y, params.sprite)
         .setDepth(Math.trunc(params.position.y / 10))
@@ -34,14 +36,18 @@ export default class Zombie {
     this.createAnimation();
 
     this.collection.sprite.anims.play('idleZombie', true);
+
+    // Set hitboxes
+    this.addOverlapWithPlayer();
   }
+
+  // TODO
 
   public update(time: number, delta: number) {
     if (!this.collection.sprite) {
       return;
     }
-
-    if (this.currentScene.player.collection.sprite.body.x < this.collection.sprite.body.x) {
+    if (this.currentScene.player.collection.sprite?.body.x < this.collection.sprite.body.x) {
       this.collection.sprite.setFlipX(true);
     } else {
       this.collection.sprite.setFlipX(false);
@@ -58,20 +64,25 @@ export default class Zombie {
       deltaLastCombo: 1000,
       deltaLastFight: 200
     });
-    /*processSimplePattern(this.currentScene.player.collection.sprite, this.collection.sprite, {
-      velocityX: 200,
-      velocityY: 100,
-      distanceToHit: 60
-    });*/
 
-    processBehindPattern(this.currentScene.player.collection, this.collection, {
-      velocityX: 100,
-      velocityY: 50,
-      gapX: 300,
-      gapY: 15,
-      distanceToHit: 60,
-      bounds: this.currentScene.map.bounds
-    });
+    if (this.currentScene.player.collection.sprite) {
+      if (this.params.pattern === Pattern.behind) {
+        processBehindPattern(this.currentScene.player.collection, this.collection, {
+          velocityX: 100,
+          velocityY: 50,
+          gapX: 300,
+          gapY: 15,
+          distanceToHit: 60,
+          bounds: this.currentScene.map.bounds
+        });
+      } else {
+        processSimplePattern(this.currentScene.player.collection.sprite, this.collection.sprite, {
+          velocityX: 200,
+          velocityY: 100,
+          distanceToHit: 60
+        });
+      }
+    }
   }
 
   // TODO move in pattern
@@ -82,23 +93,28 @@ export default class Zombie {
     const inCombo = time - this.collection.lastComboAt < params.deltaLastCombo;
     const isIdle = enemy.body.velocity.x === 0 && enemy.body.velocity.y === 0;
 
-    if (player.body.x > enemy.body.x + params.distanceToHit) {
-      this.collection.lastDirection = 'right';
-      this.collection.sprite.anims.play(isIdle ? 'idleZombie' : 'rightZombie', true);
-    } else if (player.body.x < enemy.body.x - params.distanceToHit) {
-      this.collection.lastDirection = 'left';
-      this.collection.sprite.anims.play(isIdle ? 'idleZombie' : 'leftZombie', true);
-    }
-
-    if (player.depth !== enemy.depth) {
-      if (this.collection.lastDirection === 'left') {
-        this.collection.sprite.anims.play(isIdle ? 'idleZombie' : 'leftZombie', true);
-      } else {
+    if (player) {
+      if (player.body.x > enemy.body.x + params.distanceToHit) {
+        this.collection.lastDirection = 'right';
         this.collection.sprite.anims.play(isIdle ? 'idleZombie' : 'rightZombie', true);
+      } else if (player.body.x < enemy.body.x - params.distanceToHit) {
+        this.collection.lastDirection = 'left';
+        this.collection.sprite.anims.play(isIdle ? 'idleZombie' : 'leftZombie', true);
       }
+
+      if (player.depth !== enemy.depth) {
+        if (this.collection.lastDirection === 'left') {
+          this.collection.sprite.anims.play(isIdle ? 'idleZombie' : 'leftZombie', true);
+        } else {
+          this.collection.sprite.anims.play(isIdle ? 'idleZombie' : 'rightZombie', true);
+        }
+      }
+    } else {
+      this.collection.sprite.anims.play('idleZombie', true);
     }
 
     if (
+      player &&
       player.body.x < enemy.body.x + params.distanceToHit &&
       player.body.x > enemy.body.x - params.distanceToHit &&
       player.depth === enemy.depth
@@ -318,5 +334,40 @@ export default class Zombie {
       default:
         break;
     }
+  }
+
+  addOverlapWithPlayer() {
+    // Zombie -> Player
+    this.currentScene.physics.add.overlap(
+      [this.collection.compoundBody.arms, this.collection.compoundBody.legs],
+      [
+        this.currentScene.player.collection.compoundBody.head,
+        this.currentScene.player.collection.compoundBody.buste
+      ],
+      () =>
+        hitBodiesCallback(
+          this.currentScene,
+          this.collection,
+          this.currentScene.player.collection,
+          1000
+        ),
+      () => this.collection.sprite?.depth === this.currentScene.player.collection.sprite?.depth
+    );
+    // Player -> Zombie
+    this.currentScene.physics.add.overlap(
+      [
+        this.currentScene.player.collection.compoundBody.arms,
+        this.currentScene.player.collection.compoundBody.legs
+      ],
+      [this.collection.compoundBody.head, this.collection.compoundBody.buste],
+      () =>
+        hitBodiesCallback(
+          this.currentScene,
+          this.currentScene.player.collection,
+          this.collection,
+          1000
+        ),
+      () => this.collection.sprite?.depth === this.currentScene.player.collection.sprite?.depth
+    );
   }
 }

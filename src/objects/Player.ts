@@ -15,8 +15,9 @@ export default class Player {
     this.camera = this.currentScene.cameras.main;
 
     // Create player
+    const playerCollection = JSON.parse(JSON.stringify(PLAYER_COLLECTION));
     this.collection = {
-      ...PLAYER_COLLECTION,
+      ...playerCollection,
       sprite: this.currentScene.physics.add
         .sprite(positionX, positionY, Characters.Player)
         .setDepth(Math.trunc(positionY / 10))
@@ -35,10 +36,6 @@ export default class Player {
     // Position Camera
     this.camera.setBounds(0, 0, 4000, 1000);
     this.camera.startFollow(this.collection.sprite, false, 1, 0);
-
-    // Set collision
-
-    //this.currentScene.physics.add.collider([this.collection.compoundBody.head, this.collection.compoundBody.buste], enemies);
   }
 
   public update(time: number, delta: number) {

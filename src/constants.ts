@@ -23,8 +23,14 @@ export enum Characters {
 export const PLAYER_COLLECTION: IPlayer = {
   sprite: null,
   compoundBody: {},
-  speed: {
-    run: 1
+  stats: {
+    damage: 20,
+    speed: 1,
+    jump: 1
+  },
+  status: {
+    health: 100,
+    lastHitAt: 0
   },
   combo: 0,
   lastFightAt: 0,
@@ -34,12 +40,17 @@ export const PLAYER_COLLECTION: IPlayer = {
   lastDirection: 'right'
 };
 
-export const ENEMY_COLLECTION: IEnemy = {
+export const ZOMBIE_COLLECTION: IEnemy = {
   sprite: null,
   compoundBody: {},
-  speed: {
-    run: 1,
+  stats: {
+    damage: 10,
+    speed: 1,
     jump: 1
+  },
+  status: {
+    health: 40,
+    lastHitAt: 0
   },
   combo: 0,
   lastFightAt: 0,
