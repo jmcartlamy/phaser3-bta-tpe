@@ -6,10 +6,11 @@ import { IMap, Pattern, PhaserGame, WebSocketMessageContextEmit } from '../types
 import restartSceneWithDelay from './helpers/restartSceneWithDelay';
 import Zombie from '../objects/Zombie';
 import changeSceneWithDelay from './helpers/changeSceneWithDelay';
+import Ninja from '../objects/Ninja';
 
 export default class Map1Scene extends Phaser.Scene {
   public player: Player;
-  public blob: Zombie[];
+  public blob: Array<Zombie | Ninja>;
   public game: PhaserGame;
   public map: IMap; // TODO
 
@@ -80,16 +81,23 @@ export default class Map1Scene extends Phaser.Scene {
       if (type === 'action') {
         // @ts-ignore
         const username = payload.username;
-        const pattern = payload.id === 'action-zombie-2' ? Pattern.behind : Pattern.simple;
-
-        this.blob.push(
-          new Zombie(this, {
-            username: username || null,
-            position: { x: 100, y: 700, direction: 'left' },
-            sprite: Characters.Zombie,
-            pattern: pattern
-          })
-        );
+        if (payload.id === 'action-ninja') {
+          this.blob.push(
+            new Ninja(this, {
+              username: username || null,
+              position: { x: Phaser.Math.Between(100, 2000), y: 700, direction: 'left' },
+              sprite: Characters.Ninja
+            })
+          );
+        } else {
+          this.blob.push(
+            new Zombie(this, {
+              username: username || null,
+              position: { x: Phaser.Math.Between(100, 2000), y: 700, direction: 'left' },
+              sprite: Characters.Zombie
+            })
+          );
+        }
       }
     }
   }

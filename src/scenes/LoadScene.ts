@@ -5,6 +5,7 @@ import buttonYellow1 from '../assets/sprites/yellow_button01.png';
 import gear from '../assets/sprites/gear.png';
 import player from '../assets/sprites/player_tilesheet_extruded.png';
 import zombie from '../assets/sprites/zombie_tilesheet_extruded.png';
+import ninja from '../assets/sprites/ninja_tilesheet_extruded.png';
 import tallTreesBG from '../assets/sprites/tall_trees_bg.png';
 import walkTreesBG from '../assets/sprites/walk_trees_bg.png';
 import bushFG from '../assets/sprites/bush_fg.png';
@@ -69,6 +70,12 @@ export default class LoadScene extends Phaser.Scene {
       margin: 1,
       spacing: 2
     });
+    this.load.spritesheet(Characters.Ninja, ninja, {
+        frameWidth: 80,
+        frameHeight: 110,
+        margin: 1,
+        spacing: 2
+      });
   }
 
   public create() {

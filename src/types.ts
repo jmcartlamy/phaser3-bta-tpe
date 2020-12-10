@@ -7,9 +7,9 @@ export interface PhaserGame extends Phaser.Game {
 
 export interface IEnemyParams {
   position: IEnemyPosition;
-  pattern: Pattern;
   username: string | null;
   sprite: string;
+  pattern?: Pattern;
 }
 
 export interface Score {

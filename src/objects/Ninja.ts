@@ -1,14 +1,14 @@
-import { ZOMBIE_COLLECTION } from '../constants';
+import { NINJA_COLLECTION } from '../constants';
 import Map1Scene from '../scenes/Map1Scene';
 import { IEnemy, IEnemyBasePatternParams, IEnemyParams } from '../types';
 import centerBodyOnXY from './helpers/centerBodyOnXY';
 import hitBodiesCallback from './helpers/hitBodiesCallback';
-import processSimplePattern from './patterns/processSimplePattern';
+import processBehindPattern from './patterns/processBehindPattern';
 import { DELTA_HIT_PLAYER } from './Player';
 
-const DELTA_HIT_ZOMBIE = 500;
+const DELTA_HIT_NINJA = 400;
 
-export default class Zombie {
+export default class Ninja {
   protected readonly currentScene: Map1Scene;
   protected params: IEnemyParams;
   public collection: IEnemy;
@@ -18,9 +18,9 @@ export default class Zombie {
     this.params = params;
 
     // Create player
-    const zombieCollection = JSON.parse(JSON.stringify(ZOMBIE_COLLECTION));
+    const ninjaCollection = JSON.parse(JSON.stringify(NINJA_COLLECTION));
     this.collection = {
-      ...zombieCollection,
+      ...ninjaCollection,
       sprite: scene.physics.add
         .sprite(params.position.x, params.position.y, params.sprite)
         .setDepth(Math.trunc(params.position.y / 10))
@@ -70,15 +70,18 @@ export default class Zombie {
       distanceToHit: 60,
       deltaLastCombo: 1000,
       deltaLastFight: 200,
-      deltaHit: DELTA_HIT_ZOMBIE
+      deltaHit: DELTA_HIT_NINJA
     });
 
     if (this.currentScene.player.collection.sprite) {
-      processSimplePattern(this.currentScene.player.collection, this.collection, {
-        velocityX: 200,
-        velocityY: 100,
-        deltaHit: DELTA_HIT_ZOMBIE,
-        distanceToHit: 60
+      processBehindPattern(this.currentScene.player.collection, this.collection, {
+        velocityX: 130,
+        velocityY: 70,
+        gapX: 300,
+        gapY: 15,
+        distanceToHit: 60,
+        deltaHit: DELTA_HIT_NINJA,
+        bounds: this.currentScene.map.bounds
       });
     }
   }
@@ -94,25 +97,25 @@ export default class Zombie {
     if (player) {
       if (player.body.x > enemy.body.x + params.distanceToHit) {
         this.collection.lastDirection = 'right';
-        this.collection.sprite.anims.play(isIdle ? 'idleZombie' : 'rightZombie', true);
+        this.collection.sprite.anims.play(isIdle ? 'idleNinja' : 'rightNinja', true);
       } else if (player.body.x < enemy.body.x - params.distanceToHit) {
         this.collection.lastDirection = 'left';
-        this.collection.sprite.anims.play(isIdle ? 'idleZombie' : 'leftZombie', true);
+        this.collection.sprite.anims.play(isIdle ? 'idleNinja' : 'leftNinja', true);
       }
 
       if (player.depth !== enemy.depth) {
         if (this.collection.lastDirection === 'left') {
-          this.collection.sprite.anims.play(isIdle ? 'idleZombie' : 'leftZombie', true);
+          this.collection.sprite.anims.play(isIdle ? 'idleNinja' : 'leftNinja', true);
         } else {
-          this.collection.sprite.anims.play(isIdle ? 'idleZombie' : 'rightZombie', true);
+          this.collection.sprite.anims.play(isIdle ? 'idleNinja' : 'rightNinja', true);
         }
       }
     } else {
-      this.collection.sprite.anims.play('idleZombie', true);
+      this.collection.sprite.anims.play('idleNinja', true);
     }
 
     if (isHit) {
-      this.collection.sprite.anims.play('hitZombie');
+      this.collection.sprite.anims.play('hitNinja');
     } else {
       if (
         player &&
@@ -122,13 +125,13 @@ export default class Zombie {
       ) {
         if (!canFight) {
           if (this.collection.combo === 1 || this.collection.combo === 2) {
-            this.collection.sprite.anims.play('fight1Zombie');
+            this.collection.sprite.anims.play('fight1Ninja');
           }
           if (this.collection.combo === 3) {
-            this.collection.sprite.anims.play('fight2Zombie');
+            this.collection.sprite.anims.play('fight2Ninja');
           }
           if (this.collection.combo === 4) {
-            this.collection.sprite.anims.play('fight3Zombie');
+            this.collection.sprite.anims.play('fight3Ninja');
           }
         }
         if (canFight) {
@@ -178,7 +181,7 @@ export default class Zombie {
 
   private createAnimation() {
     this.currentScene.anims.create({
-      key: 'leftZombie',
+      key: 'leftNinja',
       frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
         start: 9,
         end: 10
@@ -186,7 +189,7 @@ export default class Zombie {
       frameRate: 8
     });
     this.currentScene.anims.create({
-      key: 'rightZombie',
+      key: 'rightNinja',
       frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
         start: 9,
         end: 10
@@ -195,7 +198,7 @@ export default class Zombie {
       repeat: -1
     });
     this.currentScene.anims.create({
-      key: 'idleZombie',
+      key: 'idleNinja',
       frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
         frames: [23]
       }),
@@ -203,7 +206,7 @@ export default class Zombie {
       repeat: -1
     });
     this.currentScene.anims.create({
-      key: 'jumpZombie',
+      key: 'jumpNinja',
       frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
         start: 1,
         end: 2
@@ -212,7 +215,7 @@ export default class Zombie {
       repeat: -1
     });
     this.currentScene.anims.create({
-      key: 'fight1Zombie',
+      key: 'fight1Ninja',
       frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
         frames: [14]
       }),
@@ -220,7 +223,7 @@ export default class Zombie {
       repeat: -1
     });
     this.currentScene.anims.create({
-      key: 'fight2Zombie',
+      key: 'fight2Ninja',
       frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
         frames: [15]
       }),
@@ -228,7 +231,7 @@ export default class Zombie {
       repeat: -1
     });
     this.currentScene.anims.create({
-      key: 'fight3Zombie',
+      key: 'fight3Ninja',
       frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
         frames: [13]
       }),
@@ -236,7 +239,7 @@ export default class Zombie {
       repeat: -1
     });
     this.currentScene.anims.create({
-      key: 'jumpFightZombie',
+      key: 'jumpFightNinja',
       frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
         frames: [19]
       }),
@@ -244,7 +247,7 @@ export default class Zombie {
       repeat: -1
     });
     this.currentScene.anims.create({
-      key: 'hitZombie',
+      key: 'hitNinja',
       frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
         frames: [21]
       }),
@@ -252,14 +255,14 @@ export default class Zombie {
       repeat: -1
     });
 
-    this.collection.sprite.anims.play('idleZombie', true);
+    this.collection.sprite.anims.play('idleNinja', true);
   }
 
   private handleHitboxes() {
     switch (this.collection.sprite.anims.currentAnim.key) {
-      case 'idleZombie':
-      case 'leftZombie':
-      case 'rightZombie':
+      case 'idleNinja':
+      case 'leftNinja':
+      case 'rightNinja':
         centerBodyOnXY(
           this.collection.compoundBody.head.body,
           this.collection.sprite.body.x + 40,
@@ -274,7 +277,7 @@ export default class Zombie {
         centerBodyOnXY(this.collection.compoundBody.legs.body, -100, -100);
 
         break;
-      case 'jumpZombie':
+      case 'jumpNinja':
         centerBodyOnXY(
           this.collection.compoundBody.head.body,
           this.collection.sprite.body.x + (this.collection.sprite.flipX ? 37 : 43),
@@ -288,7 +291,7 @@ export default class Zombie {
         centerBodyOnXY(this.collection.compoundBody.arms.body, -50, -50);
         centerBodyOnXY(this.collection.compoundBody.legs.body, -50, -50);
         break;
-      case 'jumpFightZombie':
+      case 'jumpFightNinja':
         centerBodyOnXY(
           this.collection.compoundBody.head.body,
           this.collection.sprite.body.x + (this.collection.sprite.flipX ? 54 : 26),
@@ -305,7 +308,7 @@ export default class Zombie {
           this.collection.sprite.body.y + 77
         );
         break;
-      case 'fight1Zombie':
+      case 'fight1Ninja':
         centerBodyOnXY(
           this.collection.compoundBody.head.body,
           this.collection.sprite.body.x + (this.collection.sprite.flipX ? 48 : 32),
@@ -322,7 +325,7 @@ export default class Zombie {
           this.collection.sprite.body.y + 75
         );
         break;
-      case 'fight2Zombie':
+      case 'fight2Ninja':
         centerBodyOnXY(
           this.collection.compoundBody.head.body,
           this.collection.sprite.body.x + (this.collection.sprite.flipX ? 48 : 32),
@@ -339,7 +342,7 @@ export default class Zombie {
           this.collection.sprite.body.y + 75
         );
         break;
-      case 'fight3Zombie':
+      case 'fight3Ninja':
         centerBodyOnXY(
           this.collection.compoundBody.head.body,
           this.collection.sprite.body.x + (this.collection.sprite.flipX ? 52 : 28),
@@ -356,7 +359,7 @@ export default class Zombie {
           this.collection.sprite.body.y + 70
         );
         break;
-      case 'hitZombie':
+      case 'hitNinja':
         centerBodyOnXY(
           this.collection.compoundBody.head.body,
           this.collection.sprite.body.x + 40,
@@ -376,7 +379,7 @@ export default class Zombie {
   }
 
   addOverlapWithPlayer() {
-    // Zombie -> Player
+    // Ninja -> Player
     this.currentScene.physics.add.overlap(
       [this.collection.compoundBody.arms, this.collection.compoundBody.legs],
       [
@@ -393,7 +396,7 @@ export default class Zombie {
         ),
       () => this.collection.sprite?.depth === this.currentScene.player.collection.sprite?.depth
     );
-    // Player -> Zombie
+    // Player -> Ninja
     this.currentScene.physics.add.overlap(
       [
         this.currentScene.player.collection.compoundBody.arms,
@@ -405,7 +408,7 @@ export default class Zombie {
           this.currentScene,
           this.currentScene.player.collection,
           this.collection,
-          DELTA_HIT_ZOMBIE
+          DELTA_HIT_NINJA
         ),
       () => this.collection.sprite?.depth === this.currentScene.player.collection.sprite?.depth
     );

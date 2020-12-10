@@ -5,14 +5,14 @@
     "components": [
       {
         "type": "button",
-        "name": "action-zombie-1",
+        "name": "action-zombie",
         "label": "Créer un zombie",
         "keyCode": "Digit1",
         "cooldown": 5000
       },
       {
         "type": "button",
-        "name": "action-zombie-2",
+        "name": "action-ninja",
         "label": "Créer un ninja",
         "keyCode": "Digit2",
         "cooldown": 10000
@@ -27,14 +27,14 @@
       },
       {
         "type": "button",
-        "name": "action-zombie-1",
+        "name": "action-zombie",
         "label": "Créer un zombie",
         "keyCode": "Digit1",
         "cooldown": 5000
       },
       {
         "type": "button",
-        "name": "action-zombie-2",
+        "name": "action-ninja",
         "label": "Créer un ninja",
         "keyCode": "Digit2",
         "cooldown": 10000
@@ -54,14 +54,14 @@
       "components": [
         {
           "type": "button",
-          "name": "action-zombie-1",
+          "name": "action-zombie",
           "label": "Créer un zombie",
           "keyCode": "Digit1",
           "cooldown": 5000
         },
         {
           "type": "button",
-          "name": "action-zombie-2",
+          "name": "action-ninja",
           "label": "Créer un ninja",
           "keyCode": "Digit2",
           "cooldown": 10000

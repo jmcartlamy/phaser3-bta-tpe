@@ -17,7 +17,8 @@ export enum SceneKeys {
 
 export enum Characters {
   Player = 'player',
-  Zombie = 'zombie'
+    Zombie = 'zombie',
+    Ninja = 'ninja'
 }
 
 export const PLAYER_COLLECTION: IPlayer = {
@@ -58,3 +59,23 @@ export const ZOMBIE_COLLECTION: IEnemy = {
   lastJumpedAt: 0,
   lastDirection: 'right'
 };
+
+
+export const NINJA_COLLECTION: IEnemy = {
+    sprite: null,
+    compoundBody: {},
+    stats: {
+      damage: 15,
+      speed: 1.5,
+      jump: 1
+    },
+    status: {
+      health: 60,
+      lastHitAt: 0
+    },
+    combo: 0,
+    lastFightAt: 0,
+    lastComboAt: 0,
+    lastJumpedAt: 0,
+    lastDirection: 'right'
+  };
