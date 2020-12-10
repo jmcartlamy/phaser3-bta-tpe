@@ -12,7 +12,7 @@ export default function(currentScene: Map1Scene, delay: number = 500) {
   // Reinitialize enemies
   if (currentScene.blob) {
     currentScene.blob.forEach(function(b) {
-      b.collection.sprite.destroy();
+      b.collection.sprite?.destroy();
     });
     currentScene.blob = [];
   }

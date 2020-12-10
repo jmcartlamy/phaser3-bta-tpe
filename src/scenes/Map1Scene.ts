@@ -5,6 +5,7 @@ import userInterface from './userInterface/MapScene1.json';
 import { IMap, Pattern, PhaserGame, WebSocketMessageContextEmit } from '../types';
 import restartSceneWithDelay from './helpers/restartSceneWithDelay';
 import Zombie from '../objects/Zombie';
+import changeSceneWithDelay from './helpers/changeSceneWithDelay';
 
 export default class Map1Scene extends Phaser.Scene {
   public player: Player;
@@ -48,22 +49,6 @@ export default class Map1Scene extends Phaser.Scene {
     // Create player and init his position
     this.player = new Player(this, 160, 700);
 
-    this.blob.push(
-      new Zombie(this, {
-        position: { x: 100, y: 700, direction: 'left' },
-        sprite: Characters.Zombie,
-        pattern: Pattern.simple
-      })
-    );
-
-    this.blob.push(
-      new Zombie(this, {
-        position: { x: 800, y: 700, direction: 'left' },
-        sprite: Characters.Zombie,
-        pattern: Pattern.behind
-      })
-    );
-
     // Create settings button
     const button = this.add
       .image(this.registry.get('innerWidth') - 32, 16, 'gear', 0)
@@ -73,7 +58,7 @@ export default class Map1Scene extends Phaser.Scene {
     button.on(
       'pointerup',
       function() {
-        this.scene.start(SceneKeys.Menu);
+        changeSceneWithDelay(this, SceneKeys.Menu, 0);
       },
       this
     );
@@ -96,7 +81,14 @@ export default class Map1Scene extends Phaser.Scene {
         // TODO
       }
       if (type === 'action') {
-        // TODO
+        const pattern = payload.id === 'action-zombie-2' ? Pattern.behind : Pattern.simple;
+        this.blob.push(
+          new Zombie(this, {
+            position: { x: 100, y: 700, direction: 'left' },
+            sprite: Characters.Zombie,
+            pattern: pattern
+          })
+        );
       }
     }
   }

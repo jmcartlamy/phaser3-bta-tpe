@@ -5,6 +5,9 @@ import centerBodyOnXY from './helpers/centerBodyOnXY';
 import hitBodiesCallback from './helpers/hitBodiesCallback';
 import processBehindPattern from './patterns/processBehindPattern';
 import processSimplePattern from './patterns/processSimplePattern';
+import { DELTA_HIT_PLAYER } from './Player';
+
+const DELTA_HIT_ZOMBIE = 500;
 
 export default class Zombie {
   protected readonly currentScene: Map1Scene;
@@ -41,12 +44,11 @@ export default class Zombie {
     this.addOverlapWithPlayer();
   }
 
-  // TODO
-
   public update(time: number, delta: number) {
     if (!this.collection.sprite) {
       return;
     }
+
     if (this.currentScene.player.collection.sprite?.body.x < this.collection.sprite.body.x) {
       this.collection.sprite.setFlipX(true);
     } else {
@@ -62,7 +64,8 @@ export default class Zombie {
     this.processBaseMovement(time, {
       distanceToHit: 60,
       deltaLastCombo: 1000,
-      deltaLastFight: 200
+      deltaLastFight: 200,
+      deltaHit: DELTA_HIT_ZOMBIE
     });
 
     if (this.currentScene.player.collection.sprite) {
@@ -73,12 +76,14 @@ export default class Zombie {
           gapX: 300,
           gapY: 15,
           distanceToHit: 60,
+          deltaHit: DELTA_HIT_ZOMBIE,
           bounds: this.currentScene.map.bounds
         });
       } else {
-        processSimplePattern(this.currentScene.player.collection.sprite, this.collection.sprite, {
+        processSimplePattern(this.currentScene.player.collection, this.collection, {
           velocityX: 200,
           velocityY: 100,
+          deltaHit: DELTA_HIT_ZOMBIE,
           distanceToHit: 60
         });
       }
@@ -92,6 +97,7 @@ export default class Zombie {
     const canFight = time - this.collection.lastFightAt > params.deltaLastFight;
     const inCombo = time - this.collection.lastComboAt < params.deltaLastCombo;
     const isIdle = enemy.body.velocity.x === 0 && enemy.body.velocity.y === 0;
+    const isHit = Date.now() - this.collection.status.lastHitAt < params.deltaHit;
 
     if (player) {
       if (player.body.x > enemy.body.x + params.distanceToHit) {
@@ -113,31 +119,35 @@ export default class Zombie {
       this.collection.sprite.anims.play('idleZombie', true);
     }
 
-    if (
-      player &&
-      player.body.x < enemy.body.x + params.distanceToHit &&
-      player.body.x > enemy.body.x - params.distanceToHit &&
-      player.depth === enemy.depth
-    ) {
-      if (!canFight) {
-        if (this.collection.combo === 1 || this.collection.combo === 2) {
-          this.collection.sprite.anims.play('fight1Zombie');
+    if (isHit) {
+      this.collection.sprite.anims.play('hitZombie');
+    } else {
+      if (
+        player &&
+        player.body.x < enemy.body.x + params.distanceToHit &&
+        player.body.x > enemy.body.x - params.distanceToHit &&
+        player.depth === enemy.depth
+      ) {
+        if (!canFight) {
+          if (this.collection.combo === 1 || this.collection.combo === 2) {
+            this.collection.sprite.anims.play('fight1Zombie');
+          }
+          if (this.collection.combo === 3) {
+            this.collection.sprite.anims.play('fight2Zombie');
+          }
+          if (this.collection.combo === 4) {
+            this.collection.sprite.anims.play('fight3Zombie');
+          }
         }
-        if (this.collection.combo === 3) {
-          this.collection.sprite.anims.play('fight2Zombie');
-        }
-        if (this.collection.combo === 4) {
-          this.collection.sprite.anims.play('fight3Zombie');
-        }
-      }
-      if (canFight) {
-        if (this.collection.combo === 4 || !inCombo) {
-          this.collection.combo = 0;
-        }
+        if (canFight) {
+          if (this.collection.combo === 4 || !inCombo) {
+            this.collection.combo = 0;
+          }
 
-        this.collection.lastFightAt = time;
-        this.collection.lastComboAt = time;
-        this.collection.combo += 1;
+          this.collection.lastFightAt = time;
+          this.collection.lastComboAt = time;
+          this.collection.combo += 1;
+        }
       }
     }
   }
@@ -231,6 +241,14 @@ export default class Zombie {
       frameRate: 1,
       repeat: -1
     });
+    this.currentScene.anims.create({
+      key: 'hitZombie',
+      frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
+        frames: [21]
+      }),
+      frameRate: 1,
+      repeat: -1
+    });
   }
 
   private handleHitboxes() {
@@ -264,7 +282,7 @@ export default class Zombie {
           this.collection.sprite.body.y + 80
         );
         centerBodyOnXY(this.collection.compoundBody.arms.body, -50, -50);
-        centerBodyOnXY(this.collection.compoundBody.arms.body, -50, -50);
+        centerBodyOnXY(this.collection.compoundBody.legs.body, -50, -50);
         break;
       case 'jumpFightZombie':
         centerBodyOnXY(
@@ -299,6 +317,7 @@ export default class Zombie {
           this.collection.sprite.body.x + (this.collection.sprite.flipX ? 12 : 68),
           this.collection.sprite.body.y + 75
         );
+        break;
       case 'fight2Zombie':
         centerBodyOnXY(
           this.collection.compoundBody.head.body,
@@ -313,8 +332,9 @@ export default class Zombie {
         centerBodyOnXY(
           this.collection.compoundBody.arms.body,
           this.collection.sprite.body.x + (this.collection.sprite.flipX ? 12 : 68),
-          this.collection.sprite.body.y + 85
+          this.collection.sprite.body.y + 75
         );
+        break;
       case 'fight3Zombie':
         centerBodyOnXY(
           this.collection.compoundBody.head.body,
@@ -331,6 +351,21 @@ export default class Zombie {
           this.collection.sprite.body.x + (this.collection.sprite.flipX ? 12 : 68),
           this.collection.sprite.body.y + 70
         );
+        break;
+      case 'hitZombie':
+        centerBodyOnXY(
+          this.collection.compoundBody.head.body,
+          this.collection.sprite.body.x + 40,
+          this.collection.sprite.body.y + 42
+        );
+        centerBodyOnXY(
+          this.collection.compoundBody.buste.body,
+          this.collection.sprite.body.x + 40,
+          this.collection.sprite.body.y + 80
+        );
+        centerBodyOnXY(this.collection.compoundBody.arms.body, -50, -50);
+        centerBodyOnXY(this.collection.compoundBody.legs.body, -50, -50);
+        break;
       default:
         break;
     }
@@ -349,7 +384,8 @@ export default class Zombie {
           this.currentScene,
           this.collection,
           this.currentScene.player.collection,
-          1000
+          DELTA_HIT_PLAYER,
+          true
         ),
       () => this.collection.sprite?.depth === this.currentScene.player.collection.sprite?.depth
     );
@@ -365,7 +401,7 @@ export default class Zombie {
           this.currentScene,
           this.currentScene.player.collection,
           this.collection,
-          1000
+          DELTA_HIT_ZOMBIE
         ),
       () => this.collection.sprite?.depth === this.currentScene.player.collection.sprite?.depth
     );

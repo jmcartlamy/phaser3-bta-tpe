@@ -104,6 +104,7 @@ export interface IEnemyBasePatternParams {
   distanceToHit: number;
   deltaLastFight: number;
   deltaLastCombo: number;
+  deltaHit: number;
 }
 
 export interface WebSocketMessageContextConnection {

@@ -1,25 +1,35 @@
+import { IEnemy, IPlayer } from '../../types';
+
 export default function(
-  player: Phaser.Physics.Arcade.Sprite,
-  enemy: Phaser.Physics.Arcade.Sprite,
+  player: IPlayer,
+  enemy: IEnemy,
   params: {
     velocityX: number;
     velocityY: number;
     distanceToHit: number;
+    deltaHit: number;
   }
 ) {
-  if (player.depth > enemy.depth) {
-    enemy.setVelocityY(params.velocityY);
-  } else if (player.depth < enemy.depth) {
-    enemy.setVelocityY(-params.velocityY);
+  const spritePlayer = player.sprite;
+  const spriteEnemy = enemy.sprite;
+  const isHit = Date.now() - enemy.status.lastHitAt < params.deltaHit;
+  if (isHit) {
+    spriteEnemy.body.stop();
   } else {
-    enemy.setVelocityY(0);
-  }
+    if (spritePlayer.depth > spriteEnemy.depth) {
+      spriteEnemy.setVelocityY(params.velocityY);
+    } else if (spritePlayer.depth < spriteEnemy.depth) {
+      spriteEnemy.setVelocityY(-params.velocityY);
+    } else {
+      spriteEnemy.setVelocityY(0);
+    }
 
-  if (player.body.x > enemy.body.x + params.distanceToHit) {
-    enemy.setVelocityX(params.velocityX);
-  } else if (player.body.x < enemy.body.x - params.distanceToHit) {
-    enemy.setVelocityX(-params.velocityX);
-  } else {
-    enemy.setVelocityX(0);
+    if (spritePlayer.body.x > spriteEnemy.body.x + params.distanceToHit) {
+      spriteEnemy.setVelocityX(params.velocityX);
+    } else if (spritePlayer.body.x < spriteEnemy.body.x - params.distanceToHit) {
+      spriteEnemy.setVelocityX(-params.velocityX);
+    } else {
+      spriteEnemy.setVelocityX(0);
+    }
   }
 }

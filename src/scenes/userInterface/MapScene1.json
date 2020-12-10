@@ -1,13 +1,43 @@
 {
   "id": "1",
   "mobile": {
-    "title": "Map 1 : aucune intéraction possible"
+    "title": "Créez des zombies avec les boutons",
+    "components": [
+      {
+        "type": "button",
+        "name": "action-zombie-1",
+        "label": "Créer un zombie",
+        "keyCode": "Digit1",
+        "cooldown": 5000
+      },
+      {
+        "type": "button",
+        "name": "action-zombie-2",
+        "label": "Créer un ninja",
+        "keyCode": "Digit2",
+        "cooldown": 10000
+      }
+    ]
   },
   "panel": {
     "components": [
       {
         "type": "title",
-        "label": "Map 1: aucune intéraction possible"
+        "label": "Créez des zombies avec les boutons"
+      },
+      {
+        "type": "button",
+        "name": "action-zombie-1",
+        "label": "Créer un zombie",
+        "keyCode": "Digit1",
+        "cooldown": 5000
+      },
+      {
+        "type": "button",
+        "name": "action-zombie-2",
+        "label": "Créer un ninja",
+        "keyCode": "Digit2",
+        "cooldown": 10000
       }
     ]
   },
@@ -16,7 +46,25 @@
       "components": [
         {
           "type": "title",
-          "label": "Map 1 : aucune intéraction possible"
+          "label": "Créez des zombies avec les boutons"
+        }
+      ]
+    },
+    "left": {
+      "components": [
+        {
+          "type": "button",
+          "name": "action-zombie-1",
+          "label": "Créer un zombie",
+          "keyCode": "Digit1",
+          "cooldown": 5000
+        },
+        {
+          "type": "button",
+          "name": "action-zombie-2",
+          "label": "Créer un ninja",
+          "keyCode": "Digit2",
+          "cooldown": 10000
         }
       ]
     }

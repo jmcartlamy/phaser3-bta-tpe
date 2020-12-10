@@ -3,6 +3,8 @@ import { IPlayer } from '../types';
 import { Characters, PLAYER_COLLECTION } from '../constants';
 import Map1Scene from '../scenes/Map1Scene';
 
+export const DELTA_HIT_PLAYER = 1000;
+
 export default class Player {
   private readonly currentScene: Map1Scene;
 
@@ -145,6 +147,14 @@ export default class Player {
       frameRate: 1,
       repeat: -1
     });
+    this.currentScene.anims.create({
+      key: 'hit',
+      frames: this.currentScene.anims.generateFrameNumbers(Characters.Player, {
+        frames: [21]
+      }),
+      frameRate: 1,
+      repeat: -1
+    });
   }
 
   private handleHitboxes() {
@@ -178,7 +188,7 @@ export default class Player {
           this.collection.sprite.body.y + 80
         );
         centerBodyOnXY(this.collection.compoundBody.arms.body, -50, -50);
-        centerBodyOnXY(this.collection.compoundBody.arms.body, -50, -50);
+        centerBodyOnXY(this.collection.compoundBody.legs.body, -50, -50);
         break;
       case 'jumpFight':
         centerBodyOnXY(
@@ -191,6 +201,7 @@ export default class Player {
           this.collection.sprite.body.x + (this.collection.sprite.flipX ? 42 : 38),
           this.collection.sprite.body.y + 85
         );
+        centerBodyOnXY(this.collection.compoundBody.arms.body, -50, -50);
         centerBodyOnXY(
           this.collection.compoundBody.legs.body,
           this.collection.sprite.body.x + (this.collection.sprite.flipX ? 8 : 72),
@@ -213,6 +224,7 @@ export default class Player {
           this.collection.sprite.body.x + (this.collection.sprite.flipX ? 12 : 68),
           this.collection.sprite.body.y + 75
         );
+        break;
       case 'fight2':
         centerBodyOnXY(
           this.collection.compoundBody.head.body,
@@ -227,8 +239,9 @@ export default class Player {
         centerBodyOnXY(
           this.collection.compoundBody.arms.body,
           this.collection.sprite.body.x + (this.collection.sprite.flipX ? 12 : 68),
-          this.collection.sprite.body.y + 85
+          this.collection.sprite.body.y + 75
         );
+        break;
       case 'fight3':
         centerBodyOnXY(
           this.collection.compoundBody.head.body,
@@ -245,6 +258,21 @@ export default class Player {
           this.collection.sprite.body.x + (this.collection.sprite.flipX ? 12 : 68),
           this.collection.sprite.body.y + 70
         );
+        break;
+      case 'hit':
+        centerBodyOnXY(
+          this.collection.compoundBody.head.body,
+          this.collection.sprite.body.x + 40,
+          this.collection.sprite.body.y + 42
+        );
+        centerBodyOnXY(
+          this.collection.compoundBody.buste.body,
+          this.collection.sprite.body.x + 40,
+          this.collection.sprite.body.y + 80
+        );
+        centerBodyOnXY(this.collection.compoundBody.arms.body, -200, -200);
+        centerBodyOnXY(this.collection.compoundBody.legs.body, -200, -200);
+        break;
       default:
         break;
     }
@@ -253,73 +281,78 @@ export default class Player {
   private processHorizontalMovement(time: number) {
     const canJump = time - this.collection.lastJumpedAt > 1000;
     const canFight = time - this.collection.lastFightAt > 250;
+    const isHit = Date.now() - this.collection.status.lastHitAt < DELTA_HIT_PLAYER / 2;
 
-    // LEFT <-> RIGHT
-    if ((this.cursors.left.isDown || this.cursors.right.isDown) && canFight) {
-      if (this.cursors.left.isDown) {
-        this.collection.sprite.setVelocityX(-250);
-        if (canJump) {
-          this.collection.sprite.anims.play('left', true);
+    if (!isHit) {
+      // LEFT <-> RIGHT
+      if ((this.cursors.left.isDown || this.cursors.right.isDown) && canFight) {
+        if (this.cursors.left.isDown) {
+          this.collection.sprite.setVelocityX(-250);
+          if (canJump) {
+            this.collection.sprite.anims.play('left', true);
+          }
+          this.collection.lastDirection = 'left';
+          this.collection.sprite.setFlipX(true);
+        } else if (this.cursors.right.isDown) {
+          this.collection.sprite.setVelocityX(250);
+          if (canJump) {
+            this.collection.sprite.anims.play('right', true);
+          }
+          this.collection.lastDirection = 'right';
+          this.collection.sprite.setFlipX(false);
         }
-        this.collection.lastDirection = 'left';
-        this.collection.sprite.setFlipX(true);
-      } else if (this.cursors.right.isDown) {
-        this.collection.sprite.setVelocityX(250);
-        if (canJump) {
+      } else {
+        this.collection.sprite.setVelocityX(0);
+      }
+
+      // UP <-> DOWN
+      if ((this.cursors.up.isDown || this.cursors.down.isDown) && canJump && canFight) {
+        if (
+          this.collection.sprite.body.y > this.currentScene.map.bounds.top &&
+          this.cursors.up.isDown
+        ) {
+          this.collection.sprite.setVelocityY(-150);
+          this.collection.sprite.setDepth(Math.trunc(this.collection.sprite.body.y / 10));
+        } else if (
+          this.collection.sprite.body.y < this.currentScene.map.bounds.bottom &&
+          this.cursors.down.isDown
+        ) {
+          this.collection.sprite.setVelocityY(150);
+          this.collection.sprite.setDepth(Math.trunc(this.collection.sprite.body.y / 10));
+        } else {
+          this.collection.sprite.setVelocityY(0);
+        }
+        if (this.collection.lastDirection === 'left') {
+          this.collection.sprite.anims.play('left', true);
+        } else {
           this.collection.sprite.anims.play('right', true);
         }
-        this.collection.lastDirection = 'right';
-        this.collection.sprite.setFlipX(false);
-      }
-    } else {
-      this.collection.sprite.setVelocityX(0);
-    }
-
-    // UP <-> DOWN
-    if ((this.cursors.up.isDown || this.cursors.down.isDown) && canJump && canFight) {
-      if (
-        this.collection.sprite.body.y > this.currentScene.map.bounds.top &&
-        this.cursors.up.isDown
-      ) {
-        this.collection.sprite.setVelocityY(-150);
-        this.collection.sprite.setDepth(Math.trunc(this.collection.sprite.body.y / 10));
-      } else if (
-        this.collection.sprite.body.y < this.currentScene.map.bounds.bottom &&
-        this.cursors.down.isDown
-      ) {
-        this.collection.sprite.setVelocityY(150);
-        this.collection.sprite.setDepth(Math.trunc(this.collection.sprite.body.y / 10));
       } else {
         this.collection.sprite.setVelocityY(0);
       }
-      if (this.collection.lastDirection === 'left') {
-        this.collection.sprite.anims.play('left', true);
-      } else {
-        this.collection.sprite.anims.play('right', true);
-      }
-    } else {
-      this.collection.sprite.setVelocityY(0);
-    }
 
-    // IDLE
-    if (
-      this.cursors.up.isUp &&
-      this.cursors.down.isUp &&
-      this.cursors.left.isUp &&
-      this.cursors.right.isUp &&
-      canJump &&
-      canFight
-    ) {
-      this.collection.sprite.anims.play('idle', true);
+      // IDLE
+      if (
+        this.cursors.up.isUp &&
+        this.cursors.down.isUp &&
+        this.cursors.left.isUp &&
+        this.cursors.right.isUp &&
+        canJump &&
+        canFight
+      ) {
+        this.collection.sprite.anims.play('idle', true);
+      }
     }
   }
 
   private processJumpMovement(time: number) {
     const canJump = time - this.collection.lastJumpedAt > 1000;
+    const isHit = Date.now() - this.collection.status.lastHitAt < DELTA_HIT_PLAYER / 2;
+
     if (!canJump) {
       this.collection.sprite.anims.play('jump', true, 0);
     }
-    if (this.cursors.space.isDown && canJump) {
+    if (this.cursors.space.isDown && canJump && !isHit) {
       this.collection.lastJumpedAt = time;
       this.collection.lastPressDownShiftAt = time;
       this.collection.lastFightAt = 0;
@@ -339,7 +372,9 @@ export default class Player {
     const canFight = time - this.collection.lastFightAt > 250;
     const inCombo = time - this.collection.lastComboAt < 1000;
     const canRehit = this.cursors.shift.timeUp - this.collection.lastPressDownShiftAt >= 0;
-    if (canJump) {
+    const isHit = Date.now() - this.collection.status.lastHitAt < DELTA_HIT_PLAYER / 2;
+
+    if (canJump && !isHit) {
       if (!canFight) {
         if (this.collection.combo === 1 || this.collection.combo === 2) {
           this.collection.sprite.anims.play('fight1');
@@ -366,7 +401,10 @@ export default class Player {
         }
       }
     } else {
-      if (!canJump) {
+      if (isHit) {
+        this.collection.sprite.anims.play('hit');
+        this.collection.sprite.body.stop();
+      } else if (!canJump) {
         if (this.cursors.shift.isDown && canFight) {
           this.collection.lastComboAt = time;
         }
