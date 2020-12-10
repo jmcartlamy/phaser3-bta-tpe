@@ -33,12 +33,10 @@ export default class Zombie {
     }
 
     // Create compound body
-    this.createCompoundBody();
+    this.createCompoundBody(params.username);
 
     // Animate body
     this.createAnimation();
-
-    this.collection.sprite.anims.play('idleZombie', true);
 
     // Set hitboxes
     this.addOverlapWithPlayer();
@@ -56,6 +54,14 @@ export default class Zombie {
     }
 
     this.collection.sprite.setDepth(Math.trunc(this.collection.sprite.body.y / 10));
+
+    // Add username above the sprite
+    this.collection.compoundBody.text
+      .setPosition(
+        this.collection.sprite.body.x + this.collection.sprite.body.halfWidth,
+        this.collection.sprite.body.y
+      )
+      .setDepth(Math.trunc(this.collection.sprite.body.y / 10));
 
     // Handle hitboxes
     this.handleHitboxes();
@@ -90,7 +96,6 @@ export default class Zombie {
     }
   }
 
-  // TODO move in pattern
   private processBaseMovement(time: number, params: IEnemyBasePatternParams) {
     const player = this.currentScene.player.collection.sprite;
     const enemy = this.collection.sprite;
@@ -152,7 +157,17 @@ export default class Zombie {
     }
   }
 
-  private createCompoundBody() {
+  private createCompoundBody(username: string | null) {
+    this.collection.compoundBody.text = this.currentScene.add
+      .text(0, 0, username || 'Anonymous', {
+        fontSize: '20px',
+        fontFamily: 'KenneyFutureNarrow',
+        fill: '#FFFFFF',
+        stroke: '#000000',
+        strokeThickness: 1
+      })
+      .setOrigin(0.5);
+
     // @ts-ignore HEAD
     this.collection.compoundBody.head = this.currentScene.physics.add.image();
     this.collection.compoundBody.head.body.setCircle(22);
@@ -249,6 +264,8 @@ export default class Zombie {
       frameRate: 1,
       repeat: -1
     });
+
+    this.collection.sprite.anims.play('idleZombie', true);
   }
 
   private handleHitboxes() {

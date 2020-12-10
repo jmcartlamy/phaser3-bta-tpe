@@ -8,6 +8,7 @@ export interface PhaserGame extends Phaser.Game {
 export interface IEnemyParams {
   position: IEnemyPosition;
   pattern: Pattern;
+  username: string | null;
   sprite: string;
 }
 
@@ -42,6 +43,7 @@ export interface IPlayer {
     buste?: Phaser.Physics.Arcade.Image;
     arms?: Phaser.Physics.Arcade.Image;
     legs?: Phaser.Physics.Arcade.Image;
+    text?: Phaser.GameObjects.Text;
   };
   stats: {
     damage: number;
@@ -67,6 +69,7 @@ export interface IEnemy {
     buste?: Phaser.Physics.Arcade.Image;
     arms?: Phaser.Physics.Arcade.Image;
     legs?: Phaser.Physics.Arcade.Image;
+    text?: Phaser.GameObjects.Text;
   };
   stats: {
     damage: number;
@@ -125,7 +128,7 @@ export interface WebSocketMessageContextEmit {
   status: 'ok';
   context: 'emit';
   message: null;
-  data: (DataMouseEvent & DataActionEvent) | null;
+  data: (DataMouseEvent | DataActionEvent) | null;
 }
 export interface DataConnectionEvent {
   displayName: string;

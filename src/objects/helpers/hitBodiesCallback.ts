@@ -34,11 +34,12 @@ export default function(
 
     if (target.sprite && target.status.health <= 0) {
       scene.tweens.add({
-        targets: target.sprite,
+        targets: [target.sprite, target.compoundBody.text],
         alpha: 0,
         duration: targetIsPlayer ? delay / 2 : delay,
         onComplete: () => {
           target.sprite?.destroy();
+          target.compoundBody.text?.destroy();
           target.compoundBody.head.destroy();
           target.compoundBody.buste.destroy();
           target.compoundBody.arms.destroy();

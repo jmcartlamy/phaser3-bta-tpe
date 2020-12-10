@@ -77,13 +77,14 @@ export default class Map1Scene extends Phaser.Scene {
     const body: WebSocketMessageContextEmit = JSON.parse(event.data);
     if (body?.context === 'emit' && body?.data) {
       const { type, payload } = body.data;
-      if (type === 'mouse') {
-        // TODO
-      }
       if (type === 'action') {
+        // @ts-ignore
+        const username = payload.username;
         const pattern = payload.id === 'action-zombie-2' ? Pattern.behind : Pattern.simple;
+
         this.blob.push(
           new Zombie(this, {
+            username: username || null,
             position: { x: 100, y: 700, direction: 'left' },
             sprite: Characters.Zombie,
             pattern: pattern
