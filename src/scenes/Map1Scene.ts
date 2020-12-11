@@ -8,6 +8,7 @@ import Zombie from '../objects/Zombie';
 import changeSceneWithDelay from './helpers/changeSceneWithDelay';
 import Ninja from '../objects/Ninja';
 import makeBar from '../objects/helpers/makeBar';
+import translateCoordinateToScreen from '../objects/helpers/translateCoordinateToScreen';
 
 export default class Map1Scene extends Phaser.Scene {
   public player: Player;
@@ -102,9 +103,9 @@ export default class Map1Scene extends Phaser.Scene {
     const body: WebSocketMessageContextEmit = JSON.parse(event.data);
     if (body?.context === 'emit' && body?.data) {
       const { type, payload } = body.data;
+      // @ts-ignore
+      const username = payload.username;
       if (type === 'action') {
-        // @ts-ignore
-        const username = payload.username;
         if (payload.id === 'action-ninja') {
           this.blob.push(
             new Ninja(this, {
@@ -122,6 +123,17 @@ export default class Map1Scene extends Phaser.Scene {
             })
           );
         }
+      }
+      if (type === 'mouse') {
+        // @ts-ignore
+        const { x, y } = translateCoordinateToScreen(this, payload);
+        this.blob.push(
+          new Zombie(this, {
+            username: username || null,
+            position: { x, y, direction: 'left' },
+            sprite: Characters.Zombie
+          })
+        );
       }
     }
   }

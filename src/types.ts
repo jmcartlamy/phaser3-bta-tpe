@@ -155,6 +155,7 @@ export interface PayloadMouse {
   clientY: number;
   clientHeight: number;
   clientWidth: number;
+  username: string | null;
 }
 
 export interface PayloadAction {

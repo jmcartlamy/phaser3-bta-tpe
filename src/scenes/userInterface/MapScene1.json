@@ -1,21 +1,27 @@
 {
   "id": "1",
   "mobile": {
-    "title": "Créez des zombies avec les boutons",
+    "title": "Créez des personnages avec les boutons",
     "components": [
       {
         "type": "button",
         "name": "action-zombie",
         "label": "Créer un zombie",
         "keyCode": "Digit1",
-        "cooldown": 5000
+        "cooldown": {
+          "duration": 5000,
+          "broadcast": true
+        }
       },
       {
         "type": "button",
         "name": "action-ninja",
         "label": "Créer un ninja",
         "keyCode": "Digit2",
-        "cooldown": 10000
+        "cooldown": {
+          "duration": 10000,
+          "broadcast": false
+        }
       }
     ]
   },
@@ -23,30 +29,46 @@
     "components": [
       {
         "type": "title",
-        "label": "Créez des zombies avec les boutons"
+        "label": "Créez des personnages avec les boutons"
       },
       {
         "type": "button",
         "name": "action-zombie",
         "label": "Créer un zombie",
         "keyCode": "Digit1",
-        "cooldown": 5000
+        "cooldown": {
+          "duration": 5000,
+          "broadcast": true
+        }
       },
       {
         "type": "button",
         "name": "action-ninja",
         "label": "Créer un ninja",
         "keyCode": "Digit2",
-        "cooldown": 10000
+        "cooldown": {
+          "duration": 10000,
+          "broadcast": false
+        }
       }
     ]
   },
   "video_overlay": {
+    "mouse": [
+      {
+        "type": "mousedown",
+        "name": "mousedown",
+        "cooldown": {
+          "duration": 2000,
+          "limit": 10
+        }
+      }
+    ],
     "bottom": {
       "components": [
         {
           "type": "title",
-          "label": "Créez des zombies avec les boutons"
+          "label": "Créez des personnages avec les boutons"
         }
       ]
     },
@@ -57,14 +79,20 @@
           "name": "action-zombie",
           "label": "Créer un zombie",
           "keyCode": "Digit1",
-          "cooldown": 5000
+          "cooldown": {
+            "duration": 5000,
+            "broadcast": true
+          }
         },
         {
           "type": "button",
           "name": "action-ninja",
           "label": "Créer un ninja",
           "keyCode": "Digit2",
-          "cooldown": 10000
+          "cooldown": {
+            "duration": 10000,
+            "broadcast": false
+          }
         }
       ]
     }
