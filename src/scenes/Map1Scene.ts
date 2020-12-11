@@ -7,6 +7,7 @@ import restartSceneWithDelay from './helpers/restartSceneWithDelay';
 import Zombie from '../objects/Zombie';
 import changeSceneWithDelay from './helpers/changeSceneWithDelay';
 import Ninja from '../objects/Ninja';
+import makeBar from '../objects/helpers/makeBar';
 
 export default class Map1Scene extends Phaser.Scene {
   public player: Player;
@@ -63,6 +64,29 @@ export default class Map1Scene extends Phaser.Scene {
       },
       this
     );
+
+    // HUD
+    this.add
+      .text(100, 20, this.game.interactive?.data?.displayName || 'Player', {
+        fontSize: '32px',
+        fontFamily: 'KenneyFutureNarrow',
+        fill: '#FFFFFF',
+        stroke: '#000000',
+        strokeThickness: 2
+      })
+      .setScrollFactor(0);
+
+    this.game.bar = {
+      playerHealth: makeBar(this, {
+        x: 100,
+        y: 60,
+        width: this.registry.get('innerWidth') / 4,
+        height: 30,
+        color: 0xe74c3c
+      }).setScrollFactor(0)
+    };
+
+    this.game.bar.playerHealth.scaleX = 1;
 
     // On press to key '1', we restart the scene
     this.input.keyboard.on('keyup_ONE', () => {

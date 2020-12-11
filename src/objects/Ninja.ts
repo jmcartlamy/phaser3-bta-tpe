@@ -2,6 +2,7 @@ import { NINJA_COLLECTION } from '../constants';
 import Map1Scene from '../scenes/Map1Scene';
 import { IEnemy, IEnemyBasePatternParams, IEnemyParams } from '../types';
 import centerBodyOnXY from './helpers/centerBodyOnXY';
+import hitPlayerCallback from './helpers/hitPlayerCallback';
 import hitBodiesCallback from './helpers/hitBodiesCallback';
 import processBehindPattern from './patterns/processBehindPattern';
 import { DELTA_HIT_PLAYER } from './Player';
@@ -387,12 +388,11 @@ export default class Ninja {
         this.currentScene.player.collection.compoundBody.buste
       ],
       () =>
-        hitBodiesCallback(
+        hitPlayerCallback(
           this.currentScene,
           this.collection,
           this.currentScene.player.collection,
-          DELTA_HIT_PLAYER,
-          true
+          DELTA_HIT_PLAYER
         ),
       () => this.collection.sprite?.depth === this.currentScene.player.collection.sprite?.depth
     );

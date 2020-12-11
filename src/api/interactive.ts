@@ -2,7 +2,7 @@ import UIMenuScene from '../scenes/userInterface/MenuScene.json';
 
 class Interactive {
   public status: 0 | 1 | 2 | 3;
-  public data: object;
+  public data: any;
   public socket: WebSocket;
 
   constructor() {

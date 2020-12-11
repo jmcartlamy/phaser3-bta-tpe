@@ -1,10 +1,15 @@
+import Map1Scene from '../../scenes/Map1Scene';
 import { IEnemy, IPlayer } from '../../types';
 
-export default function(scene: Phaser.Scene, source: IPlayer, target: IEnemy, delay: number) {
+export default function(scene: Map1Scene, source: IEnemy, target: IPlayer, delay: number) {
   const now = Date.now();
   if (target.status.lastHitAt + delay < now) {
     target.status.lastHitAt = now;
     target.status.health -= source.stats.damage;
+
+    // Draine health bar
+    scene.game.bar.playerHealth.scaleX =
+      target.status.health / 100 > 0 ? target.status.health / 100 : 0;
 
     // Add hit marker
     const hitMarker = scene.add
@@ -20,7 +25,7 @@ export default function(scene: Phaser.Scene, source: IPlayer, target: IEnemy, de
     scene.tweens.add({
       targets: hitMarker,
       alpha: target.sprite && target.status.health <= 0 ? 0 : 1,
-      duration: delay,
+      duration: delay / 2,
       onComplete: () => {
         hitMarker.destroy();
       }
@@ -28,9 +33,9 @@ export default function(scene: Phaser.Scene, source: IPlayer, target: IEnemy, de
 
     if (target.sprite && target.status.health <= 0) {
       scene.tweens.add({
-        targets: [target.sprite, target.compoundBody.text],
+        targets: target.sprite,
         alpha: 0,
-        duration: delay,
+        duration: delay / 2,
         onComplete: () => {
           target.sprite?.destroy();
           target.compoundBody.text?.destroy();

@@ -80,13 +80,12 @@ export default class MenuScene extends Phaser.Scene {
       Phaser.Geom.Rectangle.Contains
     );
     connectButton.on('pointerover', function() {
-        connectBG.setTexture('buttonYellow1');
+      connectBG.setTexture('buttonYellow1');
     });
     connectButton.on('pointerout', function() {
-        connectBG.setTexture('buttonBlue1');
+      connectBG.setTexture('buttonBlue1');
     });
     connectButton.on('pointerup', this.toggleConnectTwitch);
-    
 
     /**
      * If user has sent his authorization
@@ -124,7 +123,7 @@ export default class MenuScene extends Phaser.Scene {
     const body = JSON.parse(event.data);
     if (body?.context === 'connection') {
       if (body?.status === 'ok') {
-        this.data = body?.data;
+        this.game.interactive.data = body?.data;
         this.label.text = body.message + ' "' + body.data.displayName + '"';
         this.connectText.text = 'Prêt ✔';
         this.game.interactive.onMenu();

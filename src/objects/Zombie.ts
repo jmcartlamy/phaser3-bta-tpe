@@ -2,6 +2,7 @@ import { ZOMBIE_COLLECTION } from '../constants';
 import Map1Scene from '../scenes/Map1Scene';
 import { IEnemy, IEnemyBasePatternParams, IEnemyParams } from '../types';
 import centerBodyOnXY from './helpers/centerBodyOnXY';
+import hitPlayerCallback from './helpers/hitPlayerCallback';
 import hitBodiesCallback from './helpers/hitBodiesCallback';
 import processSimplePattern from './patterns/processSimplePattern';
 import { DELTA_HIT_PLAYER } from './Player';
@@ -384,12 +385,11 @@ export default class Zombie {
         this.currentScene.player.collection.compoundBody.buste
       ],
       () =>
-        hitBodiesCallback(
+        hitPlayerCallback(
           this.currentScene,
           this.collection,
           this.currentScene.player.collection,
-          DELTA_HIT_PLAYER,
-          true
+          DELTA_HIT_PLAYER
         ),
       () => this.collection.sprite?.depth === this.currentScene.player.collection.sprite?.depth
     );

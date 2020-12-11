@@ -2,6 +2,9 @@ import Interactive from './api/interactive';
 
 export interface PhaserGame extends Phaser.Game {
   // score: Score;
+  bar: {
+    playerHealth: Phaser.GameObjects.Graphics;
+  };
   interactive: Interactive;
 }
 
