@@ -8,6 +8,20 @@
         "name": "action-zombie",
         "label": "Créer un zombie",
         "keyCode": "Digit1",
+        "extension": {
+          "title": "Créer un ZOMBIE",
+          "submit": {
+            "label": "YOLO"
+          },
+          "components": [
+            {
+              "type": "input",
+              "name": "ext-text",
+              "label": "Votre discours",
+              "placeholder": "Ecrivez ici"
+            }
+          ]
+        },
         "cooldown": {
           "duration": 5000,
           "broadcast": true
@@ -36,6 +50,20 @@
         "name": "action-zombie",
         "label": "Créer un zombie",
         "keyCode": "Digit1",
+        "extension": {
+          "title": "Créer un ZOMBIE",
+          "submit": {
+            "label": "YOLO"
+          },
+          "components": [
+            {
+              "type": "input",
+              "name": "ext-text",
+              "label": "Votre discours",
+              "placeholder": "Ecrivez ici"
+            }
+          ]
+        },
         "cooldown": {
           "duration": 5000,
           "broadcast": true
@@ -59,7 +87,7 @@
         "type": "mousedown",
         "name": "mousedown",
         "cooldown": {
-          "duration": 2000,
+          "duration": 1000,
           "limit": 10
         }
       }
@@ -79,6 +107,24 @@
           "name": "action-zombie",
           "label": "Créer un zombie",
           "keyCode": "Digit1",
+          "extension": {
+            "title": "Créer un ZOMBIE",
+            "submit": {
+              "label": "YOLO"
+            },
+            "components": [
+              {
+                "type": "title",
+                "label": "Créer votre propre discours !"
+              },
+              {
+                "type": "input",
+                "name": "ext-text",
+                "label": "Votre discours",
+                "placeholder": "Ecrivez ici"
+              }
+            ]
+          },
           "cooldown": {
             "duration": 5000,
             "broadcast": true
@@ -89,6 +135,17 @@
           "name": "action-ninja",
           "label": "Créer un ninja",
           "keyCode": "Digit2",
+          "extension": {
+            "submit": {
+              "label": "YALA"
+            },
+            "components": [
+              {
+                "type": "title",
+                "label": "Créer un NINJA"
+              }
+            ]
+          },
           "cooldown": {
             "duration": 10000,
             "broadcast": false
