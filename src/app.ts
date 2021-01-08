@@ -3,6 +3,7 @@ import 'phaser';
 import LoadScene from './scenes/LoadScene';
 import MenuScene from './scenes/MenuScene';
 import Map1Scene from './scenes/Map1Scene';
+import Map2Scene from './scenes/Map2Scene';
 
 import { GAME_SCREEN_HEIGHT, GAME_SCREEN_WIDTH } from './constants';
 
@@ -20,7 +21,7 @@ const config = {
       debug: false
     }
   },
-  scene: [LoadScene, MenuScene, Map1Scene]
+  scene: [LoadScene, MenuScene, Map1Scene, Map2Scene]
 };
 
 window.addEventListener('load', async () => {

@@ -8,7 +8,9 @@ import zombie from '../assets/sprites/zombie_tilesheet_extruded.png';
 import ninja from '../assets/sprites/ninja_tilesheet_extruded.png';
 import tallTreesBG from '../assets/sprites/tall_trees_bg.png';
 import walkTreesBG from '../assets/sprites/walk_trees_bg.png';
+import walkForestBG from '../assets/sprites/walk_forest_bg.png';
 import bushFG from '../assets/sprites/bush_fg.png';
+import bushForestFG from '../assets/sprites/bush_forest_fg.png';
 import coloredSky from '../assets/sprites/colored_sky.png';
 import hitMarker from '../assets/sprites/hit_marker.png';
 
@@ -55,7 +57,9 @@ export default class LoadScene extends Phaser.Scene {
     this.load.image('coloredSky', coloredSky);
     this.load.image('tallTreesBG', tallTreesBG);
     this.load.image('walkTreesBG', walkTreesBG);
+    this.load.image('walkForestBG', walkForestBG);
     this.load.image('bushFG', bushFG);
+    this.load.image('bushForestFG', bushForestFG);
     this.load.image('hitMarker', hitMarker);
 
     this.load.spritesheet(Characters.Player, player, {
@@ -71,11 +75,11 @@ export default class LoadScene extends Phaser.Scene {
       spacing: 2
     });
     this.load.spritesheet(Characters.Ninja, ninja, {
-        frameWidth: 80,
-        frameHeight: 110,
-        margin: 1,
-        spacing: 2
-      });
+      frameWidth: 80,
+      frameHeight: 110,
+      margin: 1,
+      spacing: 2
+    });
   }
 
   public create() {

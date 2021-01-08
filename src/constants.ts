@@ -12,7 +12,8 @@ export enum SceneKeys {
   Load = 'Load',
   Menu = 'Menu',
   Pause = 'Pause',
-  Map1 = 'Map1'
+  Map1 = 'Map1',
+  Map2 = 'Map2'
 }
 
 export enum Characters {

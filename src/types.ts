@@ -156,9 +156,13 @@ export interface PayloadMouse {
   clientHeight: number;
   clientWidth: number;
   username: string | null;
+  values?: never;
 }
 
 export interface PayloadAction {
   id: string;
   username: string | null;
+  values: {
+    [key: string]: string | boolean;
+  };
 }
