@@ -141,7 +141,7 @@ export default class Map1Scene extends Phaser.Scene {
   }
 
   public update(time: number, delta: number) {
-    if (this.player.collection.sprite.body.x > 4000) {
+    if (this.player.collection.sprite?.body.x > 4000) {
       return changeSceneWithDelay(this, SceneKeys.Map2, 0);
     }
     this.player.update(time, delta);

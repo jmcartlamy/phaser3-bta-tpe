@@ -13,6 +13,7 @@ export interface IEnemyParams {
   username: string | null;
   sprite: string;
   pattern?: Pattern;
+  teaserQuote?: string;
 }
 
 export interface Score {
@@ -72,7 +73,7 @@ export interface IEnemy {
     buste?: Phaser.Physics.Arcade.Image;
     arms?: Phaser.Physics.Arcade.Image;
     legs?: Phaser.Physics.Arcade.Image;
-    text?: Phaser.GameObjects.Text;
+    label?: Phaser.GameObjects.Text;
   };
   stats: {
     damage: number;
@@ -87,6 +88,8 @@ export interface IEnemy {
   lastFightAt: number;
   lastComboAt: number;
   lastJumpedAt: number;
+  lastTauntedAt?: number;
+  hasTaunted?: boolean;
   lastDirection: 'left' | 'right';
 }
 

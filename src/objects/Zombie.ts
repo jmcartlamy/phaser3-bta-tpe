@@ -56,7 +56,7 @@ export default class Zombie {
     this.collection.sprite.setDepth(Math.trunc(this.collection.sprite.body.y / 10));
 
     // Add username above the sprite
-    this.collection.compoundBody.text
+    this.collection.compoundBody.label
       .setPosition(
         this.collection.sprite.body.x + this.collection.sprite.body.halfWidth,
         this.collection.sprite.body.y
@@ -146,7 +146,7 @@ export default class Zombie {
   }
 
   private createCompoundBody(username: string | null) {
-    this.collection.compoundBody.text = this.currentScene.add
+    this.collection.compoundBody.label = this.currentScene.add
       .text(0, 0, username || 'Anonymous', {
         fontSize: '20px',
         fontFamily: 'KenneyFutureNarrow',

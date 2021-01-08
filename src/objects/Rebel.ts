@@ -1,15 +1,16 @@
-import { NINJA_COLLECTION } from '../constants';
+import { REBEL_COLLECTION } from '../constants';
 import Map1Scene from '../scenes/Map1Scene';
 import { IEnemy, IEnemyBasePatternParams, IEnemyParams } from '../types';
 import centerBodyOnXY from './helpers/centerBodyOnXY';
 import hitPlayerCallback from './helpers/hitPlayerCallback';
 import hitBodiesCallback from './helpers/hitBodiesCallback';
-import processBehindPattern from './patterns/processBehindPattern';
+import processSimplePattern from './patterns/processSimplePattern';
 import { DELTA_HIT_PLAYER } from './Player';
 
-const DELTA_HIT_NINJA = 400;
+const DELTA_HIT_REBEL = 400;
+const DELTA_TAUNT = 2000;
 
-export default class Ninja {
+export default class Rebel {
   protected readonly currentScene: Map1Scene;
   protected params: IEnemyParams;
   public collection: IEnemy;
@@ -19,9 +20,9 @@ export default class Ninja {
     this.params = params;
 
     // Create player
-    const ninjaCollection = JSON.parse(JSON.stringify(NINJA_COLLECTION));
+    const rebelCollection = JSON.parse(JSON.stringify(REBEL_COLLECTION));
     this.collection = {
-      ...ninjaCollection,
+      ...rebelCollection,
       sprite: scene.physics.add
         .sprite(params.position.x, params.position.y, params.sprite)
         .setDepth(Math.trunc(params.position.y / 10))
@@ -63,6 +64,17 @@ export default class Ninja {
       )
       .setDepth(Math.trunc(this.collection.sprite.body.y / 10));
 
+    if (this.collection.lastTauntedAt !== 0) {
+      if (
+        Date.now() > this.collection.lastTauntedAt + DELTA_TAUNT &&
+        (this.collection.compoundBody.label.text !== this.params.username ||
+          this.collection.compoundBody.label.text !== 'Anonymous')
+      ) {
+        this.collection.compoundBody.label.text = this.params.username || 'Anonymous';
+      } else if (this.collection.compoundBody.label.text !== this.params.teaserQuote)
+        this.collection.compoundBody.label.text = this.params.teaserQuote;
+    }
+
     // Handle hitboxes
     this.handleHitboxes();
 
@@ -71,18 +83,16 @@ export default class Ninja {
       distanceToHit: 60,
       deltaLastCombo: 1000,
       deltaLastFight: 200,
-      deltaHit: DELTA_HIT_NINJA
+      deltaHit: DELTA_HIT_REBEL
     });
 
     if (this.currentScene.player.collection.sprite) {
-      processBehindPattern(this.currentScene.player.collection, this.collection, {
-        velocityX: 130,
-        velocityY: 70,
-        gapX: 300,
-        gapY: 15,
-        distanceToHit: 60,
-        deltaHit: DELTA_HIT_NINJA,
-        bounds: this.currentScene.map.bounds
+      processSimplePattern(this.currentScene.player.collection, this.collection, {
+        velocityX: 200,
+        velocityY: 100,
+        deltaHit: DELTA_HIT_REBEL,
+        deltaTaunt: DELTA_TAUNT,
+        distanceToHit: 60
       });
     }
   }
@@ -98,25 +108,25 @@ export default class Ninja {
     if (player) {
       if (player.body.x > enemy.body.x + params.distanceToHit) {
         this.collection.lastDirection = 'right';
-        this.collection.sprite.anims.play(isIdle ? 'idleNinja' : 'rightNinja', true);
+        this.collection.sprite.anims.play(isIdle ? 'idleRebel' : 'rightRebel', true);
       } else if (player.body.x < enemy.body.x - params.distanceToHit) {
         this.collection.lastDirection = 'left';
-        this.collection.sprite.anims.play(isIdle ? 'idleNinja' : 'leftNinja', true);
+        this.collection.sprite.anims.play(isIdle ? 'idleRebel' : 'leftRebel', true);
       }
 
       if (player.depth !== enemy.depth) {
         if (this.collection.lastDirection === 'left') {
-          this.collection.sprite.anims.play(isIdle ? 'idleNinja' : 'leftNinja', true);
+          this.collection.sprite.anims.play(isIdle ? 'idleRebel' : 'leftRebel', true);
         } else {
-          this.collection.sprite.anims.play(isIdle ? 'idleNinja' : 'rightNinja', true);
+          this.collection.sprite.anims.play(isIdle ? 'idleRebel' : 'rightRebel', true);
         }
       }
     } else {
-      this.collection.sprite.anims.play('idleNinja', true);
+      this.collection.sprite.anims.play('idleRebel', true);
     }
 
     if (isHit) {
-      this.collection.sprite.anims.play('hitNinja');
+      this.collection.sprite.anims.play('hitRebel');
     } else {
       if (
         player &&
@@ -126,13 +136,13 @@ export default class Ninja {
       ) {
         if (!canFight) {
           if (this.collection.combo === 1 || this.collection.combo === 2) {
-            this.collection.sprite.anims.play('fight1Ninja');
+            this.collection.sprite.anims.play('fight1Rebel');
           }
           if (this.collection.combo === 3) {
-            this.collection.sprite.anims.play('fight2Ninja');
+            this.collection.sprite.anims.play('fight2Rebel');
           }
           if (this.collection.combo === 4) {
-            this.collection.sprite.anims.play('fight3Ninja');
+            this.collection.sprite.anims.play('fight3Rebel');
           }
         }
         if (canFight) {
@@ -182,7 +192,7 @@ export default class Ninja {
 
   private createAnimation() {
     this.currentScene.anims.create({
-      key: 'leftNinja',
+      key: 'leftRebel',
       frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
         start: 9,
         end: 10
@@ -190,7 +200,7 @@ export default class Ninja {
       frameRate: 8
     });
     this.currentScene.anims.create({
-      key: 'rightNinja',
+      key: 'rightRebel',
       frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
         start: 9,
         end: 10
@@ -199,7 +209,7 @@ export default class Ninja {
       repeat: -1
     });
     this.currentScene.anims.create({
-      key: 'idleNinja',
+      key: 'idleRebel',
       frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
         frames: [23]
       }),
@@ -207,7 +217,7 @@ export default class Ninja {
       repeat: -1
     });
     this.currentScene.anims.create({
-      key: 'jumpNinja',
+      key: 'jumpRebel',
       frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
         start: 1,
         end: 2
@@ -216,7 +226,7 @@ export default class Ninja {
       repeat: -1
     });
     this.currentScene.anims.create({
-      key: 'fight1Ninja',
+      key: 'fight1Rebel',
       frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
         frames: [14]
       }),
@@ -224,7 +234,7 @@ export default class Ninja {
       repeat: -1
     });
     this.currentScene.anims.create({
-      key: 'fight2Ninja',
+      key: 'fight2Rebel',
       frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
         frames: [15]
       }),
@@ -232,7 +242,7 @@ export default class Ninja {
       repeat: -1
     });
     this.currentScene.anims.create({
-      key: 'fight3Ninja',
+      key: 'fight3Rebel',
       frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
         frames: [13]
       }),
@@ -240,7 +250,7 @@ export default class Ninja {
       repeat: -1
     });
     this.currentScene.anims.create({
-      key: 'jumpFightNinja',
+      key: 'jumpFightRebel',
       frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
         frames: [19]
       }),
@@ -248,7 +258,7 @@ export default class Ninja {
       repeat: -1
     });
     this.currentScene.anims.create({
-      key: 'hitNinja',
+      key: 'hitRebel',
       frames: this.currentScene.anims.generateFrameNumbers(this.params.sprite, {
         frames: [21]
       }),
@@ -256,14 +266,14 @@ export default class Ninja {
       repeat: -1
     });
 
-    this.collection.sprite.anims.play('idleNinja', true);
+    this.collection.sprite.anims.play('idleRebel', true);
   }
 
   private handleHitboxes() {
     switch (this.collection.sprite.anims.currentAnim.key) {
-      case 'idleNinja':
-      case 'leftNinja':
-      case 'rightNinja':
+      case 'idleRebel':
+      case 'leftRebel':
+      case 'rightRebel':
         centerBodyOnXY(
           this.collection.compoundBody.head.body,
           this.collection.sprite.body.x + 40,
@@ -278,7 +288,7 @@ export default class Ninja {
         centerBodyOnXY(this.collection.compoundBody.legs.body, -100, -100);
 
         break;
-      case 'jumpNinja':
+      case 'jumpRebel':
         centerBodyOnXY(
           this.collection.compoundBody.head.body,
           this.collection.sprite.body.x + (this.collection.sprite.flipX ? 37 : 43),
@@ -292,7 +302,7 @@ export default class Ninja {
         centerBodyOnXY(this.collection.compoundBody.arms.body, -50, -50);
         centerBodyOnXY(this.collection.compoundBody.legs.body, -50, -50);
         break;
-      case 'jumpFightNinja':
+      case 'jumpFightRebel':
         centerBodyOnXY(
           this.collection.compoundBody.head.body,
           this.collection.sprite.body.x + (this.collection.sprite.flipX ? 54 : 26),
@@ -309,7 +319,7 @@ export default class Ninja {
           this.collection.sprite.body.y + 77
         );
         break;
-      case 'fight1Ninja':
+      case 'fight1Rebel':
         centerBodyOnXY(
           this.collection.compoundBody.head.body,
           this.collection.sprite.body.x + (this.collection.sprite.flipX ? 48 : 32),
@@ -326,7 +336,7 @@ export default class Ninja {
           this.collection.sprite.body.y + 75
         );
         break;
-      case 'fight2Ninja':
+      case 'fight2Rebel':
         centerBodyOnXY(
           this.collection.compoundBody.head.body,
           this.collection.sprite.body.x + (this.collection.sprite.flipX ? 48 : 32),
@@ -343,7 +353,7 @@ export default class Ninja {
           this.collection.sprite.body.y + 75
         );
         break;
-      case 'fight3Ninja':
+      case 'fight3Rebel':
         centerBodyOnXY(
           this.collection.compoundBody.head.body,
           this.collection.sprite.body.x + (this.collection.sprite.flipX ? 52 : 28),
@@ -360,7 +370,7 @@ export default class Ninja {
           this.collection.sprite.body.y + 70
         );
         break;
-      case 'hitNinja':
+      case 'hitRebel':
         centerBodyOnXY(
           this.collection.compoundBody.head.body,
           this.collection.sprite.body.x + 40,
@@ -380,7 +390,7 @@ export default class Ninja {
   }
 
   addOverlapWithPlayer() {
-    // Ninja -> Player
+    // Rebel -> Player
     this.currentScene.physics.add.overlap(
       [this.collection.compoundBody.arms, this.collection.compoundBody.legs],
       [
@@ -396,7 +406,7 @@ export default class Ninja {
         ),
       () => this.collection.sprite?.depth === this.currentScene.player.collection.sprite?.depth
     );
-    // Player -> Ninja
+    // Player -> Rebel
     this.currentScene.physics.add.overlap(
       [
         this.currentScene.player.collection.compoundBody.arms,
@@ -408,7 +418,7 @@ export default class Ninja {
           this.currentScene,
           this.currentScene.player.collection,
           this.collection,
-          DELTA_HIT_NINJA
+          DELTA_HIT_REBEL
         ),
       () => this.collection.sprite?.depth === this.currentScene.player.collection.sprite?.depth
     );

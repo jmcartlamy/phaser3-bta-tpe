@@ -28,12 +28,12 @@ export default function(scene: Phaser.Scene, source: IPlayer, target: IEnemy, de
 
     if (target.sprite && target.status.health <= 0) {
       scene.tweens.add({
-        targets: [target.sprite, target.compoundBody.text],
+        targets: [target.sprite, target.compoundBody.label],
         alpha: 0,
         duration: delay,
         onComplete: () => {
           target.sprite?.destroy();
-          target.compoundBody.text?.destroy();
+          target.compoundBody.label?.destroy();
           target.compoundBody.head.destroy();
           target.compoundBody.buste.destroy();
           target.compoundBody.arms.destroy();

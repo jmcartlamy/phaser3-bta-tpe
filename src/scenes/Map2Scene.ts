@@ -6,6 +6,7 @@ import { IMap, PhaserGame, WebSocketMessageContextEmit } from '../types';
 import restartSceneWithDelay from './helpers/restartSceneWithDelay';
 import changeSceneWithDelay from './helpers/changeSceneWithDelay';
 import makeBar from '../objects/helpers/makeBar';
+import Rebel from '../objects/Rebel';
 
 export default class Map1Scene extends Phaser.Scene {
   public player: Player;
@@ -102,22 +103,27 @@ export default class Map1Scene extends Phaser.Scene {
       const username = payload.username || null;
 
       if (type === 'action') {
-        const teaserQuote = (payload.values && payload.values['ext-teaser-quote']) || null;
+        const teaserQuote = payload.values ? (payload.values['ext-teaser-quote'] as string) : null;
         if (payload.id === 'action-rebel') {
-          /*this.blob.push(
-            new Ninja(this, {
-              username: username,
-              position: { x: Phaser.Math.Between(100, 2000), y: 700, direction: 'left' },
-              sprite: Characters.Ninja
+          this.blob.push(
+            new Rebel(this, {
+              username,
+              teaserQuote,
+              position: {
+                x: this.player.collection.sprite.body.x + this.registry.get('innerWidth'),
+                y: 700,
+                direction: 'left'
+              },
+              sprite: Characters.Rebel
             })
-          );*/
+          );
         }
       }
     }
   }
 
   public update(time: number, delta: number) {
-    if (this.player.collection.sprite.body.x > 4000) {
+    if (this.player.collection.sprite?.body.x > 4000) {
       return changeSceneWithDelay(this, SceneKeys.Menu, 0);
     }
     this.player.update(time, delta);
