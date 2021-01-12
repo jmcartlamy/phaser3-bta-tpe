@@ -17,7 +17,7 @@ export interface IEnemyParams {
 }
 
 export interface Score {
-  action: number;
+  input: number;
   mouse: number;
   time: number;
   bonus: number;
@@ -134,7 +134,7 @@ export interface WebSocketMessageContextEmit {
   status: 'ok';
   context: 'emit';
   message: null;
-  data: (DataMouseEvent | DataActionEvent) | null;
+  data: (DataMouseEvent | DataInputEvent) | null;
 }
 export interface DataConnectionEvent {
   displayName: string;
@@ -146,9 +146,9 @@ export interface DataMouseEvent {
   payload: PayloadMouse;
 }
 
-export interface DataActionEvent {
-  type: 'action';
-  payload: PayloadAction;
+export interface DataInputEvent {
+  type: 'input';
+  payload: PayloadInput;
 }
 
 export interface PayloadMouse {
@@ -162,7 +162,7 @@ export interface PayloadMouse {
   values?: never;
 }
 
-export interface PayloadAction {
+export interface PayloadInput {
   id: string;
   username: string | null;
   values: {

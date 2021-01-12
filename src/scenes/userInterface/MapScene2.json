@@ -24,7 +24,7 @@
         },
         "cooldown": {
           "duration": 10000,
-          "broadcast": false
+          "broadcast": true
         }
       }
     ]

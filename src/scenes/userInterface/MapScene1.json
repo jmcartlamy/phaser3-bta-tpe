@@ -59,8 +59,8 @@
         "type": "mousedown",
         "name": "mousedown",
         "cooldown": {
-          "duration": 1000,
-          "limit": 10
+          "duration": 2000,
+          "limit": 2
         }
       }
     ],

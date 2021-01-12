@@ -102,7 +102,7 @@ export default class Map1Scene extends Phaser.Scene {
       const { type, payload } = body.data;
       const username = payload.username || null;
 
-      if (type === 'action') {
+      if (type === 'input') {
         const teaserQuote = payload.values ? (payload.values['ext-teaser-quote'] as string) : null;
         if (payload.id === 'action-rebel') {
           this.blob.push(

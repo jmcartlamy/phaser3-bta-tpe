@@ -107,7 +107,7 @@ export default class Map1Scene extends Phaser.Scene {
     if (body?.context === 'emit' && body?.data) {
       const { type, payload } = body.data;
       const username = payload.username || null;
-      if (type === 'action') {
+      if (type === 'input') {
         if (payload.id === 'action-ninja') {
           this.blob.push(
             new Ninja(this, {
