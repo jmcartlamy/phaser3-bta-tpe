@@ -1,0 +1,91 @@
+{
+    "id": "1",
+    "mobile": {
+      "title": {
+        "label": "Créez des rebelles avec les boutons"
+      },
+      "components": [
+        {
+          "type": "button",
+          "name": "action-rebel",
+          "label": "Créer un rebelle",
+          "keyCode": "Digit1",
+          "extension": {
+            "title": {
+              "label": "Créer un REBELLE"
+            },
+            "submit": {
+              "label": "#YOLO"
+            },
+            "components": [
+              {
+                "type": "input",
+                "name": "ext-teaser-quote",
+                "label": "Votre discours",
+                "placeholder": "Ecrivez ici"
+              }
+            ]
+          },
+          "style": {
+            "backgroundColor": "#453298",
+            "color": "#fff"
+          },
+          "cooldown": {
+            "duration": 30000,
+            "broadcast": false,
+            "style": {
+              "backgroundColor": "rgba(25,74,22,0.7)",
+              "width": "100%",
+              "position": "absolute",
+              "justifyContent": "flex-end"
+            }
+          }
+        }
+      ]
+    },
+    "panel": {
+      "components": [
+        {
+          "type": "title",
+          "label": "Créez des rebelles avec les boutons"
+        },
+        {
+          "type": "button",
+          "name": "action-rebel",
+          "label": "Créer un rebelle",
+          "keyCode": "Digit1",
+          "extension": {
+            "title": {
+              "label": "Créer un REBELLE"
+            },
+            "submit": {
+              "label": "#YOLO"
+            },
+            "components": [
+              {
+                "type": "input",
+                "name": "ext-teaser-quote",
+                "label": "Votre discours",
+                "placeholder": "Ecrivez ici"
+              }
+            ]
+          },
+          "style": {
+            "backgroundColor": "#453298",
+            "color": "#fff"
+          },
+          "cooldown": {
+            "duration": 30000,
+            "broadcast": false,
+            "style": {
+              "backgroundColor": "rgba(25,74,22,0.7)",
+              "width": "100%",
+              "position": "absolute",
+              "justifyContent": "flex-end"
+            }
+          }
+        }
+      ]
+    }
+  }
+  

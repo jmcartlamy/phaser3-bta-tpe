@@ -1,0 +1,71 @@
+{
+  "id": "1",
+  "video_overlay": {
+    "bottom": {
+      "components": [
+        {
+          "type": "title",
+          "label": "Créez des rebelles avec les boutons",
+          "style": {
+            "backgroundColor": "#453298",
+            "color": "#fff"
+          }
+        }
+      ]
+    },
+    "left": {
+      "components": [
+        {
+          "type": "button",
+          "name": "action-rebel",
+          "label": "Créer un rebelle",
+          "keyCode": "Digit1",
+          "extension": {
+            "title": {
+              "label": "Créer un REBELLE",
+              "style": {
+                "backgroundColor": "#453298",
+                "color": "#fff"
+              }
+            },
+            "style": {
+              "backgroundColor": "#8474c9",
+              "color": "#fff"
+            },
+            "submit": {
+              "label": "#YOLO",
+              "style": {
+                "backgroundColor": "#453298",
+                "color": "#fff"
+              }
+            },
+            "components": [
+              {
+                "type": "input",
+                "name": "ext-teaser-quote",
+                "label": "Votre discours",
+                "style": {
+                  "backgroundColor": "#453298"
+                },
+                "placeholder": "Ecrivez ici"
+              }
+            ]
+          },
+          "style": {
+            "backgroundColor": "#453298",
+            "color": "#fff"
+          },
+          "cooldown": {
+            "duration": 20000,
+            "broadcast": false,
+            "style": {
+              "backgroundColor": "rgba(25,74,22, 0.7)",
+              "color": "#fff",
+              "fontSize": 26
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -11,20 +11,13 @@
         "label": "Créer un zombie",
         "keyCode": "Digit1",
         "style": {
-          "backgroundColor": "#2ecc71",
+          "fontSize": 22,
+          "backgroundColor": "#453298",
           "color": "#fff"
         },
         "cooldown": {
           "duration": 5000,
-          "broadcast": true,
-          "style": {
-            "backgroundColor": "#e74c3c",
-            "justifyContent": "center",
-            "color": "#fff",
-            "fontSize": 26,
-            "width": "100%",
-            "position": "absolute"
-          }
+          "broadcast": true
         }
       }
     ]
@@ -33,13 +26,22 @@
     "components": [
       {
         "type": "title",
-        "label": "Créez des personnages avec les boutons"
+        "label": "Créez des personnages avec les boutons",
+        "style": {
+          "backgroundColor": "#453298",
+          "color": "#fff"
+        }
       },
       {
         "type": "button",
         "name": "action-zombie",
         "label": "Créer un zombie",
         "keyCode": "Digit1",
+        "style": {
+          "fontSize": 22,
+          "backgroundColor": "#453298",
+          "color": "#fff"
+        },
         "cooldown": {
           "duration": 5000,
           "broadcast": true
@@ -52,7 +54,11 @@
       "components": [
         {
           "type": "title",
-          "label": "Créez des personnages avec les boutons"
+          "label": "Créez des personnages avec les boutons",
+          "style": {
+            "backgroundColor": "#453298",
+            "color": "#fff"
+          }
         }
       ]
     },
@@ -63,6 +69,11 @@
           "name": "action-zombie",
           "label": "Créer un zombie",
           "keyCode": "Digit1",
+          "style": {
+            "fontSize": 22,
+            "backgroundColor": "#453298",
+            "color": "#fff"
+          },
           "cooldown": {
             "duration": 5000,
             "broadcast": true

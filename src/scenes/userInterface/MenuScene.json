@@ -1,7 +1,9 @@
 {
   "id": "1",
   "mobile": {
-    "title": "Bienvenue sur l'extension : aucune intéraction possible sur le menu"
+    "title": {
+      "label": "Bienvenue sur l'extension : aucune intéraction possible sur le menu"
+    }
   },
   "panel": {
     "components": [
