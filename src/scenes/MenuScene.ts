@@ -146,8 +146,7 @@ export default class MenuScene extends Phaser.Scene {
         '?client_id=' +
         process.env.EXT_CLIENT_ID +
         '&redirect_uri=http://localhost:8080' +
-        '&response_type=token' +
-        '&scope=user:read:email';
-    }
+        '&response_type=token';
+    }   
   }
 }
