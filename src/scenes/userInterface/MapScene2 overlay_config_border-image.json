@@ -1,5 +1,10 @@
 {
   "id": "3",
+  "config": {
+    "transparent": true,
+    "ripple": false,
+    "forceTheme": "dark"
+  },
   "video_overlay": {
     "bottom": {
       "components": [
@@ -7,8 +12,8 @@
           "type": "title",
           "label": "Créez des rebelles avec les boutons",
           "style": {
-            "backgroundColor": "#453298",
-            "color": "#fff"
+            "borderImage": "url('https://rpg-companion.vercel.app/static/media/border-image.29ef5ac8.png') 7 fill / 15px / 0 repeat",
+            "padding": "16px"
           }
         }
       ]
@@ -20,49 +25,32 @@
           "name": "action-rebel",
           "label": "Créer un rebelle",
           "keyCode": "Digit1",
+          "style": {
+            "borderImage": "url('https://rpg-companion.vercel.app/static/media/border-image.29ef5ac8.png') 7 fill / 15px / 0 repeat"
+          },
           "extension": {
             "title": {
-              "label": "Créer un REBELLE",
-              "style": {
-                "backgroundColor": "#453298",
-                "color": "#fff"
-              }
+              "label": "Créer un REBELLE"
             },
             "style": {
-              "backgroundColor": "#8474c9",
-              "color": "#fff"
+              "borderImage": "url('https://rpg-companion.vercel.app/static/media/border-image.29ef5ac8.png') 7 fill / 15px / 0 repeat",
+              "padding": "20px 20px 40px"
             },
             "submit": {
-              "label": "#YOLO",
-              "style": {
-                "backgroundColor": "#453298",
-                "color": "#fff"
-              }
+              "label": "#YOLO"
             },
             "components": [
               {
                 "type": "input",
                 "name": "ext-teaser-quote",
                 "label": "Votre discours",
-                "style": {
-                  "backgroundColor": "#453298"
-                },
                 "placeholder": "Ecrivez ici"
               }
             ]
           },
-          "style": {
-            "backgroundColor": "#453298",
-            "color": "#fff"
-          },
           "cooldown": {
             "duration": 20000,
-            "broadcast": false,
-            "style": {
-              "backgroundColor": "rgba(25,74,22, 0.7)",
-              "color": "#fff",
-              "fontSize": 26
-            }
+            "broadcast": false
           }
         }
       ]

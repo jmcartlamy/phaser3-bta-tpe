@@ -1,0 +1,82 @@
+{
+  "id": "3",
+  "config": {
+    "transparent": true,
+    "ripple": false
+  },
+  "video_overlay": {
+    "mouse": [
+      {
+        "type": "mousedown",
+        "style": {
+          "cursor": "url('https://rpg-companion.vercel.app/static/media/default.ca598161.png'), auto"
+        },
+        "cooldown": {
+          "style": {
+            "cursor": "url('https://rpg-companion.vercel.app/static/media/point.da411450.png'), auto"
+          }
+        }
+      },
+      {
+        "type": "mouseup",
+        "style": {
+          "cursor": "url('https://rpg-companion.vercel.app/static/media/default.ca598161.png'), auto"
+        },
+        "cooldown": {
+          "style": {
+            "cursor": "url('https://rpg-companion.vercel.app/static/media/checkbox-golden-on.b6e46084.png'), auto"
+          }
+        }
+      }
+    ],
+    "bottom": {
+      "components": [
+        {
+          "type": "title",
+          "label": "Créez des rebelles avec les boutons",
+          "style": {
+            "borderImage": "url('https://rpg-companion.vercel.app/static/media/border-image.29ef5ac8.png') 7 fill / 15px / 0 repeat",
+            "padding": "16px"
+          }
+        }
+      ]
+    },
+    "left": {
+      "components": [
+        {
+          "type": "button",
+          "name": "action-rebel",
+          "label": "Créer un rebelle",
+          "keyCode": "Digit1",
+          "style": {
+            "borderImage": "url('https://rpg-companion.vercel.app/static/media/border-image.29ef5ac8.png') 7 fill / 15px / 0 repeat"
+          },
+          "extension": {
+            "title": {
+              "label": "Créer un REBELLE"
+            },
+            "style": {
+              "borderImage": "url('https://rpg-companion.vercel.app/static/media/border-image.29ef5ac8.png') 7 fill / 15px / 0 repeat",
+              "padding": "20px 20px 40px"
+            },
+            "submit": {
+              "label": "#YOLO"
+            },
+            "components": [
+              {
+                "type": "input",
+                "name": "ext-teaser-quote",
+                "label": "Votre discours",
+                "placeholder": "Ecrivez ici"
+              }
+            ]
+          },
+          "cooldown": {
+            "duration": 20000,
+            "broadcast": false
+          }
+        }
+      ]
+    }
+  }
+}

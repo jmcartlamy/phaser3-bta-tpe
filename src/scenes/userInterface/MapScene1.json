@@ -1,5 +1,9 @@
 {
-  "id": "1",
+  "id": "2",
+  "config": {
+    "transparent": true,
+    "ripple": false
+  },
   "mobile": {
     "title": {
       "label": "Créez des personnages avec les boutons"
@@ -10,21 +14,9 @@
         "name": "action-zombie",
         "label": "Créer un zombie",
         "keyCode": "Digit1",
-        "style": {
-          "backgroundColor": "#2ecc71",
-          "color": "#fff"
-        },
         "cooldown": {
           "duration": 5000,
-          "broadcast": true,
-          "style": {
-            "backgroundColor": "#e74c3c",
-            "justifyContent": "center",
-            "color": "#fff",
-            "fontSize": 26,
-            "width": "100%",
-            "position": "absolute"
-          }
+          "broadcast": true
         }
       }
     ]

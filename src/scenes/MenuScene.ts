@@ -116,7 +116,7 @@ export default class MenuScene extends Phaser.Scene {
   }
 
   private launchGame() {
-    this.scene.start(SceneKeys.Map1);
+    this.scene.start(SceneKeys.Map2);
   }
 
   private messageConnectionListener(event: { data: string }) {

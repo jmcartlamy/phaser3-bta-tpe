@@ -1,0 +1,86 @@
+{
+  "id": "3",
+  "config": {
+    "transparent": true,
+    "ripple": false
+  },
+  "mobile": {
+    "title": {
+      "label": "Créez des rebelles avec les boutons"
+    },
+    "components": [
+      {
+        "type": "button",
+        "name": "action-rebel",
+        "label": "Créer un rebelle",
+        "keyCode": "Digit1",
+        "style": {
+          "borderImage": "url(https://rpg-companion.vercel.app/static/media/border-image.29ef5ac8.png) 7 fill / 15px / 0 repeat"
+        },
+        "extension": {
+          "title": {
+            "label": "Créer un REBELLE"
+          },
+          "submit": {
+            "label": "#YOLO"
+          },
+          "style": {
+            "borderImage": "url(https://rpg-companion.vercel.app/static/media/border-image.29ef5ac8.png) 7 fill / 15px / 0 repeat"
+          },
+          "components": [
+            {
+              "type": "input",
+              "name": "ext-teaser-quote",
+              "label": "Votre discours",
+              "placeholder": "Ecrivez ici"
+            }
+          ]
+        },
+        "cooldown": {
+          "duration": 30000,
+          "broadcast": 1
+        }
+      }
+    ]
+  },
+  "panel": {
+    "components": [
+      {
+        "type": "title",
+        "label": "Créez des rebelles avec les boutons"
+      },
+      {
+        "type": "button",
+        "name": "action-rebel",
+        "label": "Créer un rebelle",
+        "keyCode": "Digit1",
+        "extension": {
+          "title": {
+            "label": "Créer un REBELLE"
+          },
+          "submit": {
+            "label": "#YOLO"
+          },
+          "style": {
+            "borderImage": "url(https://rpg-companion.vercel.app/static/media/border-image.29ef5ac8.png) 7 fill / 15px / 0 repeat",
+            "padding": "20px",
+            "width": "calc(100% - 40px)",
+            "height": "calc(100% - 40px)"
+          },
+          "components": [
+            {
+              "type": "input",
+              "name": "ext-teaser-quote",
+              "label": "Votre discours",
+              "placeholder": "Ecrivez ici"
+            }
+          ]
+        },
+        "cooldown": {
+          "duration": 30000,
+          "broadcast": 1
+        }
+      }
+    ]
+  }
+}
