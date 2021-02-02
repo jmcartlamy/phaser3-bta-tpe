@@ -142,7 +142,7 @@ export interface DataConnectionEvent {
 }
 
 export interface DataMouseEvent {
-  type: 'mouse';
+  type: 'mouseup' | 'mousedown';
   payload: PayloadMouse;
 }
 

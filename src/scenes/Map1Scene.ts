@@ -126,7 +126,7 @@ export default class Map1Scene extends Phaser.Scene {
           );
         }
       }
-      if (type === 'mouse') {
+      if (type === 'mousedown') {
         // @ts-ignore
         const { x, y } = translateCoordinateToScreen(this, payload);
         this.blob.push(
