@@ -1,0 +1,59 @@
+{
+  "id": "3",
+  "video_overlay": {
+    "bottom": {
+      "components": [
+        {
+          "type": "title",
+          "label": "Créez des rebelles avec les boutons"
+        }
+      ]
+    },
+    "left": {
+      "components": [
+        {
+          "type": "button",
+          "name": "action-rebel",
+          "label": "Créer un rebelle",
+          "keyCode": "Digit1",
+          "style": {
+            "background": "url('https://rpg-companion.vercel.app/static/media/button.ab516115.png') center / 100% 100% no-repeat padding-box"
+          },
+          "extension": {
+            "title": {
+              "label": "Créer un REBELLE"
+            },
+            "submit": {
+              "label": "#YOLO"
+            },
+            "components": [
+              {
+                "type": "image",
+                "name": "img1",
+                "src": "http://jm.cartlamy.com/css/images/myprevimeteo.png",
+                "style": {
+                  "maxHeight": "125px"
+                }
+              },
+              {
+                "type": "input",
+                "name": "ext-teaser-quote",
+                "label": "Votre discours",
+                "placeholder": "Ecrivez ici"
+              }
+            ]
+          },
+          "cooldown": {
+            "duration": 20000,
+            "broadcast": false
+          }
+        },
+        {
+          "type": "image",
+          "name": "img1",
+          "src": "https://rpg-companion.vercel.app/static/media/border-image.29ef5ac8.png"
+        }
+      ]
+    }
+  }
+}

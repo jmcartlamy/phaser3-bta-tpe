@@ -6,9 +6,9 @@
     },
     "components": [
       {
-        "type": "text",
-        "name": "text",
-        "text": "Bonjour à vous, c'est avec une certaine joie que je mets ce texte."
+        "type": "image",
+        "name": "img1",
+        "src": "http://jm.cartlamy.com/css/images/myprevimeteo.png"
       },
       {
         "type": "button",
@@ -24,8 +24,12 @@
           },
           "components": [
             {
-              "type": "text",
-              "text": "Bonjour à vous, c'est avec une certaine joie que je mets ce texte."
+              "type": "image",
+              "name": "img1",
+              "src": "http://jm.cartlamy.com/css/images/CV2015.png",
+              "style": {
+                "alignSelf": "flex-start"
+              }
             },
             {
               "type": "input",
@@ -45,14 +49,13 @@
   "panel": {
     "components": [
       {
-        "type": "title",
-        "name": "title1",
-        "label": "Créez des rebelles avec les boutons"
+        "type": "image",
+        "name": "img1",
+        "src": "http://jm.cartlamy.com/css/images/myprevimeteo.png"
       },
       {
-        "type": "text",
-        "name": "text1",
-        "text": "Bonjour à vous, c'est avec une certaine joie que je mets ce texte."
+        "type": "title",
+        "label": "Créez des rebelles avec les boutons"
       },
       {
         "type": "button",
@@ -68,9 +71,9 @@
           },
           "components": [
             {
-              "type": "text",
-              "name": "text2",
-              "text": "Bonjour à vous, c'est avec une certaine joie que je mets ce texte."
+              "type": "image",
+              "name": "img1",
+              "src": "http://jm.cartlamy.com/css/images/myprevimeteo.png"
             },
             {
               "type": "input",
