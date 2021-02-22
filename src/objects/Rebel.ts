@@ -92,7 +92,8 @@ export default class Rebel {
         velocityY: 100,
         deltaHit: DELTA_HIT_REBEL,
         deltaTaunt: DELTA_TAUNT,
-        distanceToHit: 60
+        distanceToHit: 60,
+        mustTaunt: !!this.params.teaserQuote
       });
     }
   }

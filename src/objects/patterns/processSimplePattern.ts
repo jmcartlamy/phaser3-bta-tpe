@@ -9,6 +9,7 @@ export default function(
     distanceToHit: number;
     deltaHit: number;
     deltaTaunt?: number;
+    mustTaunt?: boolean;
   }
 ) {
   const spritePlayer = player.sprite;
@@ -23,6 +24,7 @@ export default function(
     enemy.hasTaunted = true;
   } else {
     if (
+      params?.mustTaunt &&
       !enemy.hasTaunted &&
       spritePlayer.body.x + 500 > spriteEnemy.body.x &&
       spritePlayer.body.x - 500 < spriteEnemy.body.x

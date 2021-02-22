@@ -28,7 +28,7 @@
                 "type": "radio",
                 "name": "select-group1",
                 "label": "Afficher le texte d'intro ?",
-                "template": "classic",
+                "template": "button",
                 "values": {
                   "yesyes": "Oui",
                   "nono": "Non"
@@ -72,7 +72,7 @@
               "type": "radio",
               "name": "select-group1",
               "label": "Afficher le texte d'intro ?",
-              "template": "classic",
+              "template": "button",
               "values": {
                 "yesyes": "Oui",
                 "nono": "Non"
@@ -112,7 +112,7 @@
               "type": "radio",
               "name": "radio-group1",
               "label": "Oui ou non",
-              "template": "classic",
+              "template": "button",
               "values": {
                 "yesyes": "Oui",
                 "nono": "Non"

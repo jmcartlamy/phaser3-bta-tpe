@@ -103,7 +103,10 @@ export default class Map1Scene extends Phaser.Scene {
       const username = payload.username || null;
 
       if (type === 'input') {
-        const teaserQuote = payload.values ? (payload.values['ext-teaser-quote'] as string) : null;
+        let teaserQuote: string | null = null;
+        if (payload.values && payload.values['select-group1'] === 'yesyes') {
+          teaserQuote = payload.values['ext-teaser-quote'] as string;
+        }
         if (payload.id === 'action-rebel') {
           this.blob.push(
             new Rebel(this, {
