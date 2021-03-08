@@ -17,7 +17,9 @@ class Interactive {
         : 'ws://localhost:8081/';
 
     try {
-      this.socket = new WebSocket(url, [process.env.EXT_CLIENT_ID, token]);
+      this.socket = new WebSocket(
+        url + '?client_id=' + process.env.EXT_CLIENT_ID + '&access_token=' + token
+      );
     } catch (err) {
       throw Error(err);
     }
