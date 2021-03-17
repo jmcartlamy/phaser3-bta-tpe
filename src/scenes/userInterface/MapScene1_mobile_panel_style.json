@@ -9,7 +9,6 @@
         "type": "button",
         "name": "action-zombie",
         "label": "Créer un zombie",
-        "keyCode": "Digit1",
         "style": {
           "fontSize": 22,
           "backgroundColor": "#453298",
@@ -36,7 +35,6 @@
         "type": "button",
         "name": "action-zombie",
         "label": "Créer un zombie",
-        "keyCode": "Digit1",
         "style": {
           "fontSize": 22,
           "backgroundColor": "#453298",
@@ -68,7 +66,6 @@
           "type": "button",
           "name": "action-zombie",
           "label": "Créer un zombie",
-          "keyCode": "Digit1",
           "style": {
             "fontSize": 22,
             "backgroundColor": "#453298",

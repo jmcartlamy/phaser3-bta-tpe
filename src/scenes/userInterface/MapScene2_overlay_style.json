@@ -19,7 +19,6 @@
           "type": "button",
           "name": "action-rebel",
           "label": "Créer un rebelle",
-          "keyCode": "Digit1",
           "extension": {
             "title": {
               "label": "Créer un REBELLE",

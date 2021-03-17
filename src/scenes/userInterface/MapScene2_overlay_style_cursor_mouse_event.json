@@ -47,7 +47,6 @@
           "type": "button",
           "name": "action-rebel",
           "label": "Créer un rebelle",
-          "keyCode": "Digit1",
           "style": {
             "borderImage": "url('https://rpg-companion.vercel.app/static/media/border-image.29ef5ac8.png') 7 fill / 15px / 0 repeat"
           },

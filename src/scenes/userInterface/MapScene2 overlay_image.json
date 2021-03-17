@@ -15,7 +15,6 @@
           "type": "button",
           "name": "action-rebel",
           "label": "Créer un rebelle",
-          "keyCode": "Digit1",
           "style": {
             "background": "url('https://rpg-companion.vercel.app/static/media/button.ab516115.png') center / 100% 100% no-repeat padding-box"
           },
