@@ -5,7 +5,7 @@
       "components": [
         {
           "type": "title",
-          "label": "Créez des rebelles avec les boutons"
+          "label": "Spawn rebels with the button"
         }
       ]
     },
@@ -14,30 +14,30 @@
         {
           "type": "button",
           "name": "action-rebel",
-          "label": "Créer un rebelle",
+          "label": "Spawn rebel",
           "extension": {
             "title": {
-              "label": "Créer un REBELLE"
+              "label": "Spawn a REBEL"
             },
             "submit": {
-              "label": "Envoyer"
+              "label": "Send"
             },
             "components": [
               {
                 "type": "radio",
                 "name": "select-group1",
-                "label": "Afficher le texte d'intro ?",
+                "label": "Display your punchline ?",
                 "template": "button",
                 "values": {
-                  "yesyes": "Oui",
-                  "nono": "Non"
+                  "yesyes": "Yep",
+                  "nono": "Nope"
                 }
               },
               {
                 "type": "input",
                 "name": "ext-teaser-quote",
-                "label": "Votre texte",
-                "placeholder": "Ecrivez ici"
+                "label": "Write a punchline",
+                "placeholder": "Be epic !"
               }
             ]
           },
@@ -51,36 +51,36 @@
   },
   "mobile": {
     "title": {
-      "label": "Créez des rebelles avec les boutons"
+      "label": "Spawn rebels with the button"
     },
     "components": [
       {
         "type": "button",
         "name": "action-rebel",
-        "label": "Créer un rebelle",
+        "label": "Spawn rebel",
         "extension": {
           "title": {
-            "label": "Créer un REBELLE"
+            "label": "Spawn a REBEL"
           },
           "submit": {
-            "label": "#YOLO"
+            "label": "Send"
           },
           "components": [
             {
               "type": "radio",
               "name": "select-group1",
-              "label": "Afficher le texte d'intro ?",
+              "label": "Display your punchline ?",
               "template": "button",
               "values": {
-                "yesyes": "Oui",
-                "nono": "Non"
+                "yesyes": "Yep",
+                "nono": "Nope"
               }
             },
             {
               "type": "input",
               "name": "ext-teaser-quote",
-              "label": "Votre texte",
-              "placeholder": "Ecrivez ici"
+              "label": "Write a punchline",
+              "placeholder": "Be epic !"
             }
           ]
         },
@@ -96,30 +96,30 @@
       {
         "type": "button",
         "name": "action-rebel",
-        "label": "Créer un rebelle",
+        "label": "Spawn rebel",
         "extension": {
           "title": {
-            "label": "Créer un REBELLE"
+            "label": "Spawn a REBEL"
           },
           "submit": {
-            "label": "#YOLO"
+            "label": "Send"
           },
           "components": [
             {
               "type": "radio",
               "name": "radio-group1",
-              "label": "Oui ou non",
+              "label": "Display your punchline ?",
               "template": "button",
               "values": {
-                "yesyes": "Oui",
-                "nono": "Non"
+                "yesyes": "Yep",
+                "nono": "Nope"
               }
             },
             {
               "type": "input",
               "name": "ext-teaser-quote",
-              "label": "Votre discours",
-              "placeholder": "Ecrivez ici"
+              "label": "Write a punchline",
+              "placeholder": "Be epic !"
             }
           ]
         },

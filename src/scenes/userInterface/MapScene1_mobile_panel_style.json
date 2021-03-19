@@ -2,13 +2,13 @@
   "id": "2",
   "mobile": {
     "title": {
-      "label": "Créez des personnages avec les boutons"
+      "label": "Spawn characters with the buttons"
     },
     "components": [
       {
         "type": "button",
         "name": "action-zombie",
-        "label": "Créer un zombie",
+        "label": "Spawn zombie",
         "style": {
           "fontSize": 22,
           "backgroundColor": "#453298",
@@ -25,7 +25,7 @@
     "components": [
       {
         "type": "title",
-        "label": "Créez des personnages avec les boutons",
+        "label": "Spawn characters with the buttons",
         "style": {
           "backgroundColor": "#453298",
           "color": "#fff"
@@ -34,7 +34,7 @@
       {
         "type": "button",
         "name": "action-zombie",
-        "label": "Créer un zombie",
+        "label": "Spawn zombie",
         "style": {
           "fontSize": 22,
           "backgroundColor": "#453298",
@@ -52,7 +52,7 @@
       "components": [
         {
           "type": "title",
-          "label": "Créez des personnages avec les boutons",
+          "label": "Spawn characters with the buttons",
           "style": {
             "backgroundColor": "#453298",
             "color": "#fff"
@@ -65,7 +65,7 @@
         {
           "type": "button",
           "name": "action-zombie",
-          "label": "Créer un zombie",
+          "label": "Spawn zombie",
           "style": {
             "fontSize": 22,
             "backgroundColor": "#453298",

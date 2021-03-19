@@ -2,26 +2,26 @@
     "id": "3",
     "mobile": {
       "title": {
-        "label": "Créez des rebelles avec les boutons"
+        "label": "Spawn rebels with the button"
       },
       "components": [
         {
           "type": "button",
           "name": "action-rebel",
-          "label": "Créer un rebelle",
+          "label": "Spawn rebel",
           "extension": {
             "title": {
-              "label": "Créer un REBELLE"
+                "label": "Spawn a REBEL"
             },
             "submit": {
-              "label": "#YOLO"
+                "label": "Send"
             },
             "components": [
               {
                 "type": "input",
                 "name": "ext-teaser-quote",
-                "label": "Votre discours",
-                "placeholder": "Ecrivez ici"
+                "label": "Punchline",
+                "placeholder": "Write here"
               }
             ]
           },
@@ -46,15 +46,15 @@
       "components": [
         {
           "type": "title",
-          "label": "Créez des rebelles avec les boutons"
+          "label": "Spawn rebels with the button"
         },
         {
           "type": "button",
           "name": "action-rebel",
-          "label": "Créer un rebelle",
+          "label": "Spawn rebel",
           "extension": {
             "title": {
-              "label": "Créer un REBELLE"
+              "label": "Créer a REBELLE"
             },
             "submit": {
               "label": "#YOLO"
@@ -63,8 +63,8 @@
               {
                 "type": "input",
                 "name": "ext-teaser-quote",
-                "label": "Votre discours",
-                "placeholder": "Ecrivez ici"
+                "label": "Punchline",
+                "placeholder": "Write here"
               }
             ]
           },

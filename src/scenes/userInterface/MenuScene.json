@@ -2,14 +2,14 @@
   "id": "1",
   "mobile": {
     "title": {
-      "label": "Bienvenue sur l'extension : aucune intéraction possible sur le menu"
+      "label": "Welcome to the extension: no interaction available on the menu"
     }
   },
   "panel": {
     "components": [
       {
         "type": "title",
-        "label": "Bienvenue sur l'extension : aucune intéraction possible sur le menu"
+        "label": "Welcome to the extension: no interaction available on the menu"
       }
     ]
   },
@@ -18,7 +18,7 @@
       "components": [
         {
           "type": "title",
-          "label": "Bienvenue sur l'extension : aucune intéraction possible sur le menu"
+          "label": "Welcome to the extension: no interaction available on the menu"
         }
       ]
     }

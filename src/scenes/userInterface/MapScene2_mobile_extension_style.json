@@ -2,7 +2,7 @@
   "id": "3",
   "mobile": {
     "title": {
-      "label": "Créez des rebelles avec les boutons",
+      "label": "Spawn rebels with the button",
       "style": {
         "backgroundColor": "#453298",
         "color": "#fff"
@@ -15,7 +15,7 @@
         "label": "Créer un rebelle",
         "extension": {
           "title": {
-            "label": "Créer un REBELLE",
+            "label": "Spawn a REBEL",
             "style": {
               "backgroundColor": "#453298",
               "color": "#fff"
@@ -36,11 +36,11 @@
             {
               "type": "input",
               "name": "ext-teaser-quote",
-              "label": "Votre discours",
+              "label": "Punchline",
               "style": {
                 "backgroundColor": "#453298"
               },
-              "placeholder": "Ecrivez ici"
+              "placeholder": "Write here"
             }
           ]
         },

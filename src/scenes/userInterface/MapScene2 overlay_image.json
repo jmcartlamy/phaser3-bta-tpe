@@ -5,7 +5,7 @@
       "components": [
         {
           "type": "title",
-          "label": "Créez des rebelles avec les boutons"
+          "label": "Spawn rebels with the button"
         }
       ]
     },
@@ -14,16 +14,16 @@
         {
           "type": "button",
           "name": "action-rebel",
-          "label": "Créer un rebelle",
+          "label": "Spawn rebel",
           "style": {
             "background": "url('https://rpg-companion.vercel.app/static/media/button.ab516115.png') center / 100% 100% no-repeat padding-box"
           },
           "extension": {
             "title": {
-              "label": "Créer un REBELLE"
+              "label": "Spawn a REBEL"
             },
             "submit": {
-              "label": "#YOLO"
+              "label": "Send"
             },
             "components": [
               {
@@ -37,8 +37,8 @@
               {
                 "type": "input",
                 "name": "ext-teaser-quote",
-                "label": "Votre discours",
-                "placeholder": "Ecrivez ici"
+                "label": "Punchline",
+                "placeholder": "Write here"
               }
             ]
           },

@@ -2,13 +2,13 @@
   "id": "2",
   "mobile": {
     "title": {
-      "label": "Créez des personnages avec les boutons"
+      "label": "Spawn characters with the buttons"
     },
     "components": [
       {
         "type": "button",
         "name": "action-zombie",
-        "label": "Créer un zombie",
+        "label": "Spawn zombie",
         "cooldown": {
           "duration": 5000,
           "broadcast": false
@@ -17,7 +17,7 @@
       {
         "type": "button",
         "name": "action-ninja",
-        "label": "Créer un ninja",
+        "label": "Spawn ninja",
         "cooldown": {
           "duration": 10000,
           "broadcast": true
@@ -30,7 +30,7 @@
       "components": [
         {
           "type": "title",
-          "label": "Créez des personnages avec les boutons"
+          "label": "Spawn characters with the buttons"
         }
       ]
     },
@@ -39,7 +39,7 @@
         {
           "type": "button",
           "name": "action-zombie",
-          "label": "Créer un zombie",
+          "label": "Spawn zombie",
           "cooldown": {
             "duration": 5000,
             "broadcast": false
@@ -48,7 +48,7 @@
         {
           "type": "button",
           "name": "action-ninja",
-          "label": "Créer un ninja",
+          "label": "Spawn ninja",
           "cooldown": {
             "duration": 10000,
             "broadcast": true
