@@ -1,0 +1,37 @@
+{
+  "id": "4",
+  "video_overlay": {
+    "mouse": [
+      {
+        "type": "mousedown"
+      }
+    ],
+    "bottom": {
+      "components": [
+        {
+          "type": "title",
+          "label": "Click inside the overlay to spawn characters"
+        }
+      ]
+    }
+  },
+  "mobile": {
+    "components": [
+      {
+        "type": "title",
+        "label": "Interactions are only on the overlay on this level.",
+        "style": {
+          "padding": "20px"
+        }
+      }
+    ]
+  },
+  "panel": {
+    "components": [
+      {
+        "type": "title",
+        "label": "Interactions are only on the overlay on this level."
+      }
+    ]
+  }
+}

@@ -1,21 +1,22 @@
 import Player from '../objects/Player';
 
 import { Characters, SceneKeys } from '../constants';
-import userInterface from './userInterface/MapScene2.json';
+import userInterface from './userInterface/MapScene3.json';
 import { IMap, PhaserGame, WebSocketMessageContextEmit } from '../types';
 import restartSceneWithDelay from './helpers/restartSceneWithDelay';
+import Zombie from '../objects/Zombie';
 import changeSceneWithDelay from './helpers/changeSceneWithDelay';
 import makeBar from '../objects/helpers/makeBar';
-import Rebel from '../objects/Rebel';
+import translateCoordinateToScreen from '../objects/helpers/translateCoordinateToScreen';
 
-export default class Map1Scene extends Phaser.Scene {
+export default class Map3Scene extends Phaser.Scene {
   public player: Player;
-  public blob: Array<any>;
+  public blob: Array<Zombie>;
   public game: PhaserGame;
   public map: IMap;
 
   constructor() {
-    super({ key: SceneKeys.Map2 });
+    super({ key: SceneKeys.Map3 });
 
     this.map = {};
     this.blob = [];
@@ -29,25 +30,25 @@ export default class Map1Scene extends Phaser.Scene {
     // Create map
     this.map.bounds = { top: 525, bottom: 950 };
     this.map.sky = this.add
-      .tileSprite(0, -100, 8192, 1025, 'coloredSky')
+      .tileSprite(0, -100, 4096, 1025, 'coloredSky')
       .setOrigin(0)
       .setScrollFactor(0);
 
     this.map.bg1 = this.add
-      .tileSprite(0, -75, 8192, 1025, 'walkForestBG')
+      .tileSprite(0, -80, 4096, 1025, 'tallPyramidsBG')
       .setOrigin(0)
       .setScrollFactor(0);
-    this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor('#a89b93');
+    this.map.bg2 = this.add
+      .tileSprite(0, -80, 4096, 1025, 'walkSendBG')
+      .setOrigin(0)
+      .setScrollFactor(0);
+
+    this.cameras.main.backgroundColor = Phaser.Display.Color.HexStringToColor('#dbceaf');
     this.cameras.main.setBounds(0, 0, 4000, 1000);
-    this.map.fg = this.add
-      .tileSprite(0, 225, 8192, 1025, 'bushForestFG')
-      .setOrigin(0)
-      .setDepth(225)
-      .setScrollFactor(0);
-    this.physics.world.setBounds(0, 0, 8192, 2048);
+    this.physics.world.setBounds(0, 0, 4096, 2048);
 
     // Create player and init his position
-    this.player = new Player(this, 80, 800);
+    this.player = new Player(this, 160, 700);
 
     // Create settings button
     const button = this.add
@@ -101,33 +102,31 @@ export default class Map1Scene extends Phaser.Scene {
     if (body?.context === 'emit' && body?.data) {
       const { type, payload } = body.data;
       const username = payload.username || null;
-
-      if (type === 'input') {
-        let teaserQuote: string | null = null;
-        if (payload.values && payload.values['select-group1'] === 'yesyes') {
-          teaserQuote = payload.values['ext-teaser-quote'] as string;
-        }
-        if (payload.id === 'action-rebel') {
-          this.blob.push(
-            new Rebel(this, {
-              username,
-              teaserQuote,
-              position: {
-                x: this.player.collection.sprite.body.x + this.registry.get('innerWidth'),
-                y: 700,
-                direction: 'left'
-              },
-              sprite: Characters.Rebel
-            })
-          );
-        }
+      if (type === 'mousedown') {
+        // @ts-ignore
+        const { x, y } = translateCoordinateToScreen(this, payload);
+        this.blob.push(
+          new Zombie(this, {
+            username: username,
+            position: { x, y, direction: 'left' },
+            sprite: Characters.Zombie,
+            pattern: 'behind'
+          })
+        );
       }
     }
   }
 
   public update(time: number, delta: number) {
     if (this.player.collection.sprite?.body.x > 4000) {
-      return changeSceneWithDelay(this, SceneKeys.Map3, 0);
+      this.add
+        .text(this.registry.get('innerWidth') / 2 - 200, 200, 'Player win !', {
+          fontSize: '64px',
+          fontFamily: 'KenneyFutureNarrow',
+          fill: '#000000'
+        })
+        .setScrollFactor(0);
+      return changeSceneWithDelay(this, SceneKeys.Menu, 5000);
     }
     this.player.update(time, delta);
     this.blob.forEach(function(b) {
@@ -135,7 +134,7 @@ export default class Map1Scene extends Phaser.Scene {
     });
 
     this.map.sky.tilePositionX = this.player.camera.scrollX / 4;
-    this.map.bg1.tilePositionX = this.player.camera.scrollX / 2;
-    this.map.fg.tilePositionX = this.player.camera.scrollX;
+    this.map.bg1.tilePositionX = this.player.camera.scrollX / 3;
+    this.map.bg2.tilePositionX = this.player.camera.scrollX / 1.33;
   }
 }

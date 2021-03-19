@@ -26,6 +26,10 @@ export default class MenuScene extends Phaser.Scene {
     // Send menu user interface if user is connect
     this.game.interactive?.onMenu();
 
+    if (this.game.interactive?.status === 1) {
+      this.autoplayMode();
+    }
+
     /**
      * HUD
      */
@@ -108,6 +112,7 @@ export default class MenuScene extends Phaser.Scene {
   private handleInteractiveSetup(status: number) {
     if (status === 1) {
       this.game.interactive.socket.addEventListener('message', this.messageConnectionListener);
+      this.autoplayMode();
     } else {
       this.label.text = 'Websocket error:  server not responding...';
       this.connectText.text = 'Se connecter';
@@ -116,7 +121,28 @@ export default class MenuScene extends Phaser.Scene {
   }
 
   private launchGame() {
-    this.scene.start(SceneKeys.Map1);
+    const isDemo = this.registry.get('isDemo');
+    if (!isDemo || this.game.interactive.status === 0) {
+      this.scene.start(SceneKeys.Map1);
+    }
+  }
+
+  private autoplayMode() {
+    // Launch autoplay when we are on demo mode
+    const isDemo = this.registry.get('isDemo');
+
+    if (isDemo) {
+      const autoplayTimeout = setTimeout(() => {
+        this.scene.start(SceneKeys.Map1);
+        clearTimeout(autoplayTimeout);
+      }, 10000);
+
+      this.add.text(this.registry.get('innerWidth') / 2 - 110, 200, 'Autoplay mode', {
+        fontSize: '26px',
+        fontFamily: 'KenneyFutureNarrow',
+        fill: '#FFFFFF'
+      });
+    }
   }
 
   private messageConnectionListener(event: { data: string }) {
@@ -147,6 +173,6 @@ export default class MenuScene extends Phaser.Scene {
         process.env.EXT_CLIENT_ID +
         '&redirect_uri=http://localhost:8080' +
         '&response_type=token';
-    }   
+    }
   }
 }

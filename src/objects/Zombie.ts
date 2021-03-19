@@ -6,6 +6,7 @@ import hitPlayerCallback from './helpers/hitPlayerCallback';
 import hitBodiesCallback from './helpers/hitBodiesCallback';
 import processSimplePattern from './patterns/processSimplePattern';
 import { DELTA_HIT_PLAYER } from './Player';
+import processBehindPattern from './patterns/processBehindPattern';
 
 const DELTA_HIT_ZOMBIE = 500;
 
@@ -75,12 +76,25 @@ export default class Zombie {
     });
 
     if (this.currentScene.player.collection.sprite) {
-      processSimplePattern(this.currentScene.player.collection, this.collection, {
-        velocityX: 200,
-        velocityY: 100,
-        deltaHit: DELTA_HIT_ZOMBIE,
-        distanceToHit: 60
-      });
+      if (!this.params.pattern || this.params.pattern === 'simple') {
+        processSimplePattern(this.currentScene.player.collection, this.collection, {
+          velocityX: 200,
+          velocityY: 100,
+          deltaHit: DELTA_HIT_ZOMBIE,
+          distanceToHit: 60
+        });
+      }
+      if (this.params.pattern === 'behind') {
+        processBehindPattern(this.currentScene.player.collection, this.collection, {
+          velocityX: 150,
+          velocityY: 60,
+          gapX: 200,
+          gapY: 13,
+          distanceToHit: 60,
+          deltaHit: DELTA_HIT_ZOMBIE,
+          bounds: this.currentScene.map.bounds
+        });
+      }
     }
   }
 

@@ -21,7 +21,7 @@ export default class Player {
     this.collection = {
       ...playerCollection,
       sprite: this.currentScene.physics.add
-        .sprite(positionX, positionY, Characters.Player)
+        .sprite(positionX, positionY + 60, Characters.Player)
         .setDepth(Math.trunc(positionY / 10))
         .setCollideWorldBounds(true)
     };
@@ -282,6 +282,7 @@ export default class Player {
     const canJump = time - this.collection.lastJumpedAt > 1000;
     const canFight = time - this.collection.lastFightAt > 250;
     const isHit = Date.now() - this.collection.status.lastHitAt < DELTA_HIT_PLAYER / 2;
+    const isDemo = this.currentScene.registry.get('isDemo');
 
     if (!isHit) {
       // LEFT <-> RIGHT
@@ -340,7 +341,12 @@ export default class Player {
         canJump &&
         canFight
       ) {
-        this.collection.sprite.anims.play('idle', true);
+        if (!isDemo) {
+          this.collection.sprite.anims.play('idle', true);
+        } else {
+          this.collection.sprite.anims.play('left', true);
+          this.collection.sprite.setVelocityX(175);
+        }
       }
     }
   }

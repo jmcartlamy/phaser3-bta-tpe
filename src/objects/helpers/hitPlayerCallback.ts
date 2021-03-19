@@ -1,3 +1,5 @@
+import { SceneKeys } from '../../constants';
+import changeSceneWithDelay from '../../scenes/helpers/changeSceneWithDelay';
 import Map1Scene from '../../scenes/Map1Scene';
 import { IEnemy, IPlayer } from '../../types';
 
@@ -44,6 +46,16 @@ export default function(scene: Map1Scene, source: IEnemy, target: IPlayer, delay
           target.compoundBody.arms.destroy();
           target.compoundBody.legs.destroy();
           target.sprite = null;
+
+          changeSceneWithDelay(scene, SceneKeys.Menu, 5000);
+
+          scene.add
+            .text(scene.registry.get('innerWidth') / 2 - 200, 200, 'Viewers win !', {
+              fontSize: '64px',
+              fontFamily: 'KenneyFutureNarrow',
+              fill: '#000000'
+            })
+            .setScrollFactor(0);
         }
       });
     }

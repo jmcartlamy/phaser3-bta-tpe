@@ -27,6 +27,7 @@ export interface Score {
 export interface IGameConfig {
   innerWidth: number;
   innerHeight: number;
+  isDemo: boolean;
 }
 
 export interface IMap {
@@ -104,10 +105,7 @@ export interface IEnemyPosition {
   direction: 'left' | 'right';
 }
 
-export enum Pattern {
-  simple = 'simple',
-  behind = 'behind'
-}
+export type Pattern = 'simple' | 'behind';
 
 export interface IEnemyBasePatternParams {
   distanceToHit: number;
