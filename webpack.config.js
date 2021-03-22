@@ -16,17 +16,33 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
         test: [/\.vert$/, /\.frag$/],
         use: 'raw-loader'
       },
       {
-        test: /\.(gif|png|jpe?g|svg|xml)$/i,
-        use: 'file-loader'
+        test: /\.(gif|jpe?g|png|woff|woff2|eot|ttf|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[hash].[ext]',
+              outputPath: 'assets',
+              esModule: false
+            }
+          }
+        ]
       }
     ]
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js', 'jsx']
+    extensions: ['.tsx', '.ts', '.js', 'jsx'],
+    alias: {
+      phaser: path.join(__dirname, 'node_modules/phaser/src/phaser.js')
+    }
   },
   plugins: [
     new Dotenv(),

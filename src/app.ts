@@ -1,4 +1,5 @@
 import 'phaser';
+import './assets/index.css';
 
 import LoadScene from './scenes/LoadScene';
 import MenuScene from './scenes/MenuScene';

@@ -1,0 +1,11 @@
+@font-face {
+  font-family: KenneyFutureNarrow;
+  src: url('fonts/KenneyFutureNarrow.ttf');
+  font-weight: 400;
+  font-weight: normal;
+}
+
+body {
+  font-family: KenneyPixel;
+  margin: 0;
+}
