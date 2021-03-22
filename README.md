@@ -36,4 +36,5 @@ Open your browser (100% compatibility with Mozilla Firefox) and go on [localhost
 | `yarn install` | Install project dependencies |
 | `yarn start` | For development only |
 | `yarn start:prod` | Build project in ready-to-use mode with your twitch channel |
+| `yarn build` | Output the bundle and assets |
 
