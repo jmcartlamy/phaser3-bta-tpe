@@ -167,11 +167,17 @@ export default class MenuScene extends Phaser.Scene {
       this.label.text = 'Vous avez bien été déconnecté.';
       this.connectText.text = 'Se connecter';
     } else {
+      const url =
+        process.env.NODE_ENV === 'production'
+          ? 'https://jmcartlamy.github.io/phaser3-bta-tpe/'
+          : 'http://localhost:8080';
+
       location.href =
         'https://id.twitch.tv/oauth2/authorize' +
         '?client_id=' +
         process.env.EXT_CLIENT_ID +
-        '&redirect_uri=http://localhost:8080' +
+        '&redirect_uri=' +
+        url +
         '&response_type=token';
     }
   }
