@@ -4,10 +4,12 @@ class Interactive {
   public status: 0 | 1 | 2 | 3;
   public data: any;
   public socket: WebSocket;
+  public lastUserInterface: number;
 
   constructor() {
     this.status = 0; // Initialization
     this.data = {};
+    this.lastUserInterface = 0;
   }
 
   public setup(token: string, callback?: (status: number) => void): void {
@@ -35,11 +37,19 @@ class Interactive {
   }
 
   public onMenu(): void {
-    this.socket?.send(JSON.stringify({ context: 'user_interface', data: UIMenuScene }));
+    const DateNow = Date.now();
+    if (this.lastUserInterface + 1000 < DateNow) {
+      this.socket?.send(JSON.stringify({ context: 'user_interface', data: UIMenuScene }));
+      this.lastUserInterface = DateNow;
+    }
   }
 
   public onGame(userInterface: any): void {
-    this.socket?.send(JSON.stringify({ context: 'user_interface', data: userInterface }));
+    const DateNow = Date.now();
+    if (this.lastUserInterface + 1000 < DateNow) {
+      this.socket?.send(JSON.stringify({ context: 'user_interface', data: userInterface }));
+      this.lastUserInterface = DateNow;
+    }
   }
 
   public onDisconnect(): void {
