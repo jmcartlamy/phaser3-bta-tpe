@@ -5,7 +5,10 @@ import Interactive from '../api/interactive';
 export default class MenuScene extends Phaser.Scene {
   public game: PhaserGame;
   private connectText: Phaser.GameObjects.Text;
+  private demoText: Phaser.GameObjects.Text;
   private label: Phaser.GameObjects.Text;
+  private autoplayTimeout: NodeJS.Timeout;
+  private autoplayText: Phaser.GameObjects.Text;
 
   constructor() {
     super({
@@ -13,6 +16,8 @@ export default class MenuScene extends Phaser.Scene {
     });
     this.launchGame = this.launchGame.bind(this);
     this.toggleConnectTwitch = this.toggleConnectTwitch.bind(this);
+    this.toggleAutoplay = this.toggleAutoplay.bind(this);
+    this.autoplayMode = this.autoplayMode.bind(this);
     this.messageConnectionListener = this.messageConnectionListener.bind(this);
     this.handleInteractiveSetup = this.handleInteractiveSetup.bind(this);
   }
@@ -26,6 +31,14 @@ export default class MenuScene extends Phaser.Scene {
     // Send menu user interface if user is connect
     this.game.interactive?.onMenu();
 
+    this.autoplayText = this.add
+      .text(this.registry.get('innerWidth') / 2 - 110, 200, 'Autoplay mode', {
+        fontSize: '26px',
+        fontFamily: 'KenneyFutureNarrow',
+        fill: '#FFFFFF'
+      })
+      .setVisible(false);
+
     if (this.game.interactive?.status === 1) {
       this.autoplayMode();
     }
@@ -38,7 +51,6 @@ export default class MenuScene extends Phaser.Scene {
       fontFamily: 'KenneyFutureNarrow',
       fill: '#FFFFFF'
     });
-
     // Play Button
     const playBG = this.add.image(0, 0, 'buttonBlue1');
     const playText = this.add
@@ -50,7 +62,7 @@ export default class MenuScene extends Phaser.Scene {
       .setOrigin(0.5, 0.5);
     const playButton = this.add.container(
       this.registry.get('innerWidth') / 2,
-      this.registry.get('innerHeight') / 2 - 40,
+      this.registry.get('innerHeight') / 2 - 80,
       [playBG, playText]
     );
     playButton.setInteractive(
@@ -63,7 +75,33 @@ export default class MenuScene extends Phaser.Scene {
     playButton.on('pointerout', function() {
       playBG.setTexture('buttonBlue1');
     });
-    playButton.once('pointerup', this.launchGame);
+    playButton.on('pointerup', this.launchGame);
+
+    // Demo Button
+    const demoBG = this.add.image(0, 0, 'buttonBlue1');
+    this.demoText = this.add
+      .text(0, 0, 'Autoplay: ' + (this.registry.get('isDemo') ? 'On' : 'Off'), {
+        fontSize: '20px',
+        fontFamily: 'KenneyFutureNarrow',
+        fill: '#FFFFFF'
+      })
+      .setOrigin(0.5, 0.5);
+    const demoButton = this.add.container(
+      this.registry.get('innerWidth') / 2,
+      this.registry.get('innerHeight') / 2,
+      [demoBG, this.demoText]
+    );
+    demoButton.setInteractive(
+      new Phaser.Geom.Rectangle(-95, -25, 190, 45),
+      Phaser.Geom.Rectangle.Contains
+    );
+    demoButton.on('pointerover', function() {
+      demoBG.setTexture('buttonYellow1');
+    });
+    demoButton.on('pointerout', function() {
+      demoBG.setTexture('buttonBlue1');
+    });
+    demoButton.on('pointerup', this.toggleAutoplay);
 
     // Connect Button
     const connectBG = this.add.image(0, 0, 'buttonBlue1');
@@ -76,7 +114,7 @@ export default class MenuScene extends Phaser.Scene {
       .setOrigin(0.5, 0.5);
     const connectButton = this.add.container(
       this.registry.get('innerWidth') / 2,
-      this.registry.get('innerHeight') / 2 + 40,
+      this.registry.get('innerHeight') / 2 + 80,
       [connectBG, this.connectText]
     );
     connectButton.setInteractive(
@@ -132,16 +170,11 @@ export default class MenuScene extends Phaser.Scene {
     const isDemo = this.registry.get('isDemo');
 
     if (isDemo) {
-      const autoplayTimeout = setTimeout(() => {
+      this.autoplayTimeout = setTimeout(() => {
         this.scene.start(SceneKeys.Map1);
-        clearTimeout(autoplayTimeout);
+        clearTimeout(this.autoplayTimeout);
       }, 10000);
-
-      this.add.text(this.registry.get('innerWidth') / 2 - 110, 200, 'Autoplay mode', {
-        fontSize: '26px',
-        fontFamily: 'KenneyFutureNarrow',
-        fill: '#FFFFFF'
-      });
+      this.autoplayText.setVisible(true);
     }
   }
 
@@ -154,9 +187,25 @@ export default class MenuScene extends Phaser.Scene {
         this.connectText.text = 'Prêt ✔';
         this.game.interactive.onMenu();
       } else if (body?.status === 'error') {
-        this.game.interactive.status = 3; // Error body.message
+        this.game.interactive.status = 3; // Error body.mess    age
         this.label.text = 'Failed...\n\n' + body.message;
         this.connectText.text = 'Se connecter';
+      }
+    }
+  }
+
+  private toggleAutoplay() {
+    const isDemo = this.registry.get('isDemo');
+    if (isDemo) {
+      this.registry.set('isDemo', false);
+      this.demoText.text = 'Autoplay: Off';
+      this.autoplayText.setVisible(false);
+      clearTimeout(this.autoplayTimeout);
+    } else {
+      this.registry.set('isDemo', true);
+      this.demoText.text = 'Autoplay: On';
+      if (this.game.interactive?.status === 1) {
+        this.autoplayMode();
       }
     }
   }
