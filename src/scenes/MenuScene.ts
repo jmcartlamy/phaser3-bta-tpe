@@ -54,7 +54,7 @@ export default class MenuScene extends Phaser.Scene {
     // Play Button
     const playBG = this.add.image(0, 0, 'buttonBlue1');
     const playText = this.add
-      .text(0, 0, 'Jouer', {
+      .text(0, 0, 'Play', {
         fontSize: '20px',
         fontFamily: 'KenneyFutureNarrow',
         fill: '#FFFFFF'
@@ -106,7 +106,7 @@ export default class MenuScene extends Phaser.Scene {
     // Connect Button
     const connectBG = this.add.image(0, 0, 'buttonBlue1');
     this.connectText = this.add
-      .text(0, 0, this.game.interactive.status === 1 ? 'Prêt ✔' : 'Se connecter', {
+      .text(0, 0, this.game.interactive.status === 1 ? 'Disconnect' : 'Let\'s connect', {
         fontSize: '20px',
         fontFamily: 'KenneyFutureNarrow',
         fill: '#FFFFFF'
@@ -153,7 +153,7 @@ export default class MenuScene extends Phaser.Scene {
       this.autoplayMode();
     } else {
       this.label.text = 'Websocket error:  server not responding...';
-      this.connectText.text = 'Se connecter';
+      this.connectText.text = 'Let\'s connect';
     }
     window.location.hash = '';
   }
@@ -184,12 +184,12 @@ export default class MenuScene extends Phaser.Scene {
       if (body?.status === 'ok') {
         this.game.interactive.data = body?.data;
         this.label.text = body.message + ' "' + body.data.displayName + '"';
-        this.connectText.text = 'Prêt ✔';
+        this.connectText.text = 'Disconnect';
         this.game.interactive.onMenu();
       } else if (body?.status === 'error') {
         this.game.interactive.status = 3; // Error body.mess    age
         this.label.text = 'Failed...\n\n' + body.message;
-        this.connectText.text = 'Se connecter';
+        this.connectText.text = 'Let\'s connect';
       }
     }
   }
@@ -213,8 +213,8 @@ export default class MenuScene extends Phaser.Scene {
   private toggleConnectTwitch() {
     if (this.game.interactive.status === 1) {
       this.game.interactive.onDisconnect();
-      this.label.text = 'Vous avez bien été déconnecté.';
-      this.connectText.text = 'Se connecter';
+      this.label.text = 'You have been disconnected.';
+      this.connectText.text = 'Let\'s connect';
     } else {
       const url =
         process.env.NODE_ENV === 'production'
