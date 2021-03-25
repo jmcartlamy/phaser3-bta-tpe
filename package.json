@@ -1,6 +1,6 @@
 {
   "name": "phaser3-bta-tpe",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A Phaser 3 Platform Game with Twitch plays experience",
   "scripts": {
     "build": "webpack --config webpack.prod.js",
