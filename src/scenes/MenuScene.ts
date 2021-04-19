@@ -16,7 +16,6 @@ export default class MenuScene extends Phaser.Scene {
     });
     this.launchGame = this.launchGame.bind(this);
     this.toggleConnectTwitch = this.toggleConnectTwitch.bind(this);
-    this.toggleAutoplay = this.toggleAutoplay.bind(this);
     this.autoplayMode = this.autoplayMode.bind(this);
     this.messageConnectionListener = this.messageConnectionListener.bind(this);
     this.handleInteractiveSetup = this.handleInteractiveSetup.bind(this);
@@ -39,9 +38,7 @@ export default class MenuScene extends Phaser.Scene {
       })
       .setVisible(false);
 
-    if (this.game.interactive?.status === 1) {
-      this.autoplayMode();
-    }
+    this.autoplayMode();
 
     /**
      * HUD
@@ -69,12 +66,18 @@ export default class MenuScene extends Phaser.Scene {
       new Phaser.Geom.Rectangle(-95, -25, 190, 45),
       Phaser.Geom.Rectangle.Contains
     );
-    playButton.on('pointerover', function() {
-      playBG.setTexture('buttonYellow1');
+    playButton.on('pointerover', () => {
+      if (!this.registry.get('isDemo')) playBG.setTexture('buttonYellow1');
     });
-    playButton.on('pointerout', function() {
-      playBG.setTexture('buttonBlue1');
+    playButton.on('pointerout', () => {
+      if (!this.registry.get('isDemo')) playBG.setTexture('buttonBlue1');
     });
+
+    if (this.registry.get('isDemo')) {
+      playBG.setTint(0xaa3333, 0xaa3333, 0xaa3333, 0xaa3333);
+      playText.setFill('#666666');
+    }
+
     playButton.on('pointerup', this.launchGame);
 
     // Demo Button
@@ -101,12 +104,12 @@ export default class MenuScene extends Phaser.Scene {
     demoButton.on('pointerout', function() {
       demoBG.setTexture('buttonBlue1');
     });
-    demoButton.on('pointerup', this.toggleAutoplay);
+    demoButton.on('pointerup', this.toggleAutoplay.bind(this, playBG, playText));
 
     // Connect Button
     const connectBG = this.add.image(0, 0, 'buttonBlue1');
     this.connectText = this.add
-      .text(0, 0, this.game.interactive.status === 1 ? 'Disconnect' : 'Let\'s connect', {
+      .text(0, 0, this.game.interactive.status === 1 ? 'Disconnect' : "Let's connect", {
         fontSize: '20px',
         fontFamily: 'KenneyFutureNarrow',
         fill: '#FFFFFF'
@@ -150,17 +153,16 @@ export default class MenuScene extends Phaser.Scene {
   private handleInteractiveSetup(status: number) {
     if (status === 1) {
       this.game.interactive.socket.addEventListener('message', this.messageConnectionListener);
-      this.autoplayMode();
     } else {
       this.label.text = 'Websocket error:  server not responding...';
-      this.connectText.text = 'Let\'s connect';
+      this.connectText.text = "Let's connect";
     }
     window.location.hash = '';
   }
 
   private launchGame() {
     const isDemo = this.registry.get('isDemo');
-    if (!isDemo || this.game.interactive.status === 0) {
+    if (!isDemo) {
       this.scene.start(SceneKeys.Map1);
     }
   }
@@ -189,24 +191,26 @@ export default class MenuScene extends Phaser.Scene {
       } else if (body?.status === 'error') {
         this.game.interactive.status = 3; // Error body.mess    age
         this.label.text = 'Failed...\n\n' + body.message;
-        this.connectText.text = 'Let\'s connect';
+        this.connectText.text = "Let's connect";
       }
     }
   }
 
-  private toggleAutoplay() {
+  private toggleAutoplay(playBG: Phaser.GameObjects.Image, playText: Phaser.GameObjects.Text) {
     const isDemo = this.registry.get('isDemo');
     if (isDemo) {
       this.registry.set('isDemo', false);
       this.demoText.text = 'Autoplay: Off';
       this.autoplayText.setVisible(false);
+      playBG.clearTint();
+      playText.setFill('#FFFFFF');
       clearTimeout(this.autoplayTimeout);
     } else {
       this.registry.set('isDemo', true);
       this.demoText.text = 'Autoplay: On';
-      if (this.game.interactive?.status === 1) {
-        this.autoplayMode();
-      }
+      playBG.setTint(0xaa3333, 0xaa3333, 0xaa3333, 0xaa3333);
+      playText.setFill('#666666');
+      this.autoplayMode();
     }
   }
 
@@ -214,7 +218,7 @@ export default class MenuScene extends Phaser.Scene {
     if (this.game.interactive.status === 1) {
       this.game.interactive.onDisconnect();
       this.label.text = 'You have been disconnected.';
-      this.connectText.text = 'Let\'s connect';
+      this.connectText.text = "Let's connect";
     } else {
       const url =
         process.env.NODE_ENV === 'production'

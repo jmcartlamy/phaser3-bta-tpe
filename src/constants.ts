@@ -6,7 +6,7 @@ export const GAME_SCREEN_HEIGHT = 720;
 export const GAME_CONFIG: IGameConfig = {
   innerWidth: window.innerWidth,
   innerHeight: window.innerHeight,
-  isDemo: true
+  isDemo: false
 };
 
 export enum SceneKeys {
