@@ -6,6 +6,7 @@ export default class MenuScene extends Phaser.Scene {
   public game: PhaserGame;
   private connectText: Phaser.GameObjects.Text;
   private demoText: Phaser.GameObjects.Text;
+  private modalText: Phaser.GameObjects.Text;
   private label: Phaser.GameObjects.Text;
   private autoplayTimeout: NodeJS.Timeout;
   private autoplayText: Phaser.GameObjects.Text;
@@ -131,6 +132,46 @@ export default class MenuScene extends Phaser.Scene {
       connectBG.setTexture('buttonBlue1');
     });
     connectButton.on('pointerup', this.toggleConnectTwitch);
+    /**
+     * Display a getting started modal
+     */
+    if (window.location.hash) {
+      this.game.hasTouched = true;
+    }
+    if (!this.game.hasTouched) {
+      const modalBG = this.add.image(0, 0, 'panelBlue');
+      this.modalText = this.add
+        .text(
+          0,
+          0,
+          '                                    ' +
+            'Welcome to the\n' +
+            '                            ' +
+            'Interactive Sync demo' +
+            '\n\n\n1. Create or log in on your Twitch account.' +
+            '\n\n2. Install the Twitch extension and activate it.' +
+            '\n\n3. Launch a stream on your Twitch channel.' +
+            "\n\n4. Let's connect with Twitch on this demo." +
+            '\n\n\n            Your viewers can interact with you!' +
+            '\n\n\n                     Click anywhere to continue.',
+          {
+            fontSize: '22px',
+            fontFamily: 'KenneyFutureNarrow',
+            fill: '#000000'
+          }
+        )
+        .setOrigin(0.5, 0.5);
+      const modal = this.add.container(
+        this.registry.get('innerWidth') / 2,
+        this.registry.get('innerHeight') / 2,
+        [modalBG, this.modalText]
+      );
+
+      this.scene.scene.input.once('pointerdown', () => {
+        modal.destroy();
+        this.game.hasTouched = true;
+      });
+    }
 
     /**
      * If user has sent his authorization
