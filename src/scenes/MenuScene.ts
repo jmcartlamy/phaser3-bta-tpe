@@ -136,9 +136,9 @@ export default class MenuScene extends Phaser.Scene {
      * Display a getting started modal
      */
     if (window.location.hash) {
-      this.game.hasTouched = true;
+      this.game.hasFinishGettingStarted = true;
     }
-    if (!this.game.hasTouched) {
+    if (!this.game.hasFinishGettingStarted) {
       const modalBG = this.add.image(0, 0, 'panelBlue');
       this.modalText = this.add
         .text(
@@ -168,8 +168,17 @@ export default class MenuScene extends Phaser.Scene {
       );
 
       this.scene.scene.input.once('pointerdown', () => {
-        modal.destroy();
-        this.game.hasTouched = true;
+        this.modalText.text =
+          '                   How to play' +
+          '\n\n\n       🡹 🡻 🡺 🡸  —  Movement' +
+          '\n\n                Space  —  Jump' +
+          '\n\n               Shift  —  Attack' +
+          '\n\n\nClick anywhere to continue.';
+        this.modalText.setFontSize(32);
+        this.scene.scene.input.once('pointerdown', () => {
+          modal.destroy();
+          this.game.hasFinishGettingStarted = true;
+        });
       });
     }
 

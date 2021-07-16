@@ -6,7 +6,7 @@ export interface PhaserGame extends Phaser.Game {
     playerHealth: Phaser.GameObjects.Graphics;
   };
   interactive: Interactive;
-  hasTouched: boolean;
+  hasFinishGettingStarted: boolean;
 }
 
 export interface IEnemyParams {
