@@ -47,7 +47,7 @@ module.exports = {
   plugins: [
     new Dotenv(),
     new CleanWebpackPlugin(['dist'], {
-      root: path.resolve(__dirname, '../')
+      root: path.resolve(__dirname, './')
     }),
     new webpack.DefinePlugin({
       CANVAS_RENDERER: JSON.stringify(true),
