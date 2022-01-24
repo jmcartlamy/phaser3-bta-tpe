@@ -15,7 +15,7 @@ class Interactive {
   public setup(token: string, callback?: (status: number) => void): void {
     const url =
       process.env.NODE_ENV === 'production'
-        ? 'wss://interactive-sync-ebs.azurewebsites.net/'
+        ? 'wss:' + process.env.EXT_HOST
         : 'ws://localhost:8081/';
 
     try {
