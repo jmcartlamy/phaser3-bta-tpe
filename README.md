@@ -6,6 +6,8 @@ This repository is a Phaser3 game with ES6 & Typescript supports that includes h
 
 ## Connect with Twitch
 
+Phaser3 Beat'em up is built with [Interactive Sync](https://www.interactive-sync.com/), a ready-to-use Twitch extension promoting interactions.
+
 ### Register your application
 
 Connect on [Twitch Developers](https://dev.twitch.tv/console) and register an application to use Twitch API.
@@ -14,12 +16,19 @@ Connect on [Twitch Developers](https://dev.twitch.tv/console) and register an ap
 2. Click to manage your application and create a new **Client Secret**
 3. Save your **Client ID / Secret** for the environment variables
 
+### Register a new Twitch extension
+
+1. Go on [Interactive Sync Front](https://github.com/jmcartlamy/interactive-sync-front) and follow the instructions
+2. Use [Developer Rig](https://dev.twitch.tv/docs/extensions/rig) to preview the result
+
 ### Create a local server for EBS
 
 1. Go on [Interactive Sync EBS](https://github.com/jmcartlamy/interactive-sync-ebs) and follow the instructions
 2. On start, the server will running at [localhost:8081](http://localhost:8081)
 
-## Setting environment variables
+## Play the game
+
+### Setting environment variables
 
 Create a `.env` file with this template:
 
